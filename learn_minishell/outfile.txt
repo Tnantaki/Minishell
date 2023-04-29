@@ -1,0 +1,2 @@
+hello
+cmd1: command not found
