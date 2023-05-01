@@ -1,5 +1,6 @@
 #!/bin/bash
 #Arithmetic
+###############################################################
 #Can use arithmetic in double parenthesis(())
 num1=10
 num2=5
@@ -63,3 +64,18 @@ then
 		fi
 	fi
 fi
+
+###############################################################
+# bc : basic calculation command
+
+num1=20.5
+num2=5
+
+echo "$num1+$num2" | bc
+echo "20.5-5" | bc
+echo "20.5*5" | bc
+echo "scale=2;20.5/5" | bc
+echo "20.5%5" | bc
+
+echo "scale=2;sqrt(9)" | bc -l
+echo "scale=2;3^3" | bc -l

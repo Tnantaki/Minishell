@@ -1,14 +1,14 @@
 #!/bin/bash
 ###############################################################
 #Variable : Don't have space between = sign because shell will read as argument instead.
-var1="Hello"
-var2='Mos'
-var3='$var1 $var2'
-var4="$var1 $var2 !"
+# var1="Hello"
+# var2='Mos'
+# var3='$var1 $var2'
+# var4="$var1 $var2 !"
 
-echo "Hello"
-echo $var3
-echo $var4
+# echo "Hello"
+# echo $var3
+# echo $var4
 ###############################################################
 #Array : Use {} sign to seperate index
 text[0]=Ant
@@ -20,22 +20,30 @@ fruit=(Apple Banana Carot Durian)
 echo $text[1] $text[2] $text[3]
 echo ${text[1]} ${text[2]} ${text[3]}
 echo ${fruit[0]} ${fruit[1]} ${fruit[2]}
+echo "${text[@]}"
+echo "${!text[@]}" #index
+echo "${#text[@]}" #length of array
+
+unset text[2] #remove value in index of array
+echo "${text[@]}"
+text[2]=Mouse
+echo "${text[@]}"
 ###############################################################
 #Environment variable
-echo '$0 filename:'$0 #filename
-echo '$1 par 1:'$1 #argument 1
-echo '$2 par 2:'$2 #argument 2
-echo '$@ all par:'$@ #address (all argument)
-echo '$# amount of par:'$# # amount of argument
+# echo '$0 filename:'$0 #filename
+# echo '$1 par 1:'$1 #argument 1
+# echo '$2 par 2:'$2 #argument 2
+# echo '$@ all par:'$@ #address (all argument)
+# echo '$# amount of par:'$# # amount of argument
 
-echo Hello
-echo '$? status code of last cmd:'$?
+# echo Hello
+# echo '$? status code of last cmd:'$?
 
-cmd1 Hello
-echo '$? status code of last cmd:'$?
+# cmd1 Hello
+# echo '$? status code of last cmd:'$?
 
-$shell hostname
-$shell pwd
+# $shell hostname
+# $shell pwd
 
 # echo $BASH
 # echo $BASH_VERSION
