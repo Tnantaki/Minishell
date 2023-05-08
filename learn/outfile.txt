@@ -1,3 +1,13 @@
-
-world
-55
+01var.sh
+02int.sh
+03file.sh
+04str.sh
+05loop.sh
+06func.sh
+07sys.sh
+emptyfile.txt
+errfile.tx
+errfile.txt
+infile.txt
+outfile.txt
+readline.c

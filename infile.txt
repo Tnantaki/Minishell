@@ -1,0 +1,4 @@
+strlen
+strcat
+hello
+world

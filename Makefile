@@ -10,37 +10,35 @@ BONUS_DIR	=
 ### Compilation ###
 CC			= gcc
 RM			= rm -f
-C_FLAGS		= -Wall -Wextra -Werror
 MAN_HEAD	= -Iincludes
+# CFLAGS		= -Wall -Wextra -Werror
 
 ### Libft Flags ###
-FT_FLAGS	= -Llibft -lft
 FT_HEAD		= -Ilibft
+FT_FLAGS	= -Llibft -lft
 
-### GNL Flags ###
-GNL_FLAGS	= -Lget_next_line -lgnl
-GNL_HEAD	= -Iget_next_line
+### Readline Flags ###
+RL_HEAD 	= -I/usr/local/Cellar/readline/8.2.1/include
+RL_FLAGS	= -L/usr/local/Cellar/readline/8.2.1/lib -lreadline
 
 ### Source Files ###
-MANDA_SRCS	= minishell.c
+MANDA_SRCS	= minishell.c split_ws.c split_ro.c is_utils.c
 
 SRCS	=	$(addprefix $(MANDA_DIR), $(MANDA_SRCS))
 
 ### Object Files ###
 OBJS	=	$(SRCS:.c=.o)
 
-### Rule ###
-# %.o:%.c
-# 	$(CC) $(C_FLAGS) $(MAN_HEAD) $(FT_HEAD) $(GNL_HEAD) -c $< -o $@
-
-#For Testing //don't forget to remove
+### Compilation Rule ###
 %.o:%.c
-	$(CC) $(FLAGS) $(MAN_HEAD) -c $< -o $@
+	$(CC) $(CFLAGS) $(MAN_HEAD) $(FT_HEAD) $(RL_HEAD) -c $< -o $@
 
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) $(FLAGS) $(OBJS) -o $(NAME)
+	$(CC) $(CFLAGS) $(RL_FLAGS) $(FT_FLAGS) $(OBJS) -o $(NAME)
+#Don't Forget to delete
+	$(RM) $(OBJS)
 
 clean:
 	$(RM) $(OBJS)
@@ -49,6 +47,8 @@ fclean: clean
 	$(RM) $(NAME)
 
 re: fclean all
+
+.PHONY: all clean fclean re
 #For Testing //don't forget to remove
 
 #######################################################################
@@ -68,5 +68,7 @@ re: fclean all
 # 	$(RM) $(NAME)
 
 # re: fclean all
+### GNL Flags ###
+# GNL_FLAGS	= -Lget_next_line -lgnl
+# GNL_HEAD	= -Iget_next_line
 
-.PHONY: all clean fclean re
