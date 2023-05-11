@@ -18,11 +18,18 @@ FT_HEAD		= -Ilibft
 FT_FLAGS	= -Llibft -lft
 
 ### Readline Flags ###
-RL_HEAD 	= -I/usr/local/Cellar/readline/8.2.1/include
-RL_FLAGS	= -L/usr/local/Cellar/readline/8.2.1/lib -lreadline
+UNAME = $(shell uname -s)
+ifeq ($(UNAME), Linux)
+	RL_HEAD 	=
+	RL_FLAGS	= -lreadline
+else
+	RL_HEAD 	= -I/usr/local/Cellar/readline/8.2.1/include
+	RL_FLAGS	= -L/usr/local/Cellar/readline/8.2.1/lib -lreadline
+endif
 
 ### Source Files ###
-MANDA_SRCS	= minishell.c split_ws.c split_ro.c is_utils.c
+MANDA_SRCS	= minishell.c split_ws.c split_ro.c\
+				lexer.c utils_have.c utils_is.c
 
 SRCS	=	$(addprefix $(MANDA_DIR), $(MANDA_SRCS))
 
@@ -36,7 +43,7 @@ OBJS	=	$(SRCS:.c=.o)
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(RL_FLAGS) $(FT_FLAGS) $(OBJS) -o $(NAME)
+	$(CC) $(CFLAGS) $(RL_FLAGS) $(OBJS) -o $(NAME)
 #Don't Forget to delete
 	$(RM) $(OBJS)
 
