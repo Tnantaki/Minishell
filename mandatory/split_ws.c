@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-static int	count_token(const char *line)
+static int	count_token(char *line)
 {
 	int		i;
 	int		ct; //count token

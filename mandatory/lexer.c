@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-static int	count_token(const char *line)
+static int	count_token(char *line)
 {
 	int		i;
 	int		ct;
@@ -13,12 +13,12 @@ static int	count_token(const char *line)
 			i++;
 		if (!line[i])
 			break ;
-		else if (ft_isquote(line))
-			i += have_quote(line);
-		else if (ft_isoptr(line))
-			i += have_optr(line);
-		else if (ft_iscmd(line))
-			i += have_cmd(line);
+		else if (ft_isquote(line[i]))
+			i += have_quote(&line[i]);
+		else if (ft_isoptr(line[i]))
+			i += have_optr(&line[i]);
+		else if (ft_iscmd(line[i]))
+			i += have_cmd(&line[i]);
 		ct++;
 	}
 	return (ct);
@@ -32,15 +32,15 @@ static char	*trim_token(char **line)
 
 	i = 0;
 	len = 0;
-	while ((*line)[len] && ft_isspace((*line)[len]))
-		len++;
-	if (!((*line)[len]))
+	while (**line && ft_isspace(**line))
+		(*line)++;
+	if (!(**line))
 		return (NULL);
-	else if (ft_isquote(*line))
+	else if (ft_isquote(**line))
 		len += have_quote(*line);
-	else if (ft_isoptr(*line))
+	else if (ft_isoptr(**line))
 		len += have_optr(*line);
-	else if (ft_iscmd(*line))
+	else if (ft_iscmd(**line))
 		len += have_cmd(*line);
 	token = (char *)malloc(sizeof(char) * (len + 1));
 	while (i < len)
@@ -81,12 +81,3 @@ char	**lexer(char *line)
 	token[i] = NULL;
 	return (token);
 }
-
-// int main(void)
-// {
-// 	char *line = "ls -la| echo \" Hello How \" > infile.txt ";
-// 	char **token = split_ws(line);
-// 	for (int i = 0; token[i]; i++)	
-// 		printf("token[%d]:%s\n", i, token[i]);
-// 	return (0);
-// }

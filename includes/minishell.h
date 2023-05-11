@@ -3,14 +3,17 @@
 
 // # include "libft.h"
 
+# include <stdbool.h>
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
 # include <fcntl.h>
-//# include <readline/history.h>
+// # include <readline/history.h>
 # include <readline/readline.h>
-// # include <readline/readline.h> // for readline_library
+// # include <readline.h>
 
+//Checker : May be delete after finish
+int	checker_token(void);
 //Part 1 : Lexer
 char	**lexer(char *line);
 //split white-space

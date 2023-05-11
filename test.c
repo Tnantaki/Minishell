@@ -1,20 +1,11 @@
 #include <stdio.h>
 #include <unistd.h>
+#include <stdlib.h>
+#include <readline/readline.h>
 
-int	main(void)
-{
-	int	ch = chdir("../..");
-	char	cwd[256];
-
-	if (ch < 0)
-		perror("error");
-	else
-	{
-		printf("change success!\n");
-		if (getcwd(cwd, sizeof(cwd)) == NULL)
-			perror("error");
-		else
-			printf("currently at: %s\n", cwd);
-	}
-	return (0);
+int main() {
+	char* input = readline("Enter a string: ");
+	printf("You entered: %s\n", input);
+	free(input);
+	return 0;
 }
