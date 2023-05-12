@@ -5,6 +5,9 @@ NAME	= minishell
 LIBFT_DIR	= libft/
 GNL_DIR		= get_next_line/
 MANDA_DIR	= mandatory/
+LEXER_DIR	= lexer/
+PASER_DIR	= paser/
+UTILS_DIR	= utils/
 BONUS_DIR	=
 
 ### Compilation ###
@@ -28,8 +31,18 @@ else
 endif
 
 ### Source Files ###
-MANDA_SRCS	= minishell.c split_ws.c split_ro.c checker.c\
-				lexer.c utils_have.c utils_is.c
+ENV_SRCS	= env.c
+
+LEXER_SRCS	= lexer.c
+
+PASER_SRCS	= paser.c
+
+UTILS_SRCS	= free.c is_lexer.c is_paser.c have_lexer.c
+
+MANDA_SRCS	= main.c checker.c\
+				$(addprefix $(UTILS_DIR), $(UTILS_SRCS))\
+				$(addprefix $(LEXER_DIR), $(LEXER_SRCS))
+#				$(addprefix $(PART2_DIR), $(PART2_SRCS))
 
 SRCS	=	$(addprefix $(MANDA_DIR), $(MANDA_SRCS))
 

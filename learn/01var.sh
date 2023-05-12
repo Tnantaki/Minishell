@@ -1,33 +1,34 @@
 #!/bin/bash
 ###############################################################
 #Variable : Don't have space between = sign because shell will read as argument instead.
-# var1="Hello"
-# var2='Mos'
+_var_1=Helo_girl
+var2=($echo Hello)
 # var3='$var1 $var2'
 # var4="$var1 $var2 !"
 
-# echo "Hello"
+echo $_var_1
+# echo "$var1 $var2"
 # echo $var3
 # echo $var4
 ###############################################################
 #Array : Use {} sign to seperate index
-text[0]=Ant
-text[1]=Bird
-text[2]=Cat
-text[3]=Dog
-fruit=(Apple Banana Carot Durian)
+# text[0]=Ant
+# text[1]=Bird
+# text[2]=Cat
+# text[3]=Dog
+# fruit=(Apple Banana Carot Durian)
 
-echo $text[1] $text[2] $text[3]
-echo ${text[1]} ${text[2]} ${text[3]}
-echo ${fruit[0]} ${fruit[1]} ${fruit[2]}
-echo "${text[@]}"
-echo "${!text[@]}" #index
-echo "${#text[@]}" #length of array
+# echo $text[1] $text[2] $text[3]
+# echo ${text[1]} ${text[2]} ${text[3]}
+# echo ${fruit[0]} ${fruit[1]} ${fruit[2]}
+# echo "${text[@]}"
+# echo "${!text[@]}" #index
+# echo "${#text[@]}" #length of array
 
-unset text[2] #remove value in index of array
-echo "${text[@]}"
-text[2]=Mouse
-echo "${text[@]}"
+# unset text[2] #remove value in index of array
+# echo "${text[@]}"
+# text[2]=Mouse
+# echo "${text[@]}"
 ###############################################################
 #Environment variable
 # echo '$0 filename:'$0 #filename

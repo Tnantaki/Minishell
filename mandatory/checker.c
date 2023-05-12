@@ -1,10 +1,9 @@
 #include "minishell.h"
 
-int	checker_token(void)
+int	checker_2d_arr(char **str, char *title)
 {
-	char *line = "ls -la| echo \" Hello How \" > infile.txt ";
-	char **token = lexer(line);
-	for (int i = 0; token[i]; i++)	
-		printf("token[%d]:%s\n", i, token[i]);
+	printf("%s", title);
+	for (int i = 0; str[i]; i++)	
+		printf("str[%d]:%s\n", i, str[i]);
 	return (0);
 }

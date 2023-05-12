@@ -49,35 +49,24 @@ static char	*trim_token(char **line)
 	return (token);
 }
 
-static char	**free_token(char **token, int i)
-{
-	while (i >= 0)
-	{
-		free(token[i]);
-		i--;
-	}
-	free(token);
-	return (NULL);
-}
-
 char	**lexer(char *line)
 {
 	int		i;
 	int		ct;
-	char	**token;
+	char	**tokens;
 
 	i = 0;
 	ct = count_token(line);
-	token = (char **)malloc(sizeof(char *) * (ct + 1));
-	if (!token)
+	tokens = (char **)malloc(sizeof(char *) * (ct + 1));
+	if (!tokens)
 		return (NULL);
 	while (i < ct)
 	{
-		token[i] = trim_token(&line);
-		if (!token[i])
-			return (free_token(token, i));
+		tokens[i] = trim_token(&line);
+		if (!tokens[i])
+			return (free2d_nstr(tokens, i));
 		i++;
 	}
-	token[i] = NULL;
-	return (token);
+	tokens[i] = NULL;
+	return (tokens);
 }
