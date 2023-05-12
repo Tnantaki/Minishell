@@ -8,6 +8,7 @@ MANDA_DIR	= mandatory/
 LEXER_DIR	= lexer/
 PASER_DIR	= paser/
 UTILS_DIR	= utils/
+ENV_DIR		= environment/
 BONUS_DIR	=
 
 ### Compilation ###
@@ -35,14 +36,16 @@ ENV_SRCS	= env.c
 
 LEXER_SRCS	= lexer.c
 
-PASER_SRCS	= paser.c
+PASER_SRCS	= paser.c expander.c
 
-UTILS_SRCS	= free.c is_lexer.c is_paser.c have_lexer.c
+UTILS_SRCS	= free.c is_lexer.c is_paser.c len_lexer.c\
+				string.c
 
 MANDA_SRCS	= main.c checker.c\
 				$(addprefix $(UTILS_DIR), $(UTILS_SRCS))\
-				$(addprefix $(LEXER_DIR), $(LEXER_SRCS))
-#				$(addprefix $(PART2_DIR), $(PART2_SRCS))
+				$(addprefix $(ENV_DIR), $(ENV_SRCS))\
+				$(addprefix $(LEXER_DIR), $(LEXER_SRCS))\
+				$(addprefix $(PASER_DIR), $(PASER_SRCS))
 
 SRCS	=	$(addprefix $(MANDA_DIR), $(MANDA_SRCS))
 

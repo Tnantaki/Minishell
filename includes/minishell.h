@@ -1,35 +1,36 @@
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
-// # include "libft.h"
-
 # include <stdbool.h>
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
 # include <fcntl.h>
-// # include <readline/history.h>
+# include <readline/history.h>
 # include <readline/readline.h>
-// # include <readline.h>
+// # include "libft.h"
 
-//Checker : May be delete after finish
-int		checker_2d_arr(char **str, char *title);
 //Part 1 : Lexer
 char	**lexer(char *line);
-//split white-space
-char	**split_ws(char *line);
 //Part 2 : Paser
+int		paser(char **tokens);
+char	**expander(char **tokens);
 //Part 3 : Executor
 //Part 4 : Built-in
 
-//### UTILS ###//
+//### Environment ###//
+char	**set_env(char **env);
+char	**get_env(void);
+
+//### Utils ###//
 //free
 char	**free2d_str(char **ptr);
 char	**free2d_nstr(char **ptr, int i);
-//have lexer
-int		have_quote(char *line);
-int		have_optr(char *line);
-int		have_cmd(char *line);
+//len lexer
+int		quote_len(char *str);
+int		optr_len(char *str);
+int		cmd_len(char *str);
+int		var_len(char *line);
 //is lexer
 bool	ft_isspace(int c);
 bool	ft_isquote(int c);
@@ -39,5 +40,13 @@ bool	ft_iscmd(int c);
 bool	ft_isalpha(int c);
 bool	ft_isdigit(int c);
 bool	ft_isvar(int c);
+//string
+size_t	ft_strlen(char *str);
+size_t	ft_2d_strlen(char **str);
+char	*ft_strdup(char *str);
+char	**ft_2d_strdup(char **str);
+
+//Debug
+int		checker_2d_arr(char **str, char *title);
 
 #endif

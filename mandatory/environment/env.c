@@ -1,32 +1,16 @@
 #include "minishell.h"
 
-static int	countword(char **str)
+char	**set_env(char **env)
 {
-	int	cw;
+	static char **stc_env = NULL;
 
-	cw = 0;
-	while (str[cw])
-		cw++;
-	return (cw);
+	if (!env)
+		return (stc_env);
+	stc_env = env;
+	return (stc_env);
 }
 
-char **dup_envp(char **str)
+char **get_env(void)
 {
-	int	cw;
-	int	j;
-	int	i;
-	char	**dup;
-
-	if (!str)
-		return (NULL);
-	cw = countword(str);
-	dup = (char **)malloc(sizeof(char *) * (cw + 1));
-	while (str[i])
-	{
-		dup[i] = str[i];
-		if (!(dup[i]))
-			return ()
-	}
-	dup[i] = NULL;
-	return (dup);
+	return (set_env(NULL));
 }

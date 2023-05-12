@@ -14,11 +14,11 @@ static int	count_token(char *line)
 		if (!line[i])
 			break ;
 		else if (ft_isquote(line[i]))
-			i += have_quote(&line[i]);
+			i += quote_len(&line[i]);
 		else if (ft_isoptr(line[i]))
-			i += have_optr(&line[i]);
+			i += optr_len(&line[i]);
 		else if (ft_iscmd(line[i]))
-			i += have_cmd(&line[i]);
+			i += cmd_len(&line[i]);
 		ct++;
 	}
 	return (ct);
@@ -37,11 +37,11 @@ static char	*trim_token(char **line)
 	if (!(**line))
 		return (NULL);
 	else if (ft_isquote(**line))
-		len += have_quote(*line);
+		len += quote_len(*line);
 	else if (ft_isoptr(**line))
-		len += have_optr(*line);
+		len += optr_len(*line);
 	else if (ft_iscmd(**line))
-		len += have_cmd(*line);
+		len += cmd_len(*line);
 	token = (char *)malloc(sizeof(char) * (len + 1));
 	while (i < len)
 		token[i++] = *(*line)++;
