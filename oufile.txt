@@ -1,4 +1,0 @@
-strlen
-strcat
-strlen
-strcat

@@ -1,17 +1,49 @@
 #include "minishell.h"
 
-int	quote_len(char *str)
+// int	ft_quote_len(char *str)
+// {
+// 	int	i;
+
+// 	i = 0;
+// 	if (str[i++] == '\'')
+// 	{
+// 		while (str[i] && str[i] != '\'')
+// 			i++;
+// 		return (i + 1);
+// 	}
+// 	else
+// 	{
+// 		while (str[i] && str[i] != '\"')
+// 			i++;
+// 		return (i + 1);
+// 	}
+// 	return (0);
+// }
+int	ft_1quote_len(char *str)
 {
 	int	i;
 
 	i = 1;
-	while (str[i] && !ft_isquote(str[i]))
+	while (str[i] && str[i] != '\'')
 		i++;
-	i++;
-	return (i);
+	if (str[i] == '\'')
+		return (i + 1);
+	return (0);
 }
 
-int	optr_len(char *str)
+int	ft_2quote_len(char *str)
+{
+	int	i;
+
+	i = 1;
+	while (str[i] && str[i] != '\"')
+		i++;
+	if (str[i] == '\"')
+		return (i + 1);
+	return (0);
+}
+
+int	ft_optr_len(char *str)
 {
 	int	i;
 
@@ -21,7 +53,7 @@ int	optr_len(char *str)
 	return (i);
 }
 
-int	cmd_len(char *str)
+int	ft_cmd_len(char *str)
 {
 	int	i;
 
@@ -31,7 +63,7 @@ int	cmd_len(char *str)
 	return (i);
 }
 
-int	var_len(char *line)
+int	ft_var_len(char *line)
 {
 	int	i;
 

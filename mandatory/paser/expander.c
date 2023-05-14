@@ -8,7 +8,7 @@ static char	*get_var(char *token)
 	tmp = token;
 	while (*token && !ft_isvar(*token))
 		token++;
-	token[var_len(token)] = '\0';
+	token[ft_var_len(token)] = '\0';
 	var = ft_strdup(token);
 	if (!var)
 		return (NULL);

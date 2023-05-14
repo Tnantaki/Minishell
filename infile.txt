@@ -1,4 +1,0 @@
-strlen
-strcat
-hello
-world

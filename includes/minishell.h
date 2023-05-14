@@ -4,16 +4,48 @@
 # include <stdbool.h>
 # include <unistd.h>
 # include <stdlib.h>
-# include <stdio.h>
 # include <fcntl.h>
 # include <readline/history.h>
 # include <readline/readline.h>
-// # include "libft.h"
+# include "msh_utils.h"
+
+// enum reoptr {stdin, stdout, heredoc, append, pipe};
+
+typedef struct s_executable_command
+{
+	char	*cmd;
+	char	**arg;
+	char	**env;
+	int		fd_in;
+	int		fd_out;
+}	t_excmd;
+
+//Simple Command
+typedef struct s_spcmd
+{
+	int				list[4];
+	char			*cmd;// like ls, echo
+	char			**arg;// like -la, "hello"
+	int				rdrt; // redirections
+	int				bg;// background
+	int				pipe;// pipe
+	struct s_spcmd	*next;
+}	t_spcmd;
+
+typedef struct s_minishell
+{
+	char	**tokens;
+	char	**env;
+	t_spcmd	spcmd;
+}	t_msh;
 
 //Part 1 : Lexer
-char	**lexer(char *line);
+bool	lexer(char *line, t_msh *msh);
+bool	valid_syntax(char *line);
+bool	tokenization(char *line, char ***tokens);
+bool	valid_tokens(char **tokens);
 //Part 2 : Paser
-int		paser(char **tokens);
+int		parser(char **tokens);
 char	**expander(char **tokens);
 //Part 3 : Executor
 //Part 4 : Built-in
@@ -22,29 +54,6 @@ char	**expander(char **tokens);
 char	**set_env(char **env);
 char	**get_env(void);
 
-//### Utils ###//
-//free
-char	**free2d_str(char **ptr);
-char	**free2d_nstr(char **ptr, int i);
-//len lexer
-int		quote_len(char *str);
-int		optr_len(char *str);
-int		cmd_len(char *str);
-int		var_len(char *line);
-//is lexer
-bool	ft_isspace(int c);
-bool	ft_isquote(int c);
-bool	ft_isoptr(int c);
-bool	ft_iscmd(int c);
-//is paser
-bool	ft_isalpha(int c);
-bool	ft_isdigit(int c);
-bool	ft_isvar(int c);
-//string
-size_t	ft_strlen(char *str);
-size_t	ft_2d_strlen(char **str);
-char	*ft_strdup(char *str);
-char	**ft_2d_strdup(char **str);
 
 //Debug
 int		checker_2d_arr(char **str, char *title);

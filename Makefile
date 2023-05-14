@@ -6,7 +6,9 @@ LIBFT_DIR	= libft/
 GNL_DIR		= get_next_line/
 MANDA_DIR	= mandatory/
 LEXER_DIR	= lexer/
-PASER_DIR	= paser/
+PARSER_DIR	= paser/
+EXCUTE_DIR	= executor/
+BUILT_DIR	= built_in/
 UTILS_DIR	= utils/
 ENV_DIR		= environment/
 BONUS_DIR	=
@@ -32,20 +34,26 @@ else
 endif
 
 ### Source Files ###
-ENV_SRCS	= env.c
+LEXER_SRCS	= ft_lexer.c ft_tokenization.c ft_valid_syntax.c ft_valid_tokens.c
 
-LEXER_SRCS	= lexer.c
+PARSER_SRCS	= ft_parser.c
 
-PASER_SRCS	= paser.c expander.c
+EXCUTE_SRCS	= 
 
-UTILS_SRCS	= free.c is_lexer.c is_paser.c len_lexer.c\
+BUILT_SRCS	= 
+
+UTILS_SRCS	= ft_free.c ft_exit.c ft_is_not.c len_lexer.c\
 				string.c
+
+ENV_SRCS	= env.c
 
 MANDA_SRCS	= main.c checker.c\
 				$(addprefix $(UTILS_DIR), $(UTILS_SRCS))\
 				$(addprefix $(ENV_DIR), $(ENV_SRCS))\
-				$(addprefix $(LEXER_DIR), $(LEXER_SRCS))\
-				$(addprefix $(PASER_DIR), $(PASER_SRCS))
+				$(addprefix $(LEXER_DIR), $(LEXER_SRCS))
+#				$(addprefix $(PARSER_DIR), $(PARSER_SRCS))
+#				$(addprefix $(EXCUTE_DIR), $(EXCUTE_SRCS))
+#				$(addprefix $(BUILT_DIR), $(BUILT_SRCS))
 
 SRCS	=	$(addprefix $(MANDA_DIR), $(MANDA_SRCS))
 
