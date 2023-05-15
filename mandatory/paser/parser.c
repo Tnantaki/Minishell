@@ -14,13 +14,13 @@ bool	ft_is(char *token)
 	return (false);
 }
 
-int	parser(char **tokens)
+int	parser(t_msh *msh)
 {
 	int		j;
 	t_spcmd	*spcmd;
 
 	j = 0;
-	while (tokens[j])
+	while (msh->tokens[j])
 	{
 		if (!cpcmd->rdrt && ft_isrdrt(tokens[j]))
 		else if (!spcmd->cmd && ft_iscmd(tokens[j]))

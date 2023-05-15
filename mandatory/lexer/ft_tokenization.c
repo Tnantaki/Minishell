@@ -1,10 +1,10 @@
 #include "minishell.h"
 
-/*Token : be separate by 
-- White-space
-- Redirection
-- Quotes
-- Dollar sign*/
+// Token : be separate by 
+// - White-space
+// - Redirection
+// - Quotes
+
 static int	count_token(char *line)
 {
 	int		i;
@@ -65,7 +65,6 @@ bool	tokenization(char *line, char ***tokens)
 
 	i = 0;
 	ct = count_token(line);
-	printf("%d\n", ct);
 	*tokens = (char **)malloc(sizeof(char *) * (ct + 1));
 	if (!*tokens)
 		return (false);

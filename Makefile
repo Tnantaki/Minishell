@@ -34,24 +34,25 @@ else
 endif
 
 ### Source Files ###
-LEXER_SRCS	= ft_lexer.c ft_tokenization.c ft_valid_syntax.c ft_valid_tokens.c
+LEXER_SRCS	= ft_tokenization.c ft_valid_syntax.c
 
-PARSER_SRCS	= ft_parser.c
+PARSER_SRCS	= ft_expander.c
 
 EXCUTE_SRCS	= 
 
 BUILT_SRCS	= 
 
-UTILS_SRCS	= ft_free.c ft_exit.c ft_is_not.c len_lexer.c\
-				string.c
+UTILS_SRCS	= ft_free.c ft_exit.c ft_is_char.c ft_is_deli_char.c\
+				ft_is_special_char.c ft_is_type_str.c ft_itoa.c\
+				ft_string.c len_lexer.c
 
 ENV_SRCS	= env.c
 
 MANDA_SRCS	= main.c checker.c\
 				$(addprefix $(UTILS_DIR), $(UTILS_SRCS))\
 				$(addprefix $(ENV_DIR), $(ENV_SRCS))\
-				$(addprefix $(LEXER_DIR), $(LEXER_SRCS))
-#				$(addprefix $(PARSER_DIR), $(PARSER_SRCS))
+				$(addprefix $(LEXER_DIR), $(LEXER_SRCS))\
+				$(addprefix $(PARSER_DIR), $(PARSER_SRCS))
 #				$(addprefix $(EXCUTE_DIR), $(EXCUTE_SRCS))
 #				$(addprefix $(BUILT_DIR), $(BUILT_SRCS))
 

@@ -6,10 +6,66 @@
 //valid pipe :syntax error near unexpected token '|'
 // Can have mutiple redirec but only last one will work.
 
+typedef enum e_type_token
+{
+	VOID,
+	RD_IN,
+	RD_OUT,
+	PIPE,
+	FILENAME,
+	CMD,
+	ARG,
+}	t_type;
+
+t_type	token_type(char *token, t_type pre_type)
+{
+	if (pre_type == VOID)
+	{
+		if (ft_isoptr(*token))
+			return (ft_what_optr(token));
+		else if (ft_iscmd(*token))
+			return (CMD);
+	}
+	else if (pre_type == RD_IN || pre_type == RD_OUT)
+		return (FILENAME);
+	else if (pre_type == CMD)
+	{
+		if (ft_isoptr(*token))
+			return (ft_what_optr(token));
+		else if (*token == '|')
+			return (PIPE);
+		else if (ft_iscmd(*token))
+			return (ARG);
+		else if (*token == '>' *token == '>>')
+			return (RD_OUT);
+	}
+
+	else if (ft_iscmd(*token))
+	else if (ft_iscmd(*token))
+		return (ARG);
+}
+
+int	classify_token(char **tokens, int ct)
+{
+	t_type	*type;
+	t_type	pre_type;
+	int			j;
+	
+	j = 0;
+	type = (t_type *)malloc(sizeof(t_type) * (ct + 1));
+	pre_type = VOID;
+	while (j < ct)
+	{
+		type[j] = token_type(tokens[j], pre_type);
+		pre_type = type[j];
+		j++;
+	}
+}
+
 bool	valid_tokens(char **tokens)
 {
-	(void)tokens;
 	return (true);
+
 	// int		j;
 	// size_t	ct;
 

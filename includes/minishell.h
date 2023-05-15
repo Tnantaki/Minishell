@@ -26,6 +26,8 @@ typedef struct s_spcmd
 	int				list[4];
 	char			*cmd;// like ls, echo
 	char			**arg;// like -la, "hello"
+	char			*in_file;
+	char			*out_file;
 	int				rdrt; // redirections
 	int				bg;// background
 	int				pipe;// pipe
@@ -36,17 +38,19 @@ typedef struct s_minishell
 {
 	char	**tokens;
 	char	**env;
+	char	*line;
+	int		ct;
 	t_spcmd	spcmd;
 }	t_msh;
 
 //Part 1 : Lexer
-bool	lexer(char *line, t_msh *msh);
+// bool	lexer(char *line, t_msh *msh);
 bool	valid_syntax(char *line);
 bool	tokenization(char *line, char ***tokens);
 bool	valid_tokens(char **tokens);
 //Part 2 : Paser
-int		parser(char **tokens);
-char	**expander(char **tokens);
+bool	expander(char **tokens);
+// int		parser(char **tokens);
 //Part 3 : Executor
 //Part 4 : Built-in
 

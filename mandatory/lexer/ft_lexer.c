@@ -6,7 +6,5 @@ bool	lexer(char *line, t_msh *msh)
 		return (false);
 	if (!tokenization(line, &msh->tokens))
 		return (false);
-	// if (!valid_tokens(msh->tokens))
-	// 	return (false);
 	return (true);
 }
