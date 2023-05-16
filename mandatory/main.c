@@ -23,10 +23,12 @@ int	interpreter(char *cmd_line, t_msh *msh)
 		return (false);
 	if (!tokenization(cmd_line, &(msh->tokens)))
 		return (false);
-	checker_2d_arr(msh->tokens, "Token");//debug
+	// debug_tokens(msh->tokens, "Token");//debug
 	if (!expander(msh->tokens))
 		return (false);
-	checker_2d_arr(msh->tokens, "Token");//debug
+	debug_tokens(msh->tokens, "Expander");//debug
+	if (!parser(msh->tokens))
+		return (false);
 	return (0);
 }
 
@@ -39,7 +41,7 @@ int	main(int ac, char **av, char **sys_envp)
 	msh.env = ft_2d_strdup(sys_envp);
 	set_env(msh.env);
 	// prompt_get(&msh);
-	char	*cmd_line = "ls -la| echo \" Hello How \" | echo $$ |echo $HOME> infile.txt ";
+	char	*cmd_line = "ls -la| echo \" Hello How \" | echo $$ $PWD|echo $HOME> infile.txt ";
 	interpreter(cmd_line, &msh);
 	exit(0);
 	return (0);

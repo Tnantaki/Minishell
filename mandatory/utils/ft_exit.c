@@ -22,6 +22,13 @@ int	ft_err_lex(int errnum)
 	return (0);
 }
 
+void	ft_err_par(int errnum)
+{
+	if (errnum == 1)
+		printf("msh: syntax error near unexpected token `|'\n");
+}
+
+
 // void	free_exit(t_args *args, int code)
 // {
 	// if (args->pl)

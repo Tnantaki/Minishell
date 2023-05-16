@@ -51,5 +51,6 @@ void	*ft_calloc(size_t count, size_t size);
 char	*ft_itoa(int n);
 //exit
 int	ft_err_lex(int errnum);
+void	ft_err_par(int errnum);
 
 #endif

@@ -11,6 +11,16 @@
 
 // enum reoptr {stdin, stdout, heredoc, append, pipe};
 
+typedef enum e_type_token
+{
+	VOID,
+	REDIRECT,
+	PIPE,
+	FILENAME,
+	COMMAND,
+	ARGUMENT,
+}	t_type;
+
 typedef struct s_executable_command
 {
 	char	*cmd;
@@ -50,6 +60,8 @@ bool	tokenization(char *line, char ***tokens);
 bool	valid_tokens(char **tokens);
 //Part 2 : Paser
 bool	expander(char **tokens);
+bool	parser(char **tokens);
+t_type	*classify_token(char **tokens, int ct);
 // int		parser(char **tokens);
 //Part 3 : Executor
 //Part 4 : Built-in
@@ -60,6 +72,7 @@ char	**get_env(void);
 
 
 //Debug
-int		checker_2d_arr(char **str, char *title);
+int		debug_tokens(char **str, char *title);
+int		debug_type(t_type *type, int ct, char *title);
 
 #endif
