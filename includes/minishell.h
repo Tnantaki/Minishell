@@ -9,17 +9,40 @@
 # include <readline/readline.h>
 # include "msh_utils.h"
 
-// enum reoptr {stdin, stdout, heredoc, append, pipe};
+typedef enum e_type_rdrt
+{
+	input,
+	output,
+	heredoc,
+	append,
+}	t_rdrt;
 
 typedef enum e_type_token
 {
-	VOID,
-	REDIRECT,
+	VOID = -1,
+	RDRT_IN,
+	RDRT_OUT,
 	PIPE,
 	FILENAME,
 	COMMAND,
 	ARGUMENT,
 }	t_type;
+
+typedef struct s_input_output
+{
+	bool	have;
+	t_rdrt	rdrt;
+	char	*filename;
+}	t_io;
+
+typedef struct s_spcmd
+{
+	char	*cmd;
+	char	**arg;
+	t_io	in;
+	t_io	out;
+	bool	pipe;
+}	t_spcmd;
 
 typedef struct s_executable_command
 {
@@ -31,26 +54,25 @@ typedef struct s_executable_command
 }	t_excmd;
 
 //Simple Command
-typedef struct s_spcmd
-{
-	int				list[4];
-	char			*cmd;// like ls, echo
-	char			**arg;// like -la, "hello"
-	char			*in_file;
-	char			*out_file;
-	int				rdrt; // redirections
-	int				bg;// background
-	int				pipe;// pipe
-	struct s_spcmd	*next;
-}	t_spcmd;
+// typedef struct s_spcmd
+// {
+// 	char	*cmd;// Command
+// 	char	**arg;// flag or argumeng
+// 	char	**in_file; 
+// 	char	**out_file;
+// 	int		rdrt; // redirections
+// 	// int				bg;// background
+// 	int		pipe;// pipe
+// }	t_spcmd;
 
 typedef struct s_minishell
 {
 	char	**tokens;
 	char	**env;
 	char	*line;
-	int		ct;
-	t_spcmd	spcmd;
+	int		tk_nb;
+	int		cmd_nb;
+	t_spcmd	*spcmd;
 }	t_msh;
 
 //Part 1 : Lexer
@@ -60,10 +82,10 @@ bool	tokenization(char *line, char ***tokens);
 bool	valid_tokens(char **tokens);
 //Part 2 : Paser
 bool	expander(char **tokens);
-bool	parser(char **tokens);
+bool	parser(char **tokens, t_msh *msh);
 t_type	*classify_token(char **tokens, int ct);
-// int		parser(char **tokens);
 //Part 3 : Executor
+bool	executor(t_msh *msh);
 //Part 4 : Built-in
 
 //### Environment ###//
@@ -74,5 +96,6 @@ char	**get_env(void);
 //Debug
 int		debug_tokens(char **str, char *title);
 int		debug_type(t_type *type, int ct, char *title);
+int		debug_spcmd(t_spcmd *spcmd, int cmd_nb);
 
 #endif

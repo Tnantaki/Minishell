@@ -1,17 +1,23 @@
 # Mimishell
 ## The Program start at main.c
-in main function will seperate into 8 Part.
+in main function will seperate into 4 Part.
 ### Part 1 : Lexer (50%)
 1. Valid Systax : Command line must don't have some special char or unquoted.
 - `(` Check there are unclosed parenthesis. <br>
 - `'` `"` Check there are unclosed quotes. <br>
 2. tokenization : will seperate the command line into tokens.
-3. Valid Token :
+### Part 2 : Parser (50%)
+1. Valid Token :
 - Never have `|` or `||` near tokens. <br>
-### Part 2 : Parser (10%)
-1. Parser : will arrange the token into simple command struct.
 2. Variable Expansion : `$` will searching the variable in envp and get the value from it. <br>
-3. Don't have to handle Command Substitution : `$()` The Shell will fork child and execute the command Substitution first and store the value in struct simple command. <br>
+3. classify_token : will classify the type of tokens
+- Command.
+- Argument.
+- Redirection
+- Filename
+- Pipe
+4. Parser : will arrange the token into simple command struct.
+- Don't have to handle Command Substitution : `$()` The Shell will fork child and execute the command Substitution first and store the value in struct simple command. <br>
 ### Part 3 : Execution (0%)
 1. Redirections : The Shell will interpret input/output redirections and using function dup2 to redirect
 2. Executor : The Shell create new process and execute the command

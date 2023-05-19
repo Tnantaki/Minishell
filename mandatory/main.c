@@ -27,8 +27,11 @@ int	interpreter(char *cmd_line, t_msh *msh)
 	if (!expander(msh->tokens))
 		return (false);
 	debug_tokens(msh->tokens, "Expander");//debug
-	if (!parser(msh->tokens))
+	if (!parser(msh->tokens, msh))
 		return (false);
+	debug_spcmd(msh->spcmd, msh->cmd_nb);
+	// if (!executor(msh))
+	// 	return (false);
 	return (0);
 }
 

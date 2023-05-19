@@ -1,6 +1,5 @@
 #include "minishell.h"
 
-
 bool	ft_isrdrt(int c)
 {
 	if (c == '<' || c == '>')
@@ -17,11 +16,13 @@ bool	ft_ispipe(int c)
 
 t_type	token_type(char *token, t_type pre_type, int *command)
 {
-	if (ft_isrdrt(*token))
-		return (REDIRECT);
+	if (*token == '<')
+		return (RDRT_IN);
+	else if (*token == '>')
+		return (RDRT_OUT);
 	else if (ft_ispipe(*token))
 		return (PIPE);
-	else if (pre_type == REDIRECT)
+	else if (pre_type == RDRT_IN || pre_type == RDRT_OUT)
 		return (FILENAME);
 	else if (*command == 0)
 		return (*command = 1, COMMAND);
@@ -29,20 +30,20 @@ t_type	token_type(char *token, t_type pre_type, int *command)
 		return (ARGUMENT);
 }
 
-t_type	*classify_token(char **tokens, int ct)
+t_type	*classify_token(char **tokens, int nb_tk)
 {
 	t_type	*type;
 	t_type	pre_type;
 	int		command;
 	int		j;
 	
-	type = (t_type *)malloc(sizeof(t_type) * (ct + 1));
+	type = (t_type *)malloc(sizeof(t_type) * (nb_tk + 1));
 	if (!type)
 		return (NULL);
 	pre_type = VOID;
 	command = 0;
 	j = 0;
-	while (j < ct)
+	while (j < nb_tk)
 	{
 		if (pre_type == PIPE)
 			command = 0;
@@ -54,5 +55,6 @@ t_type	*classify_token(char **tokens, int ct)
 		pre_type = type[j];
 		j++;
 	}
+	type[j] = VOID;
 	return (type);
 }
