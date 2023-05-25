@@ -1,20 +1,8 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_setcmd_bonus.c                                  :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: tnantaki <tnantaki@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/03 17:37:39 by tnantaki          #+#    #+#             */
-/*   Updated: 2023/02/04 19:59:04 by tnantaki         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+#include "minishell.h"
 
-#include "../includes/pipex_bonus.h"
-
-void	ft_first_cmd(t_pipe *px)
+void	first_cmd(t_spcmd spcmd, t_pipe *px)
 {
-	ft_open_infile(av, px);
+	open_infile(spcmd.in, spcmd.nb.in);
 	if (px->fd_in == -1)
 	{
 		ft_close_pipe(px);

@@ -26,12 +26,12 @@ int	interpreter(char *cmd_line, t_msh *msh)
 	// debug_tokens(msh->tokens, "Token");//debug
 	if (!expander(msh->tokens))
 		return (false);
-	debug_tokens(msh->tokens, "Expander");//debug
+	// debug_tokens(msh->tokens, "Expander");//debug
 	if (!parser(msh))
 		return (false);
 	debug_spcmd(msh->spcmd, msh->nb_cmd);
-	// if (!executor(msh))
-	// 	return (false);
+	if (!executor(msh->spcmd, msh->nb_cmd, msh->nb_pipe))
+		return (false);
 	return (0);
 }
 

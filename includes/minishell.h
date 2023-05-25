@@ -5,6 +5,8 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <fcntl.h>
+# include <errno.h>
+# include <sys/wait.h>
 # include <readline/history.h>
 # include <readline/readline.h>
 # include "msh_utils.h"
@@ -53,16 +55,29 @@ typedef struct s_spcmd
 	t_nb	nb;
 }	t_spcmd;
 
-typedef struct s_executable_command
+typedef struct s_pipex
 {
-	char	*cmd;
-	char	**arg;
 	char	**env;
-	t_io	*in;
-	t_io	*out;
-	int		fd_in;
-	int		fd_out;
-}	t_excmd;
+	char	**path;
+	int		*pipefd;
+	int		*pid;
+	int		infd;
+	int		outfd;
+	int		nb_pipe;
+	int		status;
+	int		i;
+}	t_pipe;
+
+typedef struct s_minishell
+{
+	char	**tokens;
+	char	**env;
+	t_type	*tk_type;
+	t_spcmd	*spcmd;
+	int		nb_tk;
+	int		nb_cmd;
+	int		nb_pipe;
+}	t_msh;
 
 //Simple Command
 // typedef struct s_spcmd
@@ -76,30 +91,24 @@ typedef struct s_executable_command
 // 	int		pipe;// pipe
 // }	t_spcmd;
 
-typedef struct s_minishell
-{
-	char	**tokens;
-	char	**env;
-	char	*line;
-	t_type	*tk_type;
-	int		nb_tk;
-	int		nb_cmd;
-	t_spcmd	*spcmd;
-}	t_msh;
-
 //Part 1 : Lexer
 // bool	lexer(char *line, t_msh *msh);
 bool	valid_syntax(char *line);
 bool	tokenization(char *line, t_msh *msh);
-bool	valid_tokens(char **tokens);
 //Part 2 : Paser
 bool	expander(char **tokens);
 bool	classify_token(t_msh *msh);
+bool	valid_tokens(char **token, int nb_tk, t_type *type);
 bool	parser(t_msh *msh);
 bool	allocate_spcmd(t_msh *msh, int	nb_cmd);
 bool	allocate_sub_spcmd(t_spcmd *spcmd, int nb_cmd, t_type *type, int nb_tk);
 //Part 3 : Executor
-bool	executor(t_msh *msh);
+bool	executor(t_spcmd *spcmd, int nb_cmd, int nb_pipe);
+bool	findpath(t_pipe *px);
+bool	create_pipe(t_pipe *px, int nb_cmd);
+bool	close_pipe(t_pipe *px);
+bool	open_infile(t_io *in, int nb_in, int *infd);
+bool	open_outfile(t_io *out, int nb_out, int *outfd);
 //Part 4 : Built-in
 
 //### Environment ###//

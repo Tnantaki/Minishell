@@ -19,9 +19,11 @@ void	add(char *str)
 
 int main()
 {
-	char *str = strdup("Hello");
+	// char *str = strdup("Hello");
 
-	add(str);
-	printf("%s\n", str);
+	// add(str);
+	// printf("%s\n", str);
+	char *tmp = getenv("PATH");
+	printf("%s\n", tmp);
 	return (0);
 }

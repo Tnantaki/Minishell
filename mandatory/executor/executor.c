@@ -1,143 +1,90 @@
 #include "minishell.h"
 
-char	**ft_findpath(void)
+bool	join_path(t_spcmd *spcmd, char **path)
 {
-	char	*tmp;
-	char	**path;
-	int		i;
-
-	tmp = getenv("PATH");
-	if (!tmp)
-		return (NULL);
-	path = ft_split(tmp, ':');
-	if (!path)
-		return (NULL);
-	i = 0;
-	while (path[i])
-	{
-		path[i] = ft_strjoinfree(path[i], "/");
-		if (!path)
-			return (ft_free2d_str(path), NULL);
-		i++;
-	}
-	return (path);
-}
-
-static void	ft_create_heredoc(t_spcmd *spcmd)
-{
-	char	*tmp;
-	int		fd;
-	int		lim_len;
-
-	fd = open(HERE_DOC_PATH, O_WRONLY | O_CREAT | O_TRUNC, 0777);
-	if (fd == -1)
-		ft_prterr(7);
-	lim_len = ft_strlen(spcmd->in.filename);
-	while (1)
-	{
-		ft_putstr_fd("heredoc> ", STDOUT_FILENO);
-		tmp = readline(STDIN_FILENO);
-		// if (!(tmp))
-		// 	ft_gnl_err(px);
-		if (ft_strncmp(av[2], tmp, lim_len) == 0 && tmp[lim_len] == '\n')
-			break ;
-		ft_putstr_fd(tmp, fd);
-		free (tmp);
-	}
-	free (tmp);
-	close(fd);
-}
-
-int	ft_open_infile(t_spcmd *spcmd)
-{
-	int	fd_in;
-
-	fd_in = 0;
-	if (spcmd->in.have)
-	{
-		if (spcmd->in.rdrt == heredoc)
-		{
-			ft_create_heredoc()
-			fd_in = open(HERE_DOC_PATH, O_RDONLY);
-		}
-		else
-			fd_in = open(av[1], O_RDONLY);
-	}
-	return (fd_in);
-}
-
-char	*ft_fcmd(char **path, char *cmd, char *av)
-{
-	char	*pathname;
 	int		i;
 
 	i = 0;
-	if (access(cmd, F_OK) == 0)
-		return (ft_double_free(path), pathname = ft_strjoin("", cmd));
-	if (ft_strchr(cmd, '/') && access(cmd, F_OK) != 0)
-		ft_prterr(NO_INFILE, av, 2);
+	if (access(spcmd->arg[0], F_OK) == 0)
+		return (spcmd->cmd = ft_strdup(spcmd->arg[0]), true);
+	if (spcmd->arg[0][0] == '/' && access(spcmd->arg[0], F_OK) != 0)
+		return (perror(spcmd->arg[0]), false);
 	while (path[i])
 	{
-		pathname = ft_strjoin(path[i], cmd);
-		if (access(pathname, F_OK) == 0)
-			return (ft_double_free(path), pathname);
-		free (pathname);
+		spcmd->cmd = ft_strjoin(path[i], spcmd->arg[0]);
+		if (access(spcmd->cmd, F_OK) == 0)
+			return (true);
+		free (spcmd->cmd);
 		i++;
 	}
-	pathname = ft_strdup(cmd);
-	ft_double_free(cmd);
-	ft_double_free(path);
-	ft_prterr(COM_ERR, pathname, 127);
-	return (NULL);
+	// ft_double_free(cmd);
+	// ft_double_free(path);
+	// ft_prterr(COM_ERR, pathname, 127);
+	return (true);
 }
 
-void	ft_fork_child(t_spcmd spcmd)
+bool	redirection(t_spcmd spcmd, t_pipe px, int i)
+{
+	if (spcmd.nb.in)
+		dup2(px.infd, STDIN_FILENO);
+	else if (spcmd.nb.pipe)
+		dup2(px.pipefd[(i - 1) * 2], STDIN_FILENO);
+	if (spcmd.nb.out)
+		dup2(px.outfd, STDOUT_FILENO);
+	else if (i < px.nb_pipe)
+		dup2(px.pipefd[(i * 2) + 1], STDOUT_FILENO);
+	return (true);
+}
+
+bool	fork_child(t_spcmd spcmd, t_pipe *px)
 {
 	px->pid[px->i] = fork();
 	if (px->pid[px->i] == -1)
-		ft_fork_err(px, errno);
+		return (perror("Fork Fail"), false);
 	if (px->pid[px->i] == 0)
 	{
-		char	*pathname;
 		free(px->pid);
-		px->cmd_i = px->i + 2 + px->here_doc;
-		if (spcmd.in)
-			infd = ft_open_infile(spcmd.in);
-		if (spcmd.out)
-			outfd = ft_open_outfile(spcmd.out);
-		if (spcmd.pipe)
-			//dopipe;
-		ft_close_pipe(px);
-		pathname = ft_fcmd(path, cmd, av[px->cmd_i]);
-		if (execve(pathname, spcmd.arg, envp) == -1)
-		{
-			free(px->fcmd);
-			ft_double_free(px->cmd);
-			exit (errno);
-		}
+		// px->cmd_i = px->i + 2 + px->here_doc;
+		if (spcmd.nb.in)
+			open_infile(spcmd.in, spcmd.nb.in, &(px->infd));
+		if (spcmd.nb.out)
+			open_outfile(spcmd.out, spcmd.nb.out, &(px->outfd));
+		redirection(spcmd, *px, px->i);
+		close_pipe(px);
+		if (spcmd.nb.arg)
+			join_path(&spcmd, px->path);
+		if (execve(spcmd.cmd, spcmd.arg, px->env) == -1)
+			exit(errno);
 	}
+	return (true);
 }
 
-bool	executor(t_msh *msh)
+bool	executor(t_spcmd *spcmd, int nb_cmd, int nb_pipe)
 {
-	int	j;
-	char	**path;
-	int		nb_pipe;
-	int		nb_cmd;
-	t_excmd excmd;
+	t_pipe	px;
 
-	path = ft_findpath();
-	//count nb_pipe;
-	ft_create_pipe(nb_pipe, nb_cmd);
-	//count nb_cmd;
-	if (!path)
+	px.nb_pipe = nb_pipe;
+	px.env = get_env();
+	if (!findpath(&px))
 		return (false);
-	j = 0;
-	while (j < msh->nb_cmd)
+	if (!create_pipe(&px, nb_cmd))
+		return (false);
+	px.i = 0;
+	printf("nb_cmd:%d\n", nb_cmd);
+	while (px.i < nb_cmd)
 	{
-		excmd.fd_in =  ft_open_infile(msh->spcmd[j]);
-		run_command(msh->spcmd, msh->env);
-		j++;
+		if (!fork_child(spcmd[px.i], &px))
+			return (false);
+		px.i++;
 	}
+	printf("px.i:%d\n", px.i);
+	px.i = 0;
+	close_pipe(&px);
+	while (px.i < nb_cmd)
+		waitpid(px.pid[px.i++], &px.status, 0);
+	free(px.pid);
+	if (open(HEREDOC, O_RDONLY) != -1)
+		unlink(HEREDOC);
+	// return (WEXITSTATUS(px.status));
 	return (true);
 }

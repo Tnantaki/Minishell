@@ -38,6 +38,8 @@ int	debug_spcmd(t_spcmd *spcmd, int nb_cmd)
 	for (int i = 0; i < nb_cmd; i++)
 	{
 		printf("Cmd[%d]: %s\n", i + 1, spcmd[i].cmd);
+		printf("arg:%d, in:%d, out:%d pipe:%d\n",
+			spcmd[i].nb.arg, spcmd[i].nb.in, spcmd[i].nb.out, spcmd[i].nb.pipe);
 		printf("arg");
 		for (int j = 0; spcmd[i].arg[j]; j++)
 			printf("[%d]: %s, ", j + 1, spcmd[i].arg[j]);

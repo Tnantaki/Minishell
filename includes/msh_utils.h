@@ -51,6 +51,9 @@ char	**ft_2d_strdup(char **str);
 int		ft_atoi(const char *str);
 void	*ft_calloc(size_t count, size_t size);
 char	*ft_itoa(int n);
+char	*ft_strjoin(char *s1, char *s2);
+char	*ft_strjoinfree(char *s1, char *s2);
+char	**ft_split(char *s, char c);
 //exit
 int	ft_err_lex(int errnum);
 void	ft_err_par(int errnum);
