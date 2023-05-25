@@ -1,59 +1,45 @@
-/* ************************************************************************** */
-/*                                                                            */
-/*                                                        :::      ::::::::   */
-/*   ft_setcmd_bonus.c                                  :+:      :+:    :+:   */
-/*                                                    +:+ +:+         +:+     */
-/*   By: tnantaki <tnantaki@student.42.fr>          +#+  +:+       +#+        */
-/*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/02/03 17:37:39 by tnantaki          #+#    #+#             */
-/*   Updated: 2023/02/04 19:59:04 by tnantaki         ###   ########.fr       */
-/*                                                                            */
-/* ************************************************************************** */
+#include "minishell.h"
 
-#include "../includes/pipex_bonus.h"
-
-void	ft_first_cmd(t_pipe *px)
+void	ft_first_cmd(int *pipefd)
 {
-	if (px->fd_in == -1)
-	{
-		ft_close_pipe(px);
-		ft_double_free(px->path);
-		exit (2);
-	}
-	px->fd_read = px->fd_in;
-	px->fd_write = px->fd_pipe[1];
-	dup2(px->fd_read, STDIN_FILENO);
-	dup2(px->fd_write, STDOUT_FILENO);
-	close(px->fd_in);
+	int	infd;
+	int	fd_read;
+	int	fd_write;
+
+
+	infd = ft_open_infile(io);
+	if (infd == -1)
+		exit (1);
+	fd_read = infd;
+	fd_write = pipefd[1];
+	dup2(fd_read, STDIN_FILENO);
+	dup2(fd_write, STDOUT_FILENO);
+	close(infd);
 }
 
-void	ft_mid_cmd(t_pipe *px)
+void	ft_mid_cmd(int *pipefd, int i)
 {
-	px->fd_read = px->fd_pipe[(px->i - 1) * 2];
-	px->fd_write = px->fd_pipe[(px->i * 2) + 1];
-	dup2(px->fd_read, STDIN_FILENO);
-	dup2(px->fd_write, STDOUT_FILENO);
+	int	fd_read;
+	int	fd_write;
+
+	fd_read = pipefd[(i - 1) * 2];
+	fd_write = pipefd[(i * 2) + 1];
+	dup2(fd_read, STDIN_FILENO);
+	dup2(fd_write, STDOUT_FILENO);
 }
 
-void	ft_last_cmd(t_pipe *px, char **av)
+void	ft_last_cmd(int *pipefd, int i)
 {
-	int	out_i;
+	int	outfd;
+	int	fd_read;
+	int	fd_write;
 
-	out_i = px->i + 3 + px->here_doc;
-	if (px->here_doc)
-		px->fd_out = open(av[out_i], O_WRONLY | O_CREAT | O_APPEND, 0777);
-	else
-		px->fd_out = open(av[out_i], O_WRONLY | O_CREAT | O_TRUNC, 0777);
-	if (px->fd_out == -1)
-	{
-		close(px->fd_in);
-		ft_close_pipe(px);
-		ft_double_free(px->path);
-		ft_prterr(NO_OUTFILE, av[out_i], 1);
-	}
-	px->fd_read = px->fd_pipe[(px->i - 1) * 2];
-	px->fd_write = px->fd_out;
-	dup2(px->fd_read, STDIN_FILENO);
-	dup2(px->fd_write, STDOUT_FILENO);
-	close(px->fd_out);
+	outfd = ft_open_outfile(io);
+	if (outfd == -1)
+		exit (1);
+	fd_read = fd_pipe[(i - 1) * 2];
+	fd_write = outfd;
+	dup2(fd_read, STDIN_FILENO);
+	dup2(fd_write, STDOUT_FILENO);
+	close(outfd);
 }

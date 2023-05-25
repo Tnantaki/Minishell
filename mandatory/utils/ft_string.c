@@ -20,6 +20,25 @@ size_t	ft_2d_strlen(char **str)
 	return (cw);
 }
 
+void	ft_putstr_fd(char *s, int fd)
+{
+	if (!s)
+		return ;
+	write(fd, s, ft_strlen(s));
+}
+
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
+{
+	size_t	i;
+
+	i = 0;
+	if (n == 0)
+		return (0);
+	while (s1[i] && s2[i] && s1[i] == s2[i] && i + 1 < n)
+		i++;
+	return ((unsigned char)(s1[i]) - (unsigned char)(s2[i]));
+}
+
 char	*ft_strdup(char *str)
 {
 	char	*dst;
@@ -75,7 +94,7 @@ char	**ft_2d_strdup(char **str)
 	{
 		dup[j] = ft_strdup(str[j]);
 		if (!(dup[j]))
-			return (free2d_nstr(dup, j));
+			return (ft_free2d_nstr(dup, j));
 		j++;
 	}
 	dup[j] = NULL;

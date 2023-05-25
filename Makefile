@@ -36,7 +36,7 @@ endif
 ### Source Files ###
 LEXER_SRCS	= ft_tokenization.c ft_valid_syntax.c
 
-PARSER_SRCS	= ft_expander.c ft_parser.c ft_classify_token.c
+PARSER_SRCS	= ft_expander.c ft_parser.c ft_classify_token.c ft_allocate_spcmd.c
 
 EXCUTE_SRCS	= 
 

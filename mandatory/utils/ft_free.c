@@ -1,6 +1,6 @@
 #include "minishell.h"
 
-char	**free2d_str(char **ptr)
+char	**ft_free2d_str(char **ptr)
 {
 	int	i;
 
@@ -16,7 +16,7 @@ char	**free2d_str(char **ptr)
 	return (NULL);
 }
 
-char	**free2d_nstr(char **ptr, int i)
+char	**ft_free2d_nstr(char **ptr, int i)
 {
 	if (!ptr)
 		return (NULL);

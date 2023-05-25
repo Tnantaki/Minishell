@@ -7,5 +7,7 @@
 # echo ${var3[0]}
 # set -x
 # ls -la| echo " Hello How " |echo $HOME> infile.txt
-var="="
-echo $1$2$3
+# var="="
+# echo $1$2$3
+echo $VAR1
+echo $VAR2

@@ -58,23 +58,26 @@ static char	*trim_token(char **line)
 	return (token);
 }
 
-bool	tokenization(char *line, char ***tokens)
+bool	tokenization(char *line, t_msh *msh)
 {
 	int		i;
 	int		ct;
+	char	**tokens;
 
 	i = 0;
 	ct = count_token(line);
-	*tokens = (char **)malloc(sizeof(char *) * (ct + 1));
-	if (!*tokens)
+	tokens = (char **)malloc(sizeof(char *) * (ct + 1));
+	if (!tokens)
 		return (false);
 	while (i < ct)
 	{
-		(*tokens)[i] = trim_token(&line);
-		if (!(*tokens)[i])
-			return (free2d_nstr(*tokens, i), *tokens = NULL, false);
+		tokens[i] = trim_token(&line);
+		if (!tokens[i])
+			return (ft_free2d_nstr(tokens, i), false);
 		i++;
 	}
-	(*tokens)[i] = NULL;
+	tokens[i] = NULL;
+	msh->tokens = tokens;
+	msh->nb_tk = ct;
 	return (true);
 }

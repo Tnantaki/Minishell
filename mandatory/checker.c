@@ -32,18 +32,21 @@ int	debug_type(t_type *type, int ct, char *title)
 	return (0);
 }
 
-int	debug_spcmd(t_spcmd *spcmd, int cmd_nb)
+int	debug_spcmd(t_spcmd *spcmd, int nb_cmd)
 {
 	printf("### Simple Command ###\n");
-	for (int i = 0; i < cmd_nb; i++)
+	for (int i = 0; i < nb_cmd; i++)
 	{
 		printf("Cmd[%d]: %s\n", i + 1, spcmd[i].cmd);
 		printf("arg");
 		for (int j = 0; spcmd[i].arg[j]; j++)
-			printf("[%d]: %s, ", j +1, spcmd[i].arg[j]);
-		printf("\nin :%d, %d, %s\n", spcmd[i].in.have, spcmd[i].in.rdrt, spcmd[i].in.filename);
-		printf("out :%d, %d, %s\n", spcmd[i].out.have, spcmd[i].out.rdrt, spcmd[i].out.filename);
-		printf("pipe :%d\n", spcmd[i].pipe);
+			printf("[%d]: %s, ", j + 1, spcmd[i].arg[j]);
+		printf("\n");
+		// for (int j = 0; j < spcmd[i].nb_in; j++)
+		// 	printf("[%d]: %s, ", j + 1, spcmd[i].arg[j]);
+		// printf("\nin :%d, %d, %s\n", spcmd[i].in.have, spcmd[i].in.rdrt, spcmd[i].in.filename);
+		// printf("out :%d, %d, %s\n", spcmd[i].out.have, spcmd[i].out.rdrt, spcmd[i].out.filename);
+		// printf("pipe :%d\n", spcmd[i].pipe);
 	}
 	return (0);
 }

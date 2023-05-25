@@ -21,15 +21,15 @@ int	interpreter(char *cmd_line, t_msh *msh)
 {
 	if (!valid_syntax(cmd_line))
 		return (false);
-	if (!tokenization(cmd_line, &(msh->tokens)))
+	if (!tokenization(cmd_line, msh))
 		return (false);
 	// debug_tokens(msh->tokens, "Token");//debug
 	if (!expander(msh->tokens))
 		return (false);
 	debug_tokens(msh->tokens, "Expander");//debug
-	if (!parser(msh->tokens, msh))
+	if (!parser(msh))
 		return (false);
-	debug_spcmd(msh->spcmd, msh->cmd_nb);
+	debug_spcmd(msh->spcmd, msh->nb_cmd);
 	// if (!executor(msh))
 	// 	return (false);
 	return (0);

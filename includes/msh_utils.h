@@ -12,8 +12,8 @@
 # define EXIT_CTRL_D 130
 
 //free
-char	**free2d_str(char **ptr);
-char	**free2d_nstr(char **ptr, int i);
+char	**ft_free2d_str(char **ptr);
+char	**ft_free2d_nstr(char **ptr, int i);
 //len lexer
 int		ft_1quote_len(char *str);
 int		ft_2quote_len(char *str);
@@ -40,6 +40,8 @@ bool	ft_isarithmatic(char *str);
 //is paser
 //## String ##
 //ft_strlen.c
+void	ft_putstr_fd(char *s, int fd);
+int		ft_strncmp(const char *s1, const char *s2, size_t n);
 size_t	ft_strlen(char *str);
 size_t	ft_2d_strlen(char **str);
 // malloc

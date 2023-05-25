@@ -1,39 +1,27 @@
 #include <stdio.h>
 #include <unistd.h>
 #include <stdlib.h>
+#include <string.h>
 
-typedef enum e_reoptr
+typedef struct s_number_struct
 {
-	STDOUT,
-	is_stdout,
-	is_heredoc,
-	is_append,
-	is_pipe,
-}	t_reoptr;
-
-enum week {monday = 1, tuesday, wednesday, thurday, firday, saturday, sunday};
-
-void	ft_check(int *i, int *b)
+	int	arg;
+	int	in;
+	int	out;
+	int	pipe;
+}	t_nb;
+void	add(char *str)
 {
-	printf("i: %d\n", *i);
-	printf("b: %d\n", *b);
+	str[0] = 'A';
+	str++;
+	str[0] = 'B';
 }
 
-int	main(void)
+int main()
 {
-	// enum week day;
-	// day = sunday;
+	char *str = strdup("Hello");
 
-	int	i;
-	int	*b;
-	
-	i = 0;
-	b = &i;
-	ft_check(b++, b);
-	// printf("i: %d\n", i);
-	// printf("%lu\n", sizeof(t_reoptr));
-	// printf("%s\n", FILENAME);
-	// printf("%d\n", getppid());
-
+	add(str);
+	printf("%s\n", str);
+	return (0);
 }
-
