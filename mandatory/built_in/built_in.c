@@ -59,6 +59,12 @@ bool	built_exec(t_buin built, char **arg)
 	else if (built == CD)
 		printf("this is cd\n");
 		// status = ft_cd(arg);
+		// status = ft_cd(arg);
+		// status = ft_cd(arg);
+		// status = ft_cd(arg);
+		// status = ft_cd(arg);
+		// status = ft_cd(arg);
+		// status = ft_cd(arg);
 
 	exit(status);
 }
