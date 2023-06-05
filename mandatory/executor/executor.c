@@ -50,11 +50,11 @@ bool	fork_child(t_spcmd spcmd, t_pipe *px)
 		if (spcmd.nb.out)
 			open_outfile(spcmd.out, spcmd.nb.out, &(px->outfd));
 		redirection(spcmd, *px, px->i);
-		px->built = is_built_in(spcmd.arg[0]);
-		if (px->built != NON)
-			built_exec(px->built, spcmd.arg);
 		close_pipe(px);
-		if (spcmd.nb.arg)
+		px->built = is_built_in(spcmd.arg[0]);
+		if (px->built != NON) //if it's built-in
+			built_exec(px->built, spcmd.arg); // exit after execution
+		if (spcmd.nb.arg) //other cmd that are not built-in
 			join_path(&spcmd, px->path);
 		if (execve(spcmd.cmd, spcmd.arg, px->env) == -1)
 			exit(errno);

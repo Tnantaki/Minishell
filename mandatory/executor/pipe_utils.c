@@ -33,7 +33,7 @@ bool	create_pipe(t_pipe *px, int nb_cmd)
 	px->pid = malloc(sizeof(int) * (nb_cmd));
 	if (!(px->pipefd) || !(px->pid))
 		return (perror("Error malloc"), false);
-	while (i < px->nb_pipe)
+	while (i < px->nb_pipe) //create multiple pipes if there are more than one
 	{
 		if (pipe(px->pipefd + (i * 2)) == -1)
 			return (perror("Error Pipe"), false);

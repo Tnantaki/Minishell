@@ -16,6 +16,7 @@ t_rdrt	what_rdrt(char *token)
 {
 	t_rdrt	rdrt;
 
+	rdrt = 0;
 	if (token[0] == '<')
 	{
 		if (!token[1])

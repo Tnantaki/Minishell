@@ -1,33 +1,33 @@
 #include "minishell.h"
 
 //Copy from Toni for testing
-// int	ft_echo(char **args)
-// {
-// 	bool	print_newline;
+int	ft_echo(char **args)
+{
+	bool	print_newline;
 
-// 	print_newline = true;
-// 	if (ft_strncmp(*args, "echo", ft_strlen(*args)) != 0)
-// 		return (EXIT_FAILURE);
-// 	args++;
-// 	if (*args && ft_strncmp(*args, "-n", ft_strlen("-n") + 1) == 0)
-// 	{
-// 		print_newline = false;
-// 		args++;
-// 	}
-// 	while (*args)
-// 	{
-// 		if (printf("%s", *args) != (int)ft_strlen(*args))
-// 			return (EXIT_FAILURE);
-// 		if (ft_strlen(*args) != 0 && *(args + 1) != NULL)
-// 			if (printf(" ") != (int)ft_strlen(" "))
-// 				return (EXIT_FAILURE);
-// 		args++;
-// 	}
-// 	if (print_newline)
-// 		if (printf("\n") != (int)ft_strlen("\n"))
-// 			return (EXIT_FAILURE);
-// 	return (EXIT_SUCCESS);
-// }
+	print_newline = true;
+	if (ft_strncmp(*args, "echo", ft_strlen(*args)) != 0)
+		return (EXIT_FAILURE);
+	args++;
+	if (*args && ft_strncmp(*args, "-n", ft_strlen("-n") + 1) == 0)
+	{
+		print_newline = false;
+		args++;
+	}
+	while (*args)
+	{
+		if (printf("%s", *args) != (int)ft_strlen(*args))
+			return (EXIT_FAILURE);
+		if (ft_strlen(*args) != 0 && *(args + 1) != NULL)
+			if (printf(" ") != (int)ft_strlen(" "))
+				return (EXIT_FAILURE);
+		args++;
+	}
+	if (print_newline)
+		if (printf("\n") != (int)ft_strlen("\n"))
+			return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
+}
 
 t_buin	is_built_in(char *cmd)
 {
@@ -56,6 +56,9 @@ bool	built_exec(t_buin built, char **arg)
 	status = 0;
 	if (built == ECHO)
 		status = ft_echo(arg);
+	else if (built == CD)
+		printf("this is cd\n");
+		// status = ft_cd(arg);
 
 	exit(status);
 }

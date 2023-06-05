@@ -33,7 +33,7 @@ typedef enum e_type_token
 	ARGUMENT,
 }	t_type;
 
-typedef enum e_built_in
+typedef enum e_built_in // intager: order from 0 onward
 {
 	NON,
 	ECHO,
