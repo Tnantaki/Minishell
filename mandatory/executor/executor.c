@@ -50,6 +50,9 @@ bool	fork_child(t_spcmd spcmd, t_pipe *px)
 		if (spcmd.nb.out)
 			open_outfile(spcmd.out, spcmd.nb.out, &(px->outfd));
 		redirection(spcmd, *px, px->i);
+		px->built = is_built_in(spcmd.arg[0]);
+		if (px->built != NON)
+			built_exec(px->built, spcmd.arg);
 		close_pipe(px);
 		if (spcmd.nb.arg)
 			join_path(&spcmd, px->path);
@@ -70,14 +73,14 @@ bool	executor(t_spcmd *spcmd, int nb_cmd, int nb_pipe)
 	if (!create_pipe(&px, nb_cmd))
 		return (false);
 	px.i = 0;
-	printf("nb_cmd:%d\n", nb_cmd);
+	// printf("nb_cmd:%d\n", nb_cmd);//debug
 	while (px.i < nb_cmd)
 	{
 		if (!fork_child(spcmd[px.i], &px))
 			return (false);
 		px.i++;
 	}
-	printf("px.i:%d\n", px.i);
+	// printf("px.i:%d\n", px.i);//debug
 	px.i = 0;
 	close_pipe(&px);
 	while (px.i < nb_cmd)

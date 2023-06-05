@@ -3,8 +3,8 @@
 #### Part1 : Lexer (50%)
 #### Part2 : Parser (50%)
 #### Part3 : Execution (50%)
-#### Part4 : Built-in (0%)
-#### Part5 : Signal (0%)
+#### Part4 : Built-in (5%)
+#### Part5 : Signal (20%)
 #### Part6 : Bonus (0%)
 ## The Program start at main.c
 in main function will seperate into 4 Part.
@@ -41,8 +41,8 @@ in main function will seperate into 4 Part.
 6. env
 7. exit
 ### Additional Part
-1. Set Signal (0%)
-2. Set Envp (20%)
+1. Set Signal
+2. Set Envp
 ### Bonus Part
 1. Handle `&&` and `||` with parathesis for priorities.<br> 
 2. Wildcards `*` <br>

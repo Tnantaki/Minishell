@@ -1,7 +1,6 @@
 #include "minishell.h"
 
-//int	g_status;
-
+int	g_status;
 
 // int	prompt_get(t_msh *msh)
 // {
@@ -29,23 +28,35 @@ int	interpreter(char *cmd_line, t_msh *msh)
 	// debug_tokens(msh->tokens, "Expander");//debug
 	if (!parser(msh))
 		return (false);
-	debug_spcmd(msh->spcmd, msh->nb_cmd);
+	// debug_spcmd(msh->spcmd, msh->nb_cmd);
 	if (!executor(msh->spcmd, msh->nb_cmd, msh->nb_pipe))
 		return (false);
 	return (0);
 }
 
-int	main(int ac, char **av, char **sys_envp)
+int	main(int ac, char **av, char **envp)
 {
 	t_msh	msh;
-	(void)ac;
+	char	*line;
 	(void)av;
 
-	msh.env = ft_2d_strdup(sys_envp);
+	if (ac > 1)
+		return (printf("This program don't take any argument\n"), 1);
+	msh.env = ft_2d_strdup(envp);
 	set_env(msh.env);
+	// set_signal();
 	// prompt_get(&msh);
-	char	*cmd_line = "ls -la| echo \" Hello How \" | echo $$ $PWD|echo $HOME> infile.txt ";
-	interpreter(cmd_line, &msh);
-	exit(0);
+	// line = "ls -la| echo \" Hello How \" | echo $$ $PWD|echo $HOME> infile.txt ";
+	while (true)
+	{
+		line = readline("msh: ");
+		if (!line)// line is NULL because found EOF (Ctrl+D)
+			exit(0);
+		interpreter(line, &msh);
+		// add_history(line);
+		// rl_clear_history();
+	}
+	// free(line);
+	// exit(0);
 	return (0);
 }

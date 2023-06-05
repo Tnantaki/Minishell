@@ -41,6 +41,7 @@ bool	ft_isarithmatic(char *str);
 //## String ##
 //ft_strlen.c
 void	ft_putstr_fd(char *s, int fd);
+int		ft_strcmp(const char *s1, const char *s2);
 int		ft_strncmp(const char *s1, const char *s2, size_t n);
 size_t	ft_strlen(char *str);
 size_t	ft_2d_strlen(char **str);

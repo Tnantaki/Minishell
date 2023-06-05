@@ -9,6 +9,7 @@
 # include <sys/wait.h>
 # include <readline/history.h>
 # include <readline/readline.h>
+# include <signal.h>
 # include "msh_utils.h"
 
 # define HEREDOC ".here_doc"
@@ -31,6 +32,18 @@ typedef enum e_type_token
 	COMMAND,
 	ARGUMENT,
 }	t_type;
+
+typedef enum e_built_in
+{
+	NON,
+	ECHO,
+	CD,
+	PWD,
+	EXPORT,
+	UNSET,
+	ENV,
+	EXIT,
+}	t_buin;
 
 typedef struct s_input_output
 {
@@ -66,6 +79,7 @@ typedef struct s_pipex
 	int		nb_pipe;
 	int		status;
 	int		i;
+	t_buin	built;
 }	t_pipe;
 
 typedef struct s_minishell
@@ -91,6 +105,7 @@ typedef struct s_minishell
 // 	int		pipe;// pipe
 // }	t_spcmd;
 
+void	set_signal(void);
 //Part 1 : Lexer
 // bool	lexer(char *line, t_msh *msh);
 bool	valid_syntax(char *line);
@@ -110,6 +125,8 @@ bool	close_pipe(t_pipe *px);
 bool	open_infile(t_io *in, int nb_in, int *infd);
 bool	open_outfile(t_io *out, int nb_out, int *outfd);
 //Part 4 : Built-in
+t_buin	is_built_in(char *cmd);
+bool	built_exec(t_buin built, char **arg);
 
 //### Environment ###//
 char	**set_env(char **env);

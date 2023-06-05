@@ -10,7 +10,6 @@ PARSER_DIR	= parser/
 EXCUTE_DIR	= executor/
 BUILT_DIR	= built_in/
 UTILS_DIR	= utils/
-ENV_DIR		= environment/
 BONUS_DIR	=
 
 ### Compilation ###
@@ -41,22 +40,19 @@ PARSER_SRCS	= expander.c parser.c classify_token.c allocate_spcmd.c\
 
 EXCUTE_SRCS	= executor.c manage_files.c pipe_utils.c
 
-BUILT_SRCS	= 
+BUILT_SRCS	= built_in.c
 
 UTILS_SRCS	= ft_free.c ft_exit.c ft_is_char.c ft_is_deli_char.c\
 				ft_is_special_char.c ft_is_type_str.c ft_itoa.c\
 				ft_string.c len_lexer.c ft_strjoin.c ft_strjoinfree.c\
 				ft_split.c
 
-ENV_SRCS	= env.c
-
-MANDA_SRCS	= main.c checker.c\
+MANDA_SRCS	= main.c signal.c env.c checker.c\
 				$(addprefix $(UTILS_DIR), $(UTILS_SRCS))\
-				$(addprefix $(ENV_DIR), $(ENV_SRCS))\
 				$(addprefix $(LEXER_DIR), $(LEXER_SRCS))\
 				$(addprefix $(PARSER_DIR), $(PARSER_SRCS))\
-				$(addprefix $(EXCUTE_DIR), $(EXCUTE_SRCS))
-#				$(addprefix $(BUILT_DIR), $(BUILT_SRCS))
+				$(addprefix $(EXCUTE_DIR), $(EXCUTE_SRCS))\
+				$(addprefix $(BUILT_DIR), $(BUILT_SRCS))
 
 SRCS	=	$(addprefix $(MANDA_DIR), $(MANDA_SRCS))
 
