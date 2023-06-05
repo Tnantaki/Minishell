@@ -1,0 +1,11 @@
+How to move branch
+    git branch checkout [name]
+
+How to push to a specific branch
+    git push origin [name]
+
+How to create an new branch
+    git branch -c [name]
+
+Check the current working branch
+    git branch
