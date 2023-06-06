@@ -82,6 +82,12 @@ typedef struct s_pipex
 	t_buin	built;
 }	t_pipe;
 
+typedef struct s_buin_cmd
+{
+	char	*old_dir;
+	char	*cur_dir;
+}	t_buin_cmd;
+
 typedef struct s_minishell
 {
 	char	**tokens;
@@ -127,6 +133,7 @@ bool	open_outfile(t_io *out, int nb_out, int *outfd);
 //Part 4 : Built-in
 t_buin	is_built_in(char *cmd);
 bool	built_exec(t_buin built, char **arg);
+int		ft_cd(char **arg);
 
 //### Environment ###//
 char	**set_env(char **env);

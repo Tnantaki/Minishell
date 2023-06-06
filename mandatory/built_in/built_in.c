@@ -52,12 +52,16 @@ t_buin	is_built_in(char *cmd)
 bool	built_exec(t_buin built, char **arg)
 {
 	int	status;
+	char	**env;
 
 	status = 0;
 	if (built == ECHO)
 		status = ft_echo(arg);
 	else if (built == CD)
-		printf("this is cd\n");
+		status = ft_cd(arg);
 
+    env = get_env();
+    for (int i = 0; env[i]; i++)
+        printf("%s\n", env[i]);
 	exit(status);
 }
