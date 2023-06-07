@@ -52,7 +52,6 @@ t_buin	is_built_in(char *cmd)
 bool	built_exec(t_buin built, char **arg)
 {
 	int	status;
-	char	**env;
 
 	status = 0;
 	if (built == ECHO)
@@ -60,8 +59,5 @@ bool	built_exec(t_buin built, char **arg)
 	else if (built == CD)
 		status = ft_cd(arg);
 
-    env = get_env();
-    for (int i = 0; env[i]; i++)
-        printf("%s\n", env[i]);
 	exit(status);
 }

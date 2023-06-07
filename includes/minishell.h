@@ -3,6 +3,7 @@
 
 # include <stdbool.h>
 # include <unistd.h>
+# include <stdio.h>
 # include <stdlib.h>
 # include <fcntl.h>
 # include <errno.h>
@@ -84,8 +85,8 @@ typedef struct s_pipex
 
 typedef struct s_buin_cmd
 {
-	char	*old_dir;
 	char	*cur_dir;
+	char	*old_dir;
 }	t_buin_cmd;
 
 typedef struct s_minishell
@@ -104,7 +105,7 @@ typedef struct s_minishell
 // {
 // 	char	*cmd;// Command
 // 	char	**arg;// flag or argumeng
-// 	char	**in_file; 
+// 	char	**in_file;
 // 	char	**out_file;
 // 	int		rdrt; // redirections
 // 	// int				bg;// background
