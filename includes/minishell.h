@@ -87,6 +87,7 @@ typedef struct s_buin_cmd
 {
 	char	*cur_dir;
 	char	*old_dir;
+	char	*tmp;
 }	t_buin_cmd;
 
 typedef struct s_minishell
@@ -135,6 +136,8 @@ bool	open_outfile(t_io *out, int nb_out, int *outfd);
 t_buin	is_built_in(char *cmd);
 bool	built_exec(t_buin built, char **arg);
 int		ft_cd(char **arg);
+// 4.5 : Built-in (utils)
+char	*ft_substr(char *s, unsigned int start, size_t len);
 
 //### Environment ###//
 char	**set_env(char **env);

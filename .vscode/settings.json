@@ -3,7 +3,10 @@
         "stdlib.h": "c",
         "libft.h": "c",
         "minishell.h": "c",
-        "pipex.h": "c"
+        "pipex.h": "c",
+        "signal.h": "c",
+        "msh_utils.h": "c",
+        "stdint.h": "c"
     },
     "C_Cpp.errorSquiggles": "disabled"
 }
