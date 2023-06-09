@@ -6,7 +6,7 @@
 /*   By: prachman <prachman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 13:21:59 by prachman          #+#    #+#             */
-/*   Updated: 2023/06/09 13:07:52 by prachman         ###   ########.fr       */
+/*   Updated: 2023/06/09 13:10:43 by prachman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ int ft_echo(char **arg)
 		else
 			printf("%s", arg[i]);
 		i++;
-		if (arg[i])
+		if (arg[i]) //try "hello"world on the terminal
 			printf(" ");
 	}
 	if (!flag)

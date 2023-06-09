@@ -29,6 +29,8 @@ bool	built_exec(t_buin built, char **arg)
 		status = ft_echo(arg);
 	else if (built == CD)
 		status = ft_cd(arg);
+	else if (built == PWD)
+		status = ft_pwd();
 
 	exit(status);
 }
