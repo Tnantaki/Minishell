@@ -4,17 +4,15 @@ t_nb	count_struct_nb(t_type *type, int nb_tk, int *j)
 {
 	t_nb	nb;
 
-	nb = (t_nb){0, 0, 0, 0};
+	nb = (t_nb){0, 0, 0};
 	while (*j < nb_tk)
 	{
-		if (type[*j] == PIPE)
+		if (type[*j] == e_pipe)
 			return (nb.pipe++, (*j)++, nb);
-		if (type[*j] == ARGUMENT)
+		if (type[*j] == e_argument)
 			nb.arg++;
-		if (type[*j] == RDRT_IN)
-			nb.in++;
-		if (type[*j] == RDRT_OUT)
-			nb.out++;
+		if (type[*j] == e_rdrt)
+			nb.io++;
 		(*j)++;
 	}
 	return (nb);
@@ -40,19 +38,17 @@ bool	allocate_sub_spcmd(t_spcmd *spcmd, int nb_cmd, t_type *type, int nb_tk)
 	j = 0;
 	while (i < nb_cmd)
 	{
-		spcmd[i] = (t_spcmd){.cmd = NULL, .arg = NULL, .in = NULL, .out = NULL};
+		spcmd[i] = (t_spcmd){.arg = NULL, .io = NULL};
 		spcmd[i].nb = count_struct_nb(type, nb_tk, &j);
 		if (spcmd[i].nb.arg)
 		{
 			spcmd[i].arg = malloc(sizeof(char *) * (spcmd[i].nb.arg + 1));
 			spcmd[i].arg[spcmd[i].nb.arg] = NULL;
 		}
-		if (spcmd[i].nb.in)
-			spcmd[i].in = malloc(sizeof(t_io) * (spcmd[i].nb.in));
-		if (spcmd[i].nb.out)
-			spcmd[i].out = malloc(sizeof(t_io) * (spcmd[i].nb.out));
-		if ((spcmd[i].nb.arg && !(spcmd[i].arg)) || (spcmd[i].nb.in
-				&& !(spcmd[i].in)) || (spcmd[i].nb.out && !(spcmd[i].out)))
+		if (spcmd[i].nb.io)
+			spcmd[i].io = malloc(sizeof(t_io) * (spcmd[i].nb.io));
+		if ((spcmd[i].nb.arg && !(spcmd[i].arg))
+			|| (spcmd[i].nb.io && !(spcmd[i].io)))
 			return (perror("Error malloc"), false);
 		i++;
 	}

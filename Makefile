@@ -3,7 +3,6 @@ NAME	= minishell
 
 ### Directory ###
 LIBFT_DIR	= libft/
-GNL_DIR		= get_next_line/
 MANDA_DIR	= mandatory/
 LEXER_DIR	= lexer/
 PARSER_DIR	= parser/
@@ -26,28 +25,27 @@ FT_FLAGS	= -Llibft -lft
 UNAME = $(shell uname -s)
 ifeq ($(UNAME), Linux)
 	RL_HEAD 	= 
-	RL_FLAGS	= -lreadline
+	RL_FLAGS	= -lreadline -lcurses
 else
 	RL_HEAD 	= -I/usr/local/Cellar/readline/8.2.1/include
-	RL_FLAGS	= -L/usr/local/Cellar/readline/8.2.1/lib -lreadline
+	RL_FLAGS	= -L/usr/local/Cellar/readline/8.2.1/lib -lreadline -lcurses
 endif
 
 ### Source Files ###
-LEXER_SRCS	= ft_tokenization.c valid_syntax.c
+LEXER_SRCS	= tokenization.c valid_syntax.c classify_token.c valid_token.c
 
-PARSER_SRCS	= expander.c parser.c classify_token.c allocate_spcmd.c\
-				valid_tokens.c
+PARSER_SRCS	= expander.c allocate_spcmd.c parser.c
 
-EXCUTE_SRCS	= executor.c manage_files.c pipe_utils.c
+EXCUTE_SRCS	= executor.c redirection.c set_stdio.c cmd_execution.c
 
 BUILT_SRCS	= built_in.c cd.c echo.c pwd.c export.c buin_utils.c
 
-UTILS_SRCS	= ft_free.c ft_exit.c ft_is_char.c ft_is_deli_char.c\
-				ft_is_special_char.c ft_is_type_str.c ft_itoa.c\
-				ft_string.c len_lexer.c ft_strjoin.c ft_strjoinfree.c\
-				ft_split.c
+UTILS_SRCS	= ft_isspace.c ft_isquote.c ft_isspecial.c ft_isoptr.c ft_iscmd.c\
+				ft_isvar.c ft_2dstrlen.c ft_2dstrdup.c ft_strndup.c ft_strcmp.c\
+				ft_strjoinfree.c ft_free2dstr.c  ft_free2dnstr.c ft_strinsert.c\
+				len_lexer.c
 
-MANDA_SRCS	= main.c signal.c env.c checker.c\
+MANDA_SRCS	= main.c signal.c env.c debuger.c\
 				$(addprefix $(UTILS_DIR), $(UTILS_SRCS))\
 				$(addprefix $(LEXER_DIR), $(LEXER_SRCS))\
 				$(addprefix $(PARSER_DIR), $(PARSER_SRCS))\
@@ -61,12 +59,12 @@ OBJS	=	$(SRCS:.c=.o)
 
 ### Compilation Rule ###
 %.o:%.c
-	$(CC) $(CFLAGS) $(MAN_HEAD) $(RL_HEAD) -c $< -o $@
+	$(CC) $(CFLAGS) $(MAN_HEAD) $(RL_HEAD) $(FT_HEAD) -c $< -o $@
 
 all: $(NAME)
 
 $(NAME): $(OBJS)
-	$(CC) $(CFLAGS) $(OBJS) $(RL_FLAGS) -o $(NAME)
+	$(CC) $(CFLAGS) $(OBJS) $(RL_FLAGS) $(FT_FLAGS) -o $(NAME)
 #Don't Forget to delete
 #$(RM) $(OBJS)
 

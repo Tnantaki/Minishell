@@ -1,91 +1,74 @@
 #include "minishell.h"
 
-bool	join_path(t_spcmd *spcmd, char **path)
+bool	create_pid(t_pipe *px, int nb_cmd)
 {
-	int		i;
+	int	i;
+
+	px->pid = malloc(sizeof(int) * (nb_cmd));
+	if (!(px->pid))
+		return (perror("Error malloc"), false);
+	i = 0;
+	while (i < nb_cmd)
+		px->pid[i++] = 0;
+	return (true);
+}
+
+bool	create_pipe(t_pipe *px)
+{
+	if (pipe(px->pipefd) == -1)
+		return (perror("Error Pipe"), false);
+	px->outfd = px->pipefd[1];
+	return (true);
+}
+
+bool	wait_process(int *pid, int nb_cmd, int *status)
+{
+	int	i;
 
 	i = 0;
-	if (access(spcmd->arg[0], F_OK) == 0)
-		return (spcmd->cmd = ft_strdup(spcmd->arg[0]), true);
-	if (spcmd->arg[0][0] == '/' && access(spcmd->arg[0], F_OK) != 0)
-		return (perror(spcmd->arg[0]), false);
-	while (path[i])
+	while (i < nb_cmd)
 	{
-		spcmd->cmd = ft_strjoin(path[i], spcmd->arg[0]);
-		if (access(spcmd->cmd, F_OK) == 0)
-			return (true);
-		free (spcmd->cmd);
+		if (pid[i] != 0)
+			waitpid(pid[i], status, 0);
 		i++;
 	}
-	// ft_double_free(cmd);
-	// ft_double_free(path);
-	// ft_prterr(COM_ERR, pathname, 127);
+	free(pid);
 	return (true);
 }
 
-bool	redirection(t_spcmd spcmd, t_pipe px, int i)
+bool	spcmd_execution(t_spcmd spcmd, t_pipe *px)
 {
-	if (spcmd.nb.in)
-		dup2(px.infd, STDIN_FILENO);
-	else if (spcmd.nb.pipe)
-		dup2(px.pipefd[(i - 1) * 2], STDIN_FILENO);
-	if (spcmd.nb.out)
-		dup2(px.outfd, STDOUT_FILENO);
-	else if (i < px.nb_pipe)
-		dup2(px.pipefd[(i * 2) + 1], STDOUT_FILENO);
+	if (spcmd.nb.pipe && !create_pipe(px))
+		return (false);
+	if (!redirection(spcmd.io, spcmd.nb.io ,px))
+		return (false);
+	if (is_built_in(spcmd.arg[0], &px->buin))
+		return (buin_execution(px->buin, spcmd.arg), true);
+	if (!cmd_execution(spcmd.arg, px))
+		return (false);
 	return (true);
 }
 
-bool	fork_child(t_spcmd spcmd, t_pipe *px)
-{
-	px->pid[px->i] = fork();
-	if (px->pid[px->i] == -1)
-		return (perror("Fork Fail"), false);
-	if (px->pid[px->i] == 0)
-	{
-		free(px->pid);
-		// px->cmd_i = px->i + 2 + px->here_doc;
-		if (spcmd.nb.in)
-			open_infile(spcmd.in, spcmd.nb.in, &(px->infd));
-		if (spcmd.nb.out)
-			open_outfile(spcmd.out, spcmd.nb.out, &(px->outfd));
-		redirection(spcmd, *px, px->i);
-		close_pipe(px);
-		px->built = is_built_in(spcmd.arg[0]);
-		if (px->built != NON) //if it's built-in
-			built_exec(px->built, spcmd.arg); // exit after execution
-		if (spcmd.nb.arg) //other cmd that are not built-in
-			join_path(&spcmd, px->path);
-		if (execve(spcmd.cmd, spcmd.arg, px->env) == -1)
-			exit(errno);
-	}
-	return (true);
-}
-
-bool	executor(t_spcmd *spcmd, int nb_cmd, int nb_pipe)
+bool	executor(t_spcmd *spcmd, int nb_cmd)
 {
 	t_pipe	px;
 
-	px.nb_pipe = nb_pipe;
-	px.env = get_env();
-	if (!findpath(&px))
+	if (!create_pid(&px, nb_cmd))
 		return (false);
-	if (!create_pipe(&px, nb_cmd))
-		return (false);
+	save_stdio(&px);
 	px.i = 0;
-	// printf("nb_cmd:%d\n", nb_cmd);//debug
 	while (px.i < nb_cmd)
 	{
-		if (!fork_child(spcmd[px.i], &px))
-			return (false);
+		px.infd = 0;
+		px.outfd = 0;
+		if (px.i != 0 && spcmd[px.i - 1].nb.pipe)
+			px.infd = px.pipefd[0];
+		spcmd_execution(spcmd[px.i], &px);
+		restore_stdio(&px);
 		px.i++;
 	}
-	// printf("px.i:%d\n", px.i);//debug
-	px.i = 0;
-	close_pipe(&px);
-	while (px.i < nb_cmd)
-		waitpid(px.pid[px.i++], &px.status, 0);
-	free(px.pid);
+	close_stdio(&px);
+	wait_process(px.pid, nb_cmd, &g_status);
 	if (open(HEREDOC, O_RDONLY) != -1)
 		unlink(HEREDOC);
 	// return (WEXITSTATUS(px.status));

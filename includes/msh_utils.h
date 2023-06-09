@@ -6,14 +6,15 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <stdio.h>
+# include "libft.h"
 
-# define EXIT_SYNTAX_ERROR 258
-# define EXIT_CMD_NOT_FOUND 127
-# define EXIT_CTRL_D 130
+// # define EXIT_SYNTAX_ERROR 258
+// # define EXIT_CMD_NOT_FOUND 127
+// # define EXIT_CTRL_D 130
 
 //free
-char	**ft_free2d_str(char **ptr);
-char	**ft_free2d_nstr(char **ptr, int i);
+char	**ft_free2dstr(char **ptr);
+char	**ft_free2dnstr(char **ptr, int i);
 //len lexer
 int		ft_1quote_len(char *str);
 int		ft_2quote_len(char *str);
@@ -21,42 +22,19 @@ int		ft_optr_len(char *str);
 int		ft_cmd_len(char *str);
 int		ft_var_len(char *line);
 //is character
-bool	ft_isalpha(int c);
-bool	ft_isdigit(int c);
-bool	ft_isalnum(int c);
-//is delimeter character
 bool	ft_isspace(int c);
 bool	ft_isquote(int c);
-//is special character
-bool	ft_isenvar(int c);
-bool	ft_ispid(int c);
-bool	ft_iscmdsub(int c);
-bool	ft_isvarsub(int c);
+bool	ft_isspecial(int c);
 bool	ft_isoptr(int c);
 //is type string
 bool	ft_iscmd(int c);
 bool	ft_isvar(int c);
-bool	ft_isarithmatic(char *str);
-//is paser
-//## String ##
-//ft_strlen.c
-void	ft_putstr_fd(char *s, int fd);
+//string
 int		ft_strcmp(const char *s1, const char *s2);
-int		ft_strncmp(const char *s1, const char *s2, size_t n);
-size_t	ft_strlen(char *str);
-size_t	ft_2d_strlen(char **str);
-// malloc
-char	*ft_strdup(char *str);
+size_t	ft_2dstrlen(char **str);
 char	*ft_strndup(char *str, size_t n);
-char	**ft_2d_strdup(char **str);
-int		ft_atoi(const char *str);
-void	*ft_calloc(size_t count, size_t size);
-char	*ft_itoa(int n);
-char	*ft_strjoin(char *s1, char *s2);
+char	**ft_2dstrdup(char **str);
 char	*ft_strjoinfree(char *s1, char *s2);
-char	**ft_split(char *s, char c);
-//exit
-int	ft_err_lex(int errnum);
-void	ft_err_par(int errnum);
+char	*ft_strinsert(char *str, int len_var, int i_var, char *value);
 
 #endif

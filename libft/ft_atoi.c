@@ -40,36 +40,3 @@ int	ft_atoi(const char *str)
 	}
 	return (nb * negative);
 }
-/*
-int	main(void)
-{
-	char INTmax[40] = "2147483647";
-	char INTmin[40] = "-2147483648";
-	char oINTmax[40] = "2147483648";
-	char oINTmin[40] = "-21474836493";
-	// printf("test:%ld\n", 2147483650 % 2147483648);
-	// printf("atoi\t: %d\n",atoi("   123982p322"));
-	// printf("ft_atoi\t: %d\n",ft_atoi("   123982p322"));
-	// printf("atoi\t: %d\n",atoi("   +12389 2309"));
-	// printf("ft_atoi\t: %d\n",ft_atoi("   +12389 2309"));
-	// printf("-----------------\n");
-	// printf("atoi Max\t: %d\n",atoi(INTmax));
-	// printf("atoi Min\t: %d\n",atoi(INTmin));
-	// printf("atoi oMax\t: %d\n",atoi(oINTmax));
-	// printf("atoi oMin\t: %d\n",atoi(oINTmin));
-	// printf("-----------------\n");
-	// printf("atoi Max\t: %d\n",ft_atoi(INTmax));
-	// printf("atoi Min\t: %d\n",ft_atoi(INTmin));
-	// printf("atoi oMax\t: %d\n",ft_atoi(oINTmax));
-	// printf("atoi oMin\t: %d\n",ft_atoi(oINTmin));
-	// printf("-----------------\n");
-	char n[40];
-	sprintf(n, "%lu", -2147483648);
-	char n1[40] = "99999999999999999999999999";
-	char n2[40] = "-9999999999999999999";
-	printf("atoi\t: %d\n",atoi(n1));// + = -1;
-	printf("ft_atoi\t: %d\n",ft_atoi(n1));
-	printf("atoi\t: %d\n",atoi(n2));// - = 0;
-	printf("ft_atoi\t: %d\n",ft_atoi(n2));
-	printf("atoi\t: %d\n",atoi("jfef"));// - = 0;
-}*/

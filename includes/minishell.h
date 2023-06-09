@@ -11,39 +11,42 @@
 # include <readline/history.h>
 # include <readline/readline.h>
 # include <signal.h>
+# include <sys/ioctl.h>
+# include <termios.h>
 # include "msh_utils.h"
 
+// # define D_PROMPT "\e[0;32m\e[1mmsh: \e[0m"
 # define HEREDOC ".here_doc"
+
+extern int g_status;
 
 typedef enum e_type_rdrt
 {
-	input,
-	output,
-	heredoc,
-	append,
+	e_input,
+	e_heredoc,
+	e_output,
+	e_append,
 }	t_rdrt;
 
 typedef enum e_type_token
 {
-	VOID = -1,
-	RDRT_IN,
-	RDRT_OUT,
-	PIPE,
-	FILENAME,
-	COMMAND,
-	ARGUMENT,
+	e_void,
+	e_rdrt,
+	e_pipe,
+	e_filename,
+	e_argument,
 }	t_type;
 
 typedef enum e_built_in // intager: order from 0 onward
 {
-	NON,
-	ECHO,
-	CD,
-	PWD,
-	EXPORT,
-	UNSET,
-	ENV,
-	EXIT,
+	e_non,
+	e_echo,
+	e_cd,
+	e_pwd,
+	e_export,
+	e_unset,
+	e_env,
+	e_exit,
 }	t_buin;
 
 typedef struct s_input_output
@@ -55,32 +58,27 @@ typedef struct s_input_output
 typedef struct s_number_struct
 {
 	int	arg;
-	int	in;
-	int	out;
+	int	io;
 	int	pipe;
 }	t_nb;
 
 typedef struct s_spcmd
 {
-	char	*cmd;
 	char	**arg;
-	t_io	*in;
-	t_io	*out;
+	t_io	*io;
 	t_nb	nb;
 }	t_spcmd;
 
 typedef struct s_pipex
 {
-	char	**env;
-	char	**path;
-	int		*pipefd;
+	int		pipefd[2];
 	int		*pid;
 	int		infd;
 	int		outfd;
-	int		nb_pipe;
-	int		status;
 	int		i;
-	t_buin	built;
+	int		stdin;
+	int		stdout;
+	t_buin	buin;
 }	t_pipe;
 
 typedef struct s_buin_cmd
@@ -113,25 +111,31 @@ typedef struct s_minishell
 // 	int		pipe;// pipe
 // }	t_spcmd;
 
-void	set_signal(void);
+//Signal
+bool	set_signal(void);
+bool	set_termios(struct termios *term);
+bool	restore_termios(struct termios *term);
+//Debuger
+int		debug_tokens(char **str, char *title);
+int		debug_type(t_type *type, int nb_tk, char *title);
+int		debug_spcmd(t_spcmd *spcmd, int nb_cmd);
 //Part 1 : Lexer
-// bool	lexer(char *line, t_msh *msh);
 bool	valid_syntax(char *line);
 bool	tokenization(char *line, t_msh *msh);
-//Part 2 : Paser
-bool	expander(char **tokens);
 bool	classify_token(t_msh *msh);
 bool	valid_tokens(char **token, int nb_tk, t_type *type);
-bool	parser(t_msh *msh);
+//Part 2 : Paser
+bool	expander(char **tokens);
 bool	allocate_spcmd(t_msh *msh, int	nb_cmd);
 bool	allocate_sub_spcmd(t_spcmd *spcmd, int nb_cmd, t_type *type, int nb_tk);
+bool	parser(t_msh *msh);
 //Part 3 : Executor
-bool	executor(t_spcmd *spcmd, int nb_cmd, int nb_pipe);
-bool	findpath(t_pipe *px);
-bool	create_pipe(t_pipe *px, int nb_cmd);
-bool	close_pipe(t_pipe *px);
-bool	open_infile(t_io *in, int nb_in, int *infd);
-bool	open_outfile(t_io *out, int nb_out, int *outfd);
+bool	executor(t_spcmd *spcmd, int nb_cmd);
+bool	redirection(t_io *io, int nb_io, t_pipe *px);
+bool	cmd_execution(char **arg, t_pipe *px);
+bool	save_stdio(t_pipe *px);
+bool	restore_stdio(t_pipe *px);
+bool	close_stdio(t_pipe *px);
 //Part 4 : Built-in
 t_buin	is_built_in(char *cmd);
 bool	built_exec(t_buin built, char **arg);
@@ -145,11 +149,5 @@ char	*ft_substr(char *s, unsigned int start, size_t len);
 //### Environment ###//
 char	**set_env(char **env);
 char	**get_env(void);
-
-
-//Debug
-int		debug_tokens(char **str, char *title);
-int		debug_type(t_type *type, int ct, char *title);
-int		debug_spcmd(t_spcmd *spcmd, int nb_cmd);
 
 #endif

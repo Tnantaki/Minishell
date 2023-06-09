@@ -1,38 +1,34 @@
 #include "minishell.h"
 
-t_buin	is_built_in(char *cmd)
+bool	is_built_in(char *cmd, t_buin *buin)
 {
 	if (ft_strcmp(cmd, "echo") == 0)
-		return (ECHO);
+		return (*buin = e_echo, true);
 	else if (ft_strcmp(cmd, "cd") == 0)
-		return (CD);
+		return (*buin = e_cd, true);
 	else if (ft_strcmp(cmd, "pwd") == 0)
-		return (PWD);
+		return (*buin = e_pwd, true);
 	else if (ft_strcmp(cmd, "export") == 0)
-		return (EXPORT);
+		return (*buin = e_export, true);
 	else if (ft_strcmp(cmd, "unset") == 0)
-		return (UNSET);
+		return (*buin = e_unset, true);
 	else if (ft_strcmp(cmd, "env") == 0)
-		return (ENV);
+		return (*buin = e_env, true);
 	else if (ft_strcmp(cmd, "exit") == 0)
-		return (EXIT);
+		return (*buin = e_exit, true);
 	else
-		return (NON);
+		return (false);
 }
 
-bool	built_exec(t_buin built, char **arg)
+bool	buin_execution(t_buin buin, char **arg)
 {
-	int	status;
-
-	status = 0;
-	if (built == ECHO)
-		status = ft_echo(arg);
-	else if (built == CD)
-		status = ft_cd(arg);
-	else if (built == PWD)
-		status = ft_pwd();
+	if (buin == e_echo)
+		g_status = ft_echo(arg);
+	else if (buin == e_cd)
+		g_status = ft_cd(arg);
+	else if (buin == e_pwd)
+		g_status = ft_pwd();
 	// else if (built == EXPORT)
 	// 	status = ft_export();
-
-	exit(status);
+	return (true);
 }
