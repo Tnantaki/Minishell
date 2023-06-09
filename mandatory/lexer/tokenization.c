@@ -1,5 +1,7 @@
 #include "minishell.h"
 
+// ### tokenization ###
+// split command line into token
 // Token : be separate by 
 // - White-space
 // - Redirection

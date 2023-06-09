@@ -12,8 +12,10 @@
 void	sigint_handler(int signum)
 {
 	(void)signum;
+	g_status = 130;
 	write(1, "\n", 1);
 	rl_on_new_line();
+	rl_replace_line("", 0);
 	rl_redisplay();
 }
 
@@ -35,6 +37,7 @@ bool	set_termios(struct termios *term)
 {
 	struct termios myterm;
 
+	g_status = 0;
 	if (ioctl(STDIN_FILENO, TCGETS, term) == -1)
 		return (perror("Error ioctl\n"), false);
 	if (tcgetattr(STDIN_FILENO, &myterm) == -1)

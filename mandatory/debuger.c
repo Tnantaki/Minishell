@@ -35,9 +35,9 @@ int	debug_spcmd(t_spcmd *spcmd, int nb_cmd)
 	{
 		printf("arg:%d, io:%d, pipe:%d\n",
 			spcmd[i].nb.arg, spcmd[i].nb.io, spcmd[i].nb.pipe);
-		printf("arg");
+		printf("arg: ");
 		for (int j = 0; spcmd[i].arg[j]; j++)
-			printf("[%d]: %s, ", j + 1, spcmd[i].arg[j]);
+			printf("%s, ", spcmd[i].arg[j]);
 		printf("\n");
 		// for (int j = 0; j < spcmd[i].nb_in; j++)
 		// 	printf("[%d]: %s, ", j + 1, spcmd[i].arg[j]);

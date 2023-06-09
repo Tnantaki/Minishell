@@ -1,16 +1,7 @@
 #include "minishell.h"
 
-/*Parsing will interpret the tokens by tokens and Cut to
-Simple command if it found Output Redirections
-There are 3 Output Redirection
-1. >  : Output
-2. >> : Append Output
-3. |  : Pipe */
-
-// is_cmd
-// is_rdrt
-// is_pipe
-// is_arg
+// Parsing will interpret the tokens by tokens and Cut to
+// Simple command if it found Pipe
 
 t_rdrt	what_rdrt(char *token)
 {
@@ -73,11 +64,8 @@ bool	parser(t_msh *msh)
 {
 	if (!allocate_spcmd(msh, msh->nb_cmd))
 		return (false);
-	// printf("Satu99\n");
-	// printf("nb_cmd:%d\n", msh->nb_cmd);
 	if (!allocate_sub_spcmd(msh->spcmd, msh->nb_cmd, msh->tk_type, msh->nb_tk))
 		return (false);
-	// printf("Satu99\n");
 	if (!parsing(msh))
 		return (false);
 	return (true);

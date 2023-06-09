@@ -1,5 +1,13 @@
 #include "minishell.h"
 
+// ### classify_token ###
+// Will tag type to token
+// type will classify by :
+// - redirection
+// - pipe
+// - filename
+// - argument
+
 t_type	token_type(char *token, t_type pre_type)
 {
 	if (*token == '<' || *token == '>')

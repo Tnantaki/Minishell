@@ -1,10 +1,10 @@
 # Mimishell
 ## Progress of this project
-#### Part1 : Lexer (50%)
-#### Part2 : Parser (50%)
-#### Part3 : Execution (50%)
-#### Part4 : Built-in (5%)
-#### Part5 : Signal (20%)
+#### Part1 : Lexer (70%)
+#### Part2 : Parser (70%)
+#### Part3 : Execution (70%)
+#### Part4 : Built-in (10%)
+#### Part5 : Signal (80%)
 #### Part6 : Bonus (0%)
 ## The Program start at main.c
 in main function will seperate into 4 Part.

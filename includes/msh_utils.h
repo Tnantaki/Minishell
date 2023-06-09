@@ -24,20 +24,17 @@ int		ft_var_len(char *line);
 //is character
 bool	ft_isspace(int c);
 bool	ft_isquote(int c);
-bool	ft_isenvar(int c);
+bool	ft_isspecial(int c);
 bool	ft_isoptr(int c);
 //is type string
 bool	ft_iscmd(int c);
 bool	ft_isvar(int c);
-// bool	ft_isarithmatic(char *str);
-//## String ##
+//string
 int		ft_strcmp(const char *s1, const char *s2);
 size_t	ft_2dstrlen(char **str);
 char	*ft_strndup(char *str, size_t n);
 char	**ft_2dstrdup(char **str);
 char	*ft_strjoinfree(char *s1, char *s2);
-// //exit
-// int	ft_err_lex(int errnum);
-// void	ft_err_par(int errnum);
+char	*ft_strinsert(char *str, int len_var, int i_var, char *value);
 
 #endif

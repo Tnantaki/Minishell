@@ -3,7 +3,6 @@ NAME	= minishell
 
 ### Directory ###
 LIBFT_DIR	= libft/
-GNL_DIR		= get_next_line/
 MANDA_DIR	= mandatory/
 LEXER_DIR	= lexer/
 PARSER_DIR	= parser/
@@ -41,9 +40,9 @@ EXCUTE_SRCS	= executor.c redirection.c set_stdio.c cmd_execution.c
 
 BUILT_SRCS	= built_in.c
 
-UTILS_SRCS	= ft_isspace.c ft_isquote.c ft_isenvar.c ft_isoptr.c ft_iscmd.c ft_isvar.c\
-				ft_2dstrlen.c ft_2dstrdup.c ft_strndup.c ft_strcmp.c\
-				ft_strjoinfree.c ft_free2dstr.c  ft_free2dnstr.c\
+UTILS_SRCS	= ft_isspace.c ft_isquote.c ft_isspecial.c ft_isoptr.c ft_iscmd.c\
+				ft_isvar.c ft_2dstrlen.c ft_2dstrdup.c ft_strndup.c ft_strcmp.c\
+				ft_strjoinfree.c ft_free2dstr.c  ft_free2dnstr.c ft_strinsert.c\
 				len_lexer.c
 
 MANDA_SRCS	= main.c signal.c env.c debuger.c\

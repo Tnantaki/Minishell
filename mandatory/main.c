@@ -36,13 +36,12 @@ int	main(int ac, char **av, char **envp)
 		return (printf("This program don't take any argument\n"), 1);
 	msh.env = ft_2dstrdup(envp);
 	set_env(msh.env);
-	// set_signal();
+	set_signal();
 	set_termios(&term);
 	// line = "ls -la| echo " Hello How " | echo $$ $PWD|echo $HOME> infile.txt ";
 	while (true)
 	{
-		g_status = 0;
-		line = readline(PROMPT);
+		line = readline("msh :");
 		if (!line)// line is NULL because found EOF (Ctrl+D)
 			break ;
 		interpreter(line, &msh);

@@ -14,7 +14,7 @@
 # include <termios.h>
 # include "msh_utils.h"
 
-# define PROMPT "\e[0;32m\e[1mmsh: \e[0m"
+// # define D_PROMPT "\e[0;32m\e[1mmsh: \e[0m"
 # define HEREDOC ".here_doc"
 
 extern int g_status;

@@ -24,11 +24,11 @@ static int	ft_dollarlen(char *str)
 	i = 1;
 	if (!str[i])
 		return (1);
-	else if (str[i] == '$')// pid = $$
+	else if (str[i] == '?')// statuc code = $?
 		i += 1;
 	else if (ft_isdigit(str[i]))// position argument = $1-9
 		i += 1;
-	else if (ft_isenvar(str[i]))//$?, $#, $@, $-, $!, $*
+	else if (ft_isspecial(str[i]))//$$, $#, $@, $-, $!, $*
 		i += 1;
 	else if (ft_isvar(str[i]))// _, 1-9, a-z, A-Z
 		i += ft_var_len(&str[i]);
@@ -41,32 +41,32 @@ static int	ft_dollarlen(char *str)
 	return (i);
 }
 
-static int	in_double_quote(char *str)
-{
-	int	i;
-	int	len;
+// static int	in_double_quote(char *str)
+// {
+// 	int	i;
+// 	int	len;
 
-	i = 1;
-	while (str[i])
-	{
-		while (str[i] && ft_isspace(str[i]))
-			i++;
-		if (str[i] == '"')
-			return (i + 1);
-		// else if (str[i] == '`')
-		// 	return (ft_err_syn(7));
-		else if (str[i] == '$')
-		{
-			len = ft_dollarlen(str);
-			if (!len)
-				return (false);
-			i += len;
-		}
-		else
-			i++;
-	}
-	return (0);
-}
+// 	i = 1;
+// 	while (str[i])
+// 	{
+// 		while (str[i] && ft_isspace(str[i]))
+// 			i++;
+// 		if (str[i] == '"')
+// 			return (i + 1);
+// 		// else if (str[i] == '`')
+// 		// 	return (ft_err_syn(7));
+// 		else if (str[i] == '$')
+// 		{
+// 			len = ft_dollarlen(str);
+// 			if (!len)
+// 				return (false);
+// 			i += len;
+// 		}
+// 		else
+// 			i++;
+// 	}
+// 	return (0);
+// }
 
 static int	is_unclosed_quote(char *str)
 {
@@ -81,7 +81,8 @@ static int	is_unclosed_quote(char *str)
 	}
 	else
 	{
-		len = in_double_quote(str);
+		// len = in_double_quote(str);
+		len = ft_2quote_len(str);
 		if (!len)
 			return (err_syn(2));
 	}
