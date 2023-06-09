@@ -1,5 +1,22 @@
 #include "minishell.h"
 
+int	err_syn(int errnum)
+{
+	if (errnum == 1)
+		printf("msh: syntax error unclosed single quote `\''\n");
+	else if (errnum == 2)
+		printf("msh: syntax error unclosed double quote `\"'\n");
+	else if (errnum == 3)
+		printf("msh: Not interpret Parenthesis `()'\n");
+	// else if (errnum == 6)
+	// 	printf("msh: Not interpret Variable substitution `${}'\n");
+	// else if (errnum == 7)
+	// 	printf("msh: Not interpret Command substitution ``' or `$()'\n");
+	// else if (errnum == 8)
+	// 	printf("msh: Not interpret Arithmetic expansion `$[]' or `$(())'\n");
+	return (0);
+}
+
 static int	ft_dollarlen(char *str)
 {
 	int	i;
@@ -7,7 +24,7 @@ static int	ft_dollarlen(char *str)
 	i = 1;
 	if (!str[i])
 		return (1);
-	else if (ft_ispid(str[i]))// pid = $$
+	else if (str[i] == '$')// pid = $$
 		i += 1;
 	else if (ft_isdigit(str[i]))// position argument = $1-9
 		i += 1;
@@ -15,12 +32,12 @@ static int	ft_dollarlen(char *str)
 		i += 1;
 	else if (ft_isvar(str[i]))// _, 1-9, a-z, A-Z
 		i += ft_var_len(&str[i]);
-	else if (ft_isvarsub(str[i]))//${}
-		return (ft_err_lex(6));
-	else if (ft_iscmdsub(str[i]))// `, $()
-		return (ft_err_lex(7));
-	else if (ft_isarithmatic(&str[i]))// $[], $(())
-		return (ft_err_lex(8));
+	// else if (str[i] == '{')//${} : varsub
+	// 	return (err_syn(6));
+	// else if (str[i] == '(')// `, $() : cmdsub
+	// 	return (err_syn(7));
+	// else if (ft_isarithmatic(&str[i]))// $[], $(())
+	// 	return (err_syn(8));
 	return (i);
 }
 
@@ -36,8 +53,8 @@ static int	in_double_quote(char *str)
 			i++;
 		if (str[i] == '"')
 			return (i + 1);
-		else if (str[i] == '`')
-			return (ft_err_lex(7));
+		// else if (str[i] == '`')
+		// 	return (ft_err_syn(7));
 		else if (str[i] == '$')
 		{
 			len = ft_dollarlen(str);
@@ -60,13 +77,13 @@ static int	is_unclosed_quote(char *str)
 	{
 		len = ft_1quote_len(str);
 		if (!len)
-			return (ft_err_lex(1));
+			return (err_syn(1));
 	}
 	else
 	{
 		len = in_double_quote(str);
 		if (!len)
-			return (ft_err_lex(2));
+			return (err_syn(2));
 	}
 	return (len);
 }
@@ -83,7 +100,7 @@ bool	valid_syntax(char *line)
 		if (!(*line))
 			break ;
 		else if (*line == '(' || *line == ')')
-			return (ft_err_lex(9));
+			return (err_syn(3));
 		else if (ft_isquote(*line))
 			len = is_unclosed_quote(line);
 		else if (ft_isoptr(*line))

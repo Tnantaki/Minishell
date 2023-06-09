@@ -29,14 +29,3 @@ char	*ft_strdup(const char *s1)
 	dst[i] = '\0';
 	return (dst);
 }
-/*
-int	main(void)
-{
-	char *str1 = "Hello";
-	char *str2 = "Hello";
-	
-	write(1, strdup(str1), strlen(str1) + 1);
-	write(1, "\n", 1);
-	write(1, ft_strdup(str2), strlen(str1) + 1);
-	write(1, "\n", 1);
-}*/

@@ -1,24 +1,5 @@
 #include "minishell.h"
 
-// int	ft_quote_len(char *str)
-// {
-// 	int	i;
-
-// 	i = 0;
-// 	if (str[i++] == '\'')
-// 	{
-// 		while (str[i] && str[i] != '\'')
-// 			i++;
-// 		return (i + 1);
-// 	}
-// 	else
-// 	{
-// 		while (str[i] && str[i] != '\"')
-// 			i++;
-// 		return (i + 1);
-// 	}
-// 	return (0);
-// }
 int	ft_1quote_len(char *str)
 {
 	int	i;

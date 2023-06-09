@@ -13,23 +13,24 @@ in main function will seperate into 4 Part.
 - `(` Check there are unclosed parenthesis. <br>
 - `'` `"` Check there are unclosed quotes. <br>
 2. tokenization : will seperate the command line into tokens.
-### Part 2 : Parser
-1. Valid Token :
-- Never have `|` or `||` near tokens. <br>
-2. Variable Expansion : `$` will searching the variable in envp and get the value from it. <br>
 3. classify_token : will classify the type of tokens
 - Command.
 - Argument.
 - Redirection
 - Filename
 - Pipe
-4. Parser : will arrange the token into simple command struct.
+4. Valid Token :
+- Never have `|` or `||` near tokens. <br>
+### Part 2 : Parser
+1. Variable Expansion : `$` will searching the variable in envp and get the value from it. <br>
+2. Parser : will arrange the token into simple command struct.
 - Don't have to handle Command Substitution : `$()` The Shell will fork child and execute the command Substitution first and store the value in struct simple command. <br>
 ### Part 3 : Execution
-1. Redirections : The Shell will interpret input/output redirections and using function dup2 to redirect
-2. Executor : The Shell create new process and execute the command
-3. Exit Status : Once command has completed, Shell record exit status
-4. Cleanup :
+1. Redirections : The Shell will interpret input/output redirections and using function dup2 to redirect.
+2. Pipe Creation : Create pipe and redirect.
+3. Executor : The Shell create new process by forking and execute the command.
+4. Exit Status : Once command has completed, Shell record exit status.
+5. Cleanup :
 - Closing all file descriptors
 - Free all memory
 ### Part 4 : Built-in

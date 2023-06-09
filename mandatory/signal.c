@@ -1,19 +1,23 @@
 #include "minishell.h"
 
+// ### set_signal ###
 // There are 2 signal You have to handle
 // 1. Ctrl+C (Interrupt signal) : Display new prompt on new line.
 // 2. Ctrl+/ (Quit signal) : does nothing, So I sent sig ignore to it.
+// ### set_termios ###
+// 1. get the old terminal control for restore
+// 2. get the new terminal control for using in this program
+// 3. set the new terminal control by disable echoctl for not display ^C
 
 void	sigint_handler(int signum)
 {
-	if (signum == SIGINT)
-	{
-		write(1, "\n", 1);
-		rl_on_new_line();
-	}
+	(void)signum;
+	write(1, "\n", 1);
+	rl_on_new_line();
+	rl_redisplay();
 }
 
-void	set_signal(void)
+bool	set_signal(void)
 {
 	struct sigaction	sigint;
 	struct sigaction	sigquit;
@@ -24,15 +28,26 @@ void	set_signal(void)
 	sigquit.sa_handler = SIG_IGN;
 	sigaction(SIGINT, &sigint, NULL);
 	sigaction(SIGQUIT, &sigquit, NULL);
+	return (true);
 }
 
-// int main()
-// {
-// 	set_signal();
-// 	printf("pid :%d\n", getpid());
-// 	while (1)
-// 	{
-// 		sleep(1);
-// 	}
-// 	return (0);
-// }
+bool	set_termios(struct termios *term)
+{
+	struct termios myterm;
+
+	if (ioctl(STDIN_FILENO, TCGETS, term) == -1)
+		return (perror("Error ioctl\n"), false);
+	if (tcgetattr(STDIN_FILENO, &myterm) == -1)
+		return (perror("Error tcgetattr\n"), false);
+	myterm.c_lflag &= ~ECHOCTL;
+	if (tcsetattr(STDIN_FILENO, TCSAFLUSH, &myterm) == -1)
+		return (perror("Error tcsetattr\n"), false);
+	return (true);
+}
+
+bool	restore_termios(struct termios *term)
+{
+	if (ioctl(STDIN_FILENO, TCSETS, term) == -1)
+		return (perror("Error ioctl\n"), false);
+	return (true);
+}

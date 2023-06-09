@@ -1,4 +1,4 @@
-#include "minishell.h"
+#include "msh_utils.h"
 
 char	*ft_strjoinfree(char *s1, char *s2)
 {
