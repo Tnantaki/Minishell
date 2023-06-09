@@ -137,8 +137,8 @@ bool	save_stdio(t_pipe *px);
 bool	restore_stdio(t_pipe *px);
 bool	close_stdio(t_pipe *px);
 //Part 4 : Built-in
-t_buin	is_built_in(char *cmd);
-bool	built_exec(t_buin built, char **arg);
+bool	is_built_in(char *cmd, t_buin *buin);
+bool	buin_execution(t_buin built, char **arg);
 int		ft_cd(char **arg);
 int 	ft_echo(char **arg);
 int 	ft_pwd(void);

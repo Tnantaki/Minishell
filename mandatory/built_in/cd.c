@@ -50,7 +50,7 @@ int	ft_cd(char **arg)
 	char		**env;
 	t_buin_cmd	buin;
 
-    // buin.old_dir = NULL;
+    buin.old_dir = NULL;
 	// if (ft_strcmp(arg[1], "-") == 0) 
     // {
     // }
