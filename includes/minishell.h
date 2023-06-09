@@ -138,6 +138,7 @@ bool	built_exec(t_buin built, char **arg);
 int		ft_cd(char **arg);
 int 	ft_echo(char **arg);
 int 	ft_pwd(void);
+int		ft_export(void);
 // 4.5 : Built-in (utils)
 char	*ft_substr(char *s, unsigned int start, size_t len);
 

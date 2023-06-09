@@ -31,6 +31,8 @@ bool	built_exec(t_buin built, char **arg)
 		status = ft_cd(arg);
 	else if (built == PWD)
 		status = ft_pwd();
+	// else if (built == EXPORT)
+	// 	status = ft_export();
 
 	exit(status);
 }

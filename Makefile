@@ -40,7 +40,7 @@ PARSER_SRCS	= expander.c parser.c classify_token.c allocate_spcmd.c\
 
 EXCUTE_SRCS	= executor.c manage_files.c pipe_utils.c
 
-BUILT_SRCS	= built_in.c cd.c echo.c pwd.c buin_utils.c
+BUILT_SRCS	= built_in.c cd.c echo.c pwd.c export.c buin_utils.c
 
 UTILS_SRCS	= ft_free.c ft_exit.c ft_is_char.c ft_is_deli_char.c\
 				ft_is_special_char.c ft_is_type_str.c ft_itoa.c\
