@@ -15,7 +15,7 @@ void	sigint_handler(int signum)
 	g_status = 130;
 	write(1, "\n", 1);
 	rl_on_new_line();
-	rl_replace_line("", 0);
+	// rl_replace_line("", 0);
 	rl_redisplay();
 }
 
@@ -33,24 +33,24 @@ bool	set_signal(void)
 	return (true);
 }
 
-bool	set_termios(struct termios *term)
-{
-	struct termios myterm;
+// bool	set_termios(struct termios *term)
+// {
+// 	struct termios myterm;
 
-	g_status = 0;
-	if (ioctl(STDIN_FILENO, TCGETS, term) == -1)
-		return (perror("Error ioctl\n"), false);
-	if (tcgetattr(STDIN_FILENO, &myterm) == -1)
-		return (perror("Error tcgetattr\n"), false);
-	myterm.c_lflag &= ~ECHOCTL;
-	if (tcsetattr(STDIN_FILENO, TCSAFLUSH, &myterm) == -1)
-		return (perror("Error tcsetattr\n"), false);
-	return (true);
-}
+// 	g_status = 0;
+// 	if (ioctl(STDIN_FILENO, TCGETS, term) == -1)
+// 		return (perror("Error ioctl\n"), false);
+// 	if (tcgetattr(STDIN_FILENO, &myterm) == -1)
+// 		return (perror("Error tcgetattr\n"), false);
+// 	myterm.c_lflag &= ~ECHOCTL;
+// 	if (tcsetattr(STDIN_FILENO, TCSAFLUSH, &myterm) == -1)
+// 		return (perror("Error tcsetattr\n"), false);
+// 	return (true);
+// }
 
-bool	restore_termios(struct termios *term)
-{
-	if (ioctl(STDIN_FILENO, TCSETS, term) == -1)
-		return (perror("Error ioctl\n"), false);
-	return (true);
-}
+// bool	restore_termios(struct termios *term)
+// {
+// 	if (ioctl(STDIN_FILENO, TCSETS, term) == -1)
+// 		return (perror("Error ioctl\n"), false);
+// 	return (true);
+// }

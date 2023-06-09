@@ -27,7 +27,7 @@ int	interpreter(char *cmd_line, t_msh *msh)
 
 int	main(int ac, char **av, char **envp)
 {
-	struct termios	term;
+	// struct termios	term;
 	t_msh			msh;
 	char			*line;
 
@@ -37,7 +37,7 @@ int	main(int ac, char **av, char **envp)
 	msh.env = ft_2dstrdup(envp);
 	set_env(msh.env);
 	set_signal();
-	set_termios(&term);
+	// set_termios(&term);
 	// line = "ls -la| echo " Hello How " | echo $$ $PWD|echo $HOME> infile.txt ";
 	while (true)
 	{
@@ -48,8 +48,9 @@ int	main(int ac, char **av, char **envp)
 		add_history(line);
 		free(line);
 	}
-	rl_clear_history();
-	restore_termios(&term);
+	// rl_clear_history();
+	clear_history();
+	// restore_termios(&term);
 	printf("exit\n");
 	return (0);
 }
