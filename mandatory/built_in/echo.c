@@ -6,7 +6,7 @@
 /*   By: prachman <prachman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/08 13:21:59 by prachman          #+#    #+#             */
-/*   Updated: 2023/06/08 22:10:21 by prachman         ###   ########.fr       */
+/*   Updated: 2023/06/09 13:07:52 by prachman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,14 +14,10 @@
 
 int check_str(char *str)
 {
-	int i;
-
-	i = 0;
-	while (str[i])
-	{
-		if (ft_strcmp(&str[i], "\"") == 0)
-			return (1);
-	}
+	if (str[0] == '\"' && str[ft_strlen(str) - 1] == '\"') //check if the string has \"
+		return (1);
+	else if (str[0] == '\'' && str[ft_strlen(str) - 1] == '\'') // check if there's \'
+		return (1);
 	return (0);
 }
 
@@ -40,10 +36,10 @@ int ft_echo(char **arg)
 	}
 	while (arg[i])
 	{
-		if (arg[i][0] == '\"' && arg[i][ft_strlen(arg[i]) - 1] == '\"') //check if the string has \"
+		if (check_str(arg[i]))
 		{
 			j = 1;
-			while (arg[i][j] && (size_t)j < ft_strlen(arg[i]) - 1) //only print to the char before "
+			while (arg[i][j] && (size_t)j < ft_strlen(arg[i]) - 1) //only print to the char before " or '
 			{
 				printf("%c", arg[i][j]);
 				j++;
