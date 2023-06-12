@@ -86,6 +86,9 @@ typedef struct s_buin_cmd
 	char	*cur_dir;
 	char	*old_dir;
 	char	*tmp;
+	char	**exp;
+	char	**tmp_env;
+	int		index;
 }	t_buin_cmd;
 
 typedef struct s_minishell

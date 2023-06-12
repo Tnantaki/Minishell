@@ -28,7 +28,7 @@ bool	buin_execution(t_buin buin, char **arg)
 		g_status = ft_cd(arg);
 	else if (buin == e_pwd)
 		g_status = ft_pwd();
-	// else if (built == EXPORT)
-	// 	status = ft_export();
+	else if (buin == e_export)
+		g_status = ft_export();
 	return (true);
 }
