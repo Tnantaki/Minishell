@@ -19,6 +19,13 @@ void	sigint_handler(int signum)
 	rl_redisplay();
 }
 
+void	sigint_wait_handler(int signum)
+{
+	(void)signum;
+	g_status = 130;
+	write(1, "\n", 1);
+}
+
 bool	set_signal(void)
 {
 	struct sigaction	sigint;

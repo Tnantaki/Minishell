@@ -1,29 +1,24 @@
 #include "minishell.h"
 
-static bool	create_heredoc(char *lim)
+static int	create_heredoc(char *lim)
 {
 	char	*tmp;
-	int		fd;
-	int		len;
+	int		pipefd[2];
 
-	fd = open(HEREDOC, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	if (fd == -1)
-		return (perror(HEREDOC), false);
-	len = ft_strlen(lim);
+	if (pipe(pipefd) == -1)
+		return (printf("Error Heredoc"), -1);
 	while (1)
 	{
-		ft_putstr_fd("heredoc> ", STDOUT_FILENO);
-		tmp = readline(STDIN_FILENO);
+		tmp = readline("> ");
 		if (!tmp)
-			return (perror("Error malloc"), false);
-		if (ft_strncmp(lim, tmp, len) == 0 && tmp[len] == '\n')
+			return (close(pipefd[1]), pipefd[0]);
+		if (ft_strcmp(tmp, lim) == 0)
 			break ;
-		ft_putstr_fd(tmp, fd);
+		ft_putstr_fd(tmp, pipefd[1]);
+		ft_putchar_fd('\n', pipefd[1]);
 		free (tmp);
 	}
-	free (tmp);
-	close(fd);
-	return (true);
+	return (free(tmp), close(pipefd[1]), pipefd[0]);
 }
 
 static int	open_infile(t_io io,int infd)
@@ -33,10 +28,7 @@ static int	open_infile(t_io io,int infd)
 	if (io.rdrt == e_input)
 		infd = open(io.filename, O_RDONLY);
 	else if (io.rdrt == e_heredoc)
-	{
-		create_heredoc(io.filename);//filename in here_doc is limiter
-		infd = open(HEREDOC, O_RDONLY);
-	}
+		infd = create_heredoc(io.filename);//filename in here_doc is limiter
 	return (infd);
 }
 

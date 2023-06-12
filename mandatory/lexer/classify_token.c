@@ -1,8 +1,8 @@
 #include "minishell.h"
 
 // ### classify_token ###
-// Will tag type to token
-// type will classify by :
+// Will find the type of token
+// type will classify as :
 // - redirection
 // - pipe
 // - filename
@@ -23,14 +23,14 @@ t_type	token_type(char *token, t_type pre_type)
 bool	classify_token(t_msh *msh)
 {
 	t_type	*type;
-	int		nb_pipe;
+	int		nb_cmd;
 	int		j;
 	
 	type = (t_type *)malloc(sizeof(t_type) * msh->nb_tk);
 	if (!type)
 		return (perror("Error malloc"), false);
 	j = 0;
-	nb_pipe = 0;
+	nb_cmd = 1;
 	while (j < msh->nb_tk)
 	{
 		if (j == 0)
@@ -38,11 +38,10 @@ bool	classify_token(t_msh *msh)
 		else
 			type[j] = token_type(msh->tokens[j], type[j - 1]);
 		if (type[j] == e_pipe)
-			nb_pipe++;
+			nb_cmd++;
 		j++;
 	}
 	msh->tk_type = type;
-	msh->nb_pipe = nb_pipe;
-	msh->nb_cmd = nb_pipe + 1;
+	msh->nb_cmd = nb_cmd;
 	return (true);
 }

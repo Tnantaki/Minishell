@@ -40,14 +40,15 @@ static bool	find_cmd(char **cmd, char *arg)
 	{
 		*cmd = ft_strjoin(path[i], arg);
 		if (access(*cmd, F_OK) == 0)
-			return (true);
+			return (ft_free2dstr(path), true);
 		free (*cmd);
 		i++;
 	}
-	// ft_double_free(cmd);
-	// ft_double_free(path);
-	// ft_prterr(COM_ERR, pathname, 127);
-	return (false);
+	ft_free2dstr(path);
+	arg = ft_strjoin(arg, ": command not found\n");
+	ft_putstr_fd(arg, STDERR_FILENO);
+	g_status = 127;
+	return (free(arg), false);
 }
 
 bool	cmd_execution(char **arg, t_pipe *px)
@@ -60,8 +61,8 @@ bool	cmd_execution(char **arg, t_pipe *px)
 	if (px->pid[px->i] == 0)
 	{
 		free(px->pid);
-		if (arg)
-			find_cmd(&cmd, arg[0]);
+		if (!find_cmd(&cmd, arg[0]))
+			exit(g_status);
 		if (execve(cmd, arg, get_env()) == -1)
 			exit(errno);
 	}

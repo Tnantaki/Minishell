@@ -6,14 +6,6 @@ int	err_syn(int errnum)
 		printf("msh: syntax error unclosed single quote `\''\n");
 	else if (errnum == 2)
 		printf("msh: syntax error unclosed double quote `\"'\n");
-	else if (errnum == 3)
-		printf("msh: Not interpret Parenthesis `()'\n");
-	// else if (errnum == 6)
-	// 	printf("msh: Not interpret Variable substitution `${}'\n");
-	// else if (errnum == 7)
-	// 	printf("msh: Not interpret Command substitution ``' or `$()'\n");
-	// else if (errnum == 8)
-	// 	printf("msh: Not interpret Arithmetic expansion `$[]' or `$(())'\n");
 	return (0);
 }
 
@@ -32,41 +24,8 @@ static int	ft_dollarlen(char *str)
 		i += 1;
 	else if (ft_isvar(str[i]))// _, 1-9, a-z, A-Z
 		i += ft_var_len(&str[i]);
-	// else if (str[i] == '{')//${} : varsub
-	// 	return (err_syn(6));
-	// else if (str[i] == '(')// `, $() : cmdsub
-	// 	return (err_syn(7));
-	// else if (ft_isarithmatic(&str[i]))// $[], $(())
-	// 	return (err_syn(8));
 	return (i);
 }
-
-// static int	in_double_quote(char *str)
-// {
-// 	int	i;
-// 	int	len;
-
-// 	i = 1;
-// 	while (str[i])
-// 	{
-// 		while (str[i] && ft_isspace(str[i]))
-// 			i++;
-// 		if (str[i] == '"')
-// 			return (i + 1);
-// 		// else if (str[i] == '`')
-// 		// 	return (ft_err_syn(7));
-// 		else if (str[i] == '$')
-// 		{
-// 			len = ft_dollarlen(str);
-// 			if (!len)
-// 				return (false);
-// 			i += len;
-// 		}
-// 		else
-// 			i++;
-// 	}
-// 	return (0);
-// }
 
 static int	is_unclosed_quote(char *str)
 {
@@ -81,7 +40,6 @@ static int	is_unclosed_quote(char *str)
 	}
 	else
 	{
-		// len = in_double_quote(str);
 		len = ft_2quote_len(str);
 		if (!len)
 			return (err_syn(2));
@@ -100,8 +58,6 @@ bool	valid_syntax(char *line)
 			line++;
 		if (!(*line))
 			break ;
-		else if (*line == '(' || *line == ')')
-			return (err_syn(3));
 		else if (ft_isquote(*line))
 			len = is_unclosed_quote(line);
 		else if (ft_isoptr(*line))

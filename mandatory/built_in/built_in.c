@@ -30,5 +30,6 @@ bool	buin_execution(t_buin buin, char **arg)
 		g_status = ft_pwd();
 	// else if (built == EXPORT)
 	// 	status = ft_export();
+	// printf("g_status: %d\n", g_status);
 	return (true);
 }

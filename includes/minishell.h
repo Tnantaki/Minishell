@@ -16,8 +16,6 @@
 # include "msh_utils.h"
 
 // # define D_PROMPT "\e[0;32m\e[1mmsh: \e[0m"
-# define HEREDOC ".here_doc"
-
 extern int g_status;
 
 typedef enum e_type_rdrt
@@ -39,7 +37,6 @@ typedef enum e_type_token
 
 typedef enum e_built_in // intager: order from 0 onward
 {
-	e_non,
 	e_echo,
 	e_cd,
 	e_pwd,
@@ -71,13 +68,14 @@ typedef struct s_spcmd
 
 typedef struct s_pipex
 {
+	pid_t	*pid;
 	int		pipefd[2];
-	int		*pid;
 	int		infd;
 	int		outfd;
 	int		i;
 	int		stdin;
 	int		stdout;
+	int		pipeout;
 	t_buin	buin;
 }	t_pipe;
 
@@ -96,22 +94,11 @@ typedef struct s_minishell
 	t_spcmd	*spcmd;
 	int		nb_tk;
 	int		nb_cmd;
-	int		nb_pipe;
 }	t_msh;
 
-//Simple Command
-// typedef struct s_spcmd
-// {
-// 	char	*cmd;// Command
-// 	char	**arg;// flag or argumeng
-// 	char	**in_file;
-// 	char	**out_file;
-// 	int		rdrt; // redirections
-// 	// int				bg;// background
-// 	int		pipe;// pipe
-// }	t_spcmd;
-
 //Signal
+void	sigint_handler(int signum);
+void	sigint_wait_handler(int signum);
 bool	set_signal(void);
 bool	set_termios(struct termios *term);
 bool	restore_termios(struct termios *term);
@@ -128,6 +115,7 @@ bool	valid_tokens(char **token, int nb_tk, t_type *type);
 bool	expander(char **tokens);
 bool	allocate_spcmd(t_msh *msh, int	nb_cmd);
 bool	allocate_sub_spcmd(t_spcmd *spcmd, int nb_cmd, t_type *type, int nb_tk);
+void	free_spcmd(t_spcmd *spcmd, int nb_cmd);
 bool	parser(t_msh *msh);
 //Part 3 : Executor
 bool	executor(t_spcmd *spcmd, int nb_cmd);
@@ -150,4 +138,6 @@ char	*ft_substr(char *s, unsigned int start, size_t len);
 char	**set_env(char **env);
 char	**get_env(void);
 
+//test
+void	handler(int sig);
 #endif

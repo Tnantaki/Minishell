@@ -1,2 +1,13 @@
-/home/tnantaki
-/home/tnantaki
+Makefile
+README.md
+a.out
+includes
+infile.txt
+learn
+libft
+mandatory
+minishell
+note_prach.txt
+out1
+outfile.txt
+test.c

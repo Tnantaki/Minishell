@@ -8,7 +8,7 @@ char	*ft_strndup(char *str, size_t n)
 	i = 0;
 	if (!str)
 		return (NULL);
-	dst = (char *)malloc((sizeof(char)) * (n + 1));
+	dst = (char *)malloc(sizeof(char) * (n + 1));
 	if (!dst)
 		return (NULL);
 	while (i < n)

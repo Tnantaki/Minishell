@@ -54,3 +54,21 @@ bool	allocate_sub_spcmd(t_spcmd *spcmd, int nb_cmd, t_type *type, int nb_tk)
 	}
 	return (true);
 }
+
+void	free_spcmd(t_spcmd *spcmd, int nb_cmd)
+{
+	int	j;
+	int	i;
+
+	j = 0;
+	while (j < nb_cmd)
+	{
+		ft_free2dstr(spcmd[j].arg);
+		i = 0;
+		while (i < spcmd[j].nb.io)
+			free(spcmd[j].io[i++].filename);
+		free(spcmd[j].io);
+		j++;
+	}
+	free(spcmd);
+}

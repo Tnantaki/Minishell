@@ -43,9 +43,7 @@ static char	*trim_token(char **line)
 	len = 0;
 	while (**line && ft_isspace(**line))
 		(*line)++;
-	if (!(**line))
-		return (NULL);
-	else if (**line == '\'')
+	if (**line == '\'')
 		len += ft_1quote_len(*line);
 	else if (**line == '\"')
 		len += ft_2quote_len(*line);
@@ -54,6 +52,8 @@ static char	*trim_token(char **line)
 	else if (ft_iscmd(**line))
 		len += ft_cmd_len(*line);
 	token = (char *)malloc(sizeof(char) * (len + 1));
+	if (!token)
+		return (NULL);
 	while (i < len)
 		token[i++] = *(*line)++;
 	token[i] = '\0';

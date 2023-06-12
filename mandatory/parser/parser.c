@@ -69,5 +69,7 @@ bool	parser(t_msh *msh)
 		return (false);
 	if (!parsing(msh))
 		return (false);
+	ft_free2dstr(msh->tokens);
+	free(msh->tk_type);
 	return (true);
 }
