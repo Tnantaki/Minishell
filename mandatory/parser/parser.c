@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   parser.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tnantaki <tnantaki@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/12 13:25:26 by tnantaki          #+#    #+#             */
+/*   Updated: 2023/06/12 13:25:27 by tnantaki         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 // Parsing will interpret the tokens by tokens and Cut to
@@ -28,11 +40,19 @@ t_rdrt	what_rdrt(char *token)
 bool	parsing_tokens(char **tokens, t_type *type, t_spcmd *spcmd, int *i)
 {
 	if (type[*i] == e_argument)
-		spcmd->arg[spcmd->nb.arg++] = ft_strdup(tokens[*i]);
+	{
+		spcmd->arg[spcmd->nb.arg] = ft_strdup(tokens[*i]);
+		if (!spcmd->arg[spcmd->nb.arg++])
+			return (false);
+		spcmd->arg[spcmd->nb.arg] = NULL;
+	}
 	else if (type[*i] == e_rdrt)
 	{
 		spcmd->io[spcmd->nb.io].rdrt = what_rdrt(tokens[(*i)++]);
-		spcmd->io[spcmd->nb.io++].filename = ft_strdup(tokens[*i]);
+		spcmd->io[spcmd->nb.io].filename = ft_strdup(tokens[*i]);
+		if (!spcmd->io[spcmd->nb.io].filename)
+			return (false);
+		spcmd->nb.io++;
 	}
 	return (true);
 }
@@ -49,7 +69,8 @@ bool	parsing(t_msh *msh)
 		msh->spcmd[j].nb = (t_nb){0, 0, 0};
 		while (i < msh->nb_tk)
 		{
-			parsing_tokens(msh->tokens, msh->tk_type, &msh->spcmd[j], &i);
+			if (!parsing_tokens(msh->tokens, msh->tk_type, &msh->spcmd[j], &i))
+				return (perror("Error malloc"), false);
 			if (msh->tk_type[i++] == e_pipe)
 			{
 				msh->spcmd[j].nb.pipe = 1;
@@ -70,6 +91,8 @@ bool	parser(t_msh *msh)
 	if (!parsing(msh))
 		return (false);
 	ft_free2dstr(msh->tokens);
+	msh->tokens = NULL;
 	free(msh->tk_type);
+	msh->tk_type = NULL;
 	return (true);
 }

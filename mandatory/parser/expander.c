@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   expander.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tnantaki <tnantaki@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/12 13:25:22 by tnantaki          #+#    #+#             */
+/*   Updated: 2023/06/12 13:25:23 by tnantaki         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static char	*get_var(char *token, int *i)
@@ -45,27 +57,33 @@ static char	*is_var(char *token)
 			if (token[i + 1] == '?')
 				token = get_status(token, &i);
 			else if (ft_isspecial(token[i + 1]))
-				token = ft_strinsert(token, 2, i, NULL);
-			else if (ft_isvar(token[i + 1]))
 				token = get_var(token, &i);
+			else if (ft_is_1stvar(token[i + 1]))
+				token = get_var(token, &i);
+			else
+				i++;
 			if (!token)
 				return (NULL);
 		}
-		i++;
+		else
+			i++;
 	}
 	return (token);
 }
 
 bool	expander(char **tokens)
 {
-	int		j;
+	int	j;
 
 	j = 0;
 	while (tokens[j])
 	{
 		tokens[j] = is_var(tokens[j]);
 		if (!tokens[j])
-			return (false);
+		{
+			tokens[j] = ft_calloc(1, sizeof(char)); //for case of loop free to the end
+			return (perror("Error malloc"), false);
+		}
 		j++;
 	}
 	return (true);

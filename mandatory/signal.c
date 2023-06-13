@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   signal.c                                           :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tnantaki <tnantaki@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/12 13:29:08 by tnantaki          #+#    #+#             */
+/*   Updated: 2023/06/12 13:29:09 by tnantaki         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 // ### set_signal ###
@@ -8,6 +20,8 @@
 // 1. get the old terminal control for restore
 // 2. get the new terminal control for using in this program
 // 3. set the new terminal control by disable echoctl for not display ^C
+
+int	g_status;
 
 void	sigint_handler(int signum)
 {
@@ -42,7 +56,7 @@ bool	set_signal(void)
 
 bool	set_termios(struct termios *term)
 {
-	struct termios myterm;
+	struct termios	myterm;
 
 	g_status = 0;
 	if (ioctl(STDIN_FILENO, TCGETS, term) == -1)

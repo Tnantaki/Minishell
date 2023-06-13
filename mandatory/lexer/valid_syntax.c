@@ -1,11 +1,24 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   valid_syntax.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tnantaki <tnantaki@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/12 13:24:56 by tnantaki          #+#    #+#             */
+/*   Updated: 2023/06/12 13:24:57 by tnantaki         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
-int	err_syn(int errnum)
+static int	err_syn(int errnum)
 {
 	if (errnum == 1)
-		printf("msh: syntax error unclosed single quote `\''\n");
+		ft_prterr("msh: syntax error unclosed single quote `\''\n");
 	else if (errnum == 2)
-		printf("msh: syntax error unclosed double quote `\"'\n");
+		ft_prterr("msh: syntax error unclosed double quote `\"'\n");
+	g_status = 2;
 	return (0);
 }
 
@@ -16,13 +29,13 @@ static int	ft_dollarlen(char *str)
 	i = 1;
 	if (!str[i])
 		return (1);
-	else if (str[i] == '?')// statuc code = $?
+	else if (str[i] == '?') //statuc code = $?
 		i += 1;
-	else if (ft_isdigit(str[i]))// position argument = $1-9
+	else if (ft_isdigit(str[i])) //position argument = $1-9
 		i += 1;
-	else if (ft_isspecial(str[i]))//$$, $#, $@, $-, $!, $*
+	else if (ft_isspecial(str[i])) //$$, $#, $@, $-, $!, $*
 		i += 1;
-	else if (ft_isvar(str[i]))// _, 1-9, a-z, A-Z
+	else if (ft_is_1stvar(str[i])) //_, 1-9, a-z, A-Z
 		i += ft_var_len(&str[i]);
 	return (i);
 }
@@ -30,7 +43,7 @@ static int	ft_dollarlen(char *str)
 static int	is_unclosed_quote(char *str)
 {
 	int	len;
-	
+
 	len = 0;
 	if (str[len] == '\'')
 	{

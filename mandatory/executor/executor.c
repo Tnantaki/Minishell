@@ -1,15 +1,22 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   executor.c                                         :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tnantaki <tnantaki@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/12 13:25:42 by tnantaki          #+#    #+#             */
+/*   Updated: 2023/06/12 13:25:43 by tnantaki         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 bool	create_pid(t_pipe *px, int nb_cmd)
 {
-	int	i;
-
-	px->pid = malloc(sizeof(int) * (nb_cmd));
+	px->pid = ft_calloc(nb_cmd, sizeof(int));
 	if (!(px->pid))
 		return (perror("Error malloc"), false);
-	i = 0;
-	while (i < nb_cmd)
-		px->pid[i++] = 0;
 	return (true);
 }
 
@@ -56,18 +63,18 @@ bool	wait_process(int *pid, int nb_cmd)
 
 bool	spcmd_execution(t_spcmd spcmd, t_pipe *px)
 {
-	if (spcmd.nb.pipe)// if there is pipe will create pipe
+	if (spcmd.nb.pipe) //if there is pipe will create pipe
 	{
 		if (!create_pipe(px))
 			return (false);
 	}
 	else
 		px->pipeout = 0;
-	if (!redirection(spcmd.io, spcmd.nb.io ,px))
+	if (!redirection(spcmd.io, spcmd.nb.io, px))
 		return (g_status = 1, false);
 	if (!spcmd.nb.arg)
 		return (false);
-	if (!px->pipeout && is_built_in(spcmd.arg[0], &px->buin))// if no pipe and builtin command
+	if (!px->pipeout && is_built_in(spcmd.arg[0], &px->buin)) //if no pipe and builtin command
 		return (buin_execution(px->buin, spcmd.arg), true);
 	if (!cmd_execution(spcmd.arg, px))
 		return (false);
@@ -78,9 +85,9 @@ bool	executor(t_spcmd *spcmd, int nb_cmd)
 {
 	t_pipe	px;
 
-	if (!create_pid(&px, nb_cmd))// create pid of each command for get status
+	if (!create_pid(&px, nb_cmd)) //create pid of each command for get status
 		return (false);
-	save_stdio(&px);// save stdio for restore
+	save_stdio(&px); //save stdio for restore
 	px.i = 0;
 	while (px.i < nb_cmd)
 	{

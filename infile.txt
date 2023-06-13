@@ -1,2 +1,1 @@
 /home/tnantaki
-g_status: 0

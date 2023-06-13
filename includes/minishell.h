@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   minishell.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tnantaki <tnantaki@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/13 17:30:17 by tnantaki          #+#    #+#             */
+/*   Updated: 2023/06/13 17:30:19 by tnantaki         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MINISHELL_H
 # define MINISHELL_H
 
@@ -16,7 +28,8 @@
 # include "msh_utils.h"
 
 // # define D_PROMPT "\e[0;32m\e[1mmsh: \e[0m"
-extern int g_status;
+
+extern int	g_status;
 
 typedef enum e_type_rdrt
 {
@@ -35,7 +48,7 @@ typedef enum e_type_token
 	e_argument,
 }	t_type;
 
-typedef enum e_built_in // intager: order from 0 onward
+typedef enum e_built_in //intager: order from 0 onward
 {
 	e_echo,
 	e_cd,
@@ -88,8 +101,8 @@ typedef struct s_buin_cmd
 
 typedef struct s_minishell
 {
-	char	**tokens;
 	char	**env;
+	char	**tokens;
 	t_type	*tk_type;
 	t_spcmd	*spcmd;
 	int		nb_tk;
@@ -103,8 +116,8 @@ bool	set_signal(void);
 bool	set_termios(struct termios *term);
 bool	restore_termios(struct termios *term);
 //Debuger
-int		debug_tokens(char **str, char *title);
-int		debug_type(t_type *type, int nb_tk, char *title);
+int		debug_tokens(char **str);
+int		debug_type(t_type *type, int nb_tk);
 int		debug_spcmd(t_spcmd *spcmd, int nb_cmd);
 //Part 1 : Lexer
 bool	valid_syntax(char *line);
@@ -113,7 +126,7 @@ bool	classify_token(t_msh *msh);
 bool	valid_tokens(char **token, int nb_tk, t_type *type);
 //Part 2 : Paser
 bool	expander(char **tokens);
-bool	allocate_spcmd(t_msh *msh, int	nb_cmd);
+bool	allocate_spcmd(t_msh *msh, int nb_cmd);
 bool	allocate_sub_spcmd(t_spcmd *spcmd, int nb_cmd, t_type *type, int nb_tk);
 void	free_spcmd(t_spcmd *spcmd, int nb_cmd);
 bool	parser(t_msh *msh);
@@ -128,8 +141,8 @@ bool	close_stdio(t_pipe *px);
 bool	is_built_in(char *cmd, t_buin *buin);
 bool	buin_execution(t_buin built, char **arg);
 int		ft_cd(char **arg);
-int 	ft_echo(char **arg);
-int 	ft_pwd(void);
+int		ft_echo(char **arg);
+int		ft_pwd(void);
 int		ft_export(void);
 // 4.5 : Built-in (utils)
 char	*ft_substr(char *s, unsigned int start, size_t len);
@@ -138,6 +151,4 @@ char	*ft_substr(char *s, unsigned int start, size_t len);
 char	**set_env(char **env);
 char	**get_env(void);
 
-//test
-void	handler(int sig);
 #endif

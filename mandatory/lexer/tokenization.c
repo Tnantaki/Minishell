@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   tokenization.c                                     :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tnantaki <tnantaki@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/12 13:24:50 by tnantaki          #+#    #+#             */
+/*   Updated: 2023/06/12 13:24:51 by tnantaki         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 // ### tokenization ###
@@ -75,7 +87,7 @@ bool	tokenization(char *line, t_msh *msh)
 	{
 		tokens[i] = trim_token(&line);
 		if (!tokens[i])
-			return (ft_free2dnstr(tokens, i), false);
+			return (ft_free2dnstr(tokens, i), perror("Error malloc"), false);
 		i++;
 	}
 	tokens[i] = NULL;

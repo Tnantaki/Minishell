@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   classify_token.c                                   :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tnantaki <tnantaki@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/12 13:25:06 by tnantaki          #+#    #+#             */
+/*   Updated: 2023/06/12 13:25:08 by tnantaki         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 // ### classify_token ###
@@ -8,7 +20,7 @@
 // - filename
 // - argument
 
-t_type	token_type(char *token, t_type pre_type)
+static t_type	token_type(char *token, t_type pre_type)
 {
 	if (*token == '<' || *token == '>')
 		return (e_rdrt);
@@ -25,7 +37,7 @@ bool	classify_token(t_msh *msh)
 	t_type	*type;
 	int		nb_cmd;
 	int		j;
-	
+
 	type = (t_type *)malloc(sizeof(t_type) * msh->nb_tk);
 	if (!type)
 		return (perror("Error malloc"), false);

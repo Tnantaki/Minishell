@@ -1,23 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_2dstrlen.c                                      :+:      :+:    :+:   */
+/*   ft_prterr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tnantaki <tnantaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/12 13:26:38 by tnantaki          #+#    #+#             */
-/*   Updated: 2023/06/12 13:26:39 by tnantaki         ###   ########.fr       */
+/*   Created: 2023/06/12 15:22:11 by tnantaki          #+#    #+#             */
+/*   Updated: 2023/06/12 15:22:18 by tnantaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "msh_utils.h"
 
-size_t	ft_2dstrlen(char **str)
+void	ft_prterr(char *str)
 {
-	size_t	cw;
-
-	cw = 0;
-	while (str[cw])
-		cw++;
-	return (cw);
+	if (!str)
+		return ;
+	write(STDERR_FILENO, str, ft_strlen(str));
 }

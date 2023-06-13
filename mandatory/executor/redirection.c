@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   redirection.c                                      :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tnantaki <tnantaki@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/12 13:25:46 by tnantaki          #+#    #+#             */
+/*   Updated: 2023/06/12 13:25:47 by tnantaki         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static int	create_heredoc(char *lim)
@@ -21,14 +33,14 @@ static int	create_heredoc(char *lim)
 	return (free(tmp), close(pipefd[1]), pipefd[0]);
 }
 
-static int	open_infile(t_io io,int infd)
+static int	open_infile(t_io io, int infd)
 {
 	if (infd)
 		close(infd);
 	if (io.rdrt == e_input)
 		infd = open(io.filename, O_RDONLY);
 	else if (io.rdrt == e_heredoc)
-		infd = create_heredoc(io.filename);//filename in here_doc is limiter
+		infd = create_heredoc(io.filename); //filename in here_doc is limiter
 	return (infd);
 }
 

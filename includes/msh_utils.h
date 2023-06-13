@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   msh_utils.h                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tnantaki <tnantaki@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/13 17:30:27 by tnantaki          #+#    #+#             */
+/*   Updated: 2023/06/13 17:30:28 by tnantaki         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #ifndef MSH_UTILS_H
 # define MSH_UTILS_H
 
@@ -7,10 +19,6 @@
 # include <stdlib.h>
 # include <stdio.h>
 # include "libft.h"
-
-// # define EXIT_SYNTAX_ERROR 258
-// # define EXIT_CMD_NOT_FOUND 127
-// # define EXIT_CTRL_D 130
 
 //free
 char	**ft_free2dstr(char **ptr);
@@ -26,10 +34,11 @@ bool	ft_isspace(int c);
 bool	ft_isquote(int c);
 bool	ft_isspecial(int c);
 bool	ft_isoptr(int c);
-//is type string
 bool	ft_iscmd(int c);
 bool	ft_isvar(int c);
+bool	ft_is_1stvar(int c);
 //string
+void	ft_prterr(char *str);
 int		ft_strcmp(const char *s1, const char *s2);
 size_t	ft_2dstrlen(char **str);
 char	*ft_strndup(char *str, size_t n);

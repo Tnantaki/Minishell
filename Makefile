@@ -15,7 +15,7 @@ BONUS_DIR	=
 CC			= gcc
 RM			= rm -f
 MAN_HEAD	= -Iincludes
-CFLAGS		= -Wall -Wextra -Werror
+CFLAGS		= -Wall -Wextra -Werror -g -fsanitize=address
 
 ### Libft Flags ###
 FT_HEAD		= -Ilibft
@@ -43,7 +43,7 @@ BUILT_SRCS	= built_in.c cd.c echo.c pwd.c export.c buin_utils.c
 UTILS_SRCS	= ft_isspace.c ft_isquote.c ft_isspecial.c ft_isoptr.c ft_iscmd.c\
 				ft_isvar.c ft_2dstrlen.c ft_2dstrdup.c ft_strndup.c ft_strcmp.c\
 				ft_strjoinfree.c ft_free2dstr.c  ft_free2dnstr.c ft_strinsert.c\
-				len_lexer.c
+				len_lexer.c ft_prterr.c
 
 MANDA_SRCS	= main.c signal.c env.c debuger.c\
 				$(addprefix $(UTILS_DIR), $(UTILS_SRCS))\
