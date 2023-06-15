@@ -93,4 +93,4 @@ int	main(int ac, char **av, char **envp)
 	return (0);
 }
 
-//ls -la| echo " Hello How " | echo $$ $PWD|echo $HOME> infile.txt 
+//ls -la| echo " Hello How " | echo $$ $PWD|echo $HOME> infile.txt

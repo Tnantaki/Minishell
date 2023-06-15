@@ -1,51 +1,56 @@
 #include "minishell.h"
 
-void	swap_str(char *str1, char *str2)
+static void	del_env(char **env, int	j)
 {
 	int	i;
-	// char	*tmp;
 
-	i = 0;
-	// tmp = ft_strdup(str2);
-	// while (str1[i] || tmp[i])
-	if (ft_strlen(str1) < ft_strlen(str2))
+	free(env[j]);
+	env[j] = NULL;
+	i = j;
+	while (env[i + 1])
 	{
-		free(str1);
-		str1 = (char *)malloc(sizeof(char) * ft_strlen(str2) + 1);
-	}
-	// while (str1[i] || str2[i])
-	while (str2[i])
-	{
-		// str1[i] = tmp[i];
-		str1[i] = str2[i];
+		env[i] = env[i + 1];
 		i++;
 	}
-		
+	env[i] = NULL;
 }
 
-// int ft_unset(char **arg)
-// {
-// 	int 		i;
-// 	int 		j;
-// 	char	**env;
+int ft_unset(char **arg)
+{
+	int		status;
+	int 		i;
+	int 		j;
+	char	**env;
 
-// 	env = get_env();
-// 	i = 0;
-// 	while (arg[i])
-// 	{
-// 		j = 0;
-// 		while (env[j])
-// 		{
-// 			if (ft_strncmp(arg[i], env[j], ft_strlen(arg[i])) == 0) //find variable name
-// 			{
-// 				if (env[j][ft_strlen(arg[i])] == '=') // if the name is correct, enter the clause
-// 				{
-					
-// 				}
-// 			}
-// 			j++;
-// 		}
-// 		i++;
-// 	}
-// 	return(EXIT_SUCCESS);
-// }
+	status = 0;
+	if (arg[1] == NULL)
+		return (ft_prterr("unset: not enough arguments\n"), 1);
+	env = get_env();
+	i = 0;
+	while (arg[i])
+	{
+		if (!ft_is_1stvar(arg[i][0]))
+		{
+			ft_prterr("unset: `");
+			ft_prterr(arg[i]);
+			ft_prterr("': not a valid identifier\n");
+			status = 1;
+			i++;
+			continue ;
+		}
+		j = 0;
+		while (env[j])
+		{
+			if (ft_strncmp(arg[i], env[j], ft_strlen(arg[i])) == 0) //find variable name
+			{
+				if (env[j][ft_strlen(arg[i])] == '=') // if the name is correct, enter the clause
+				{
+					del_env(env, j);
+				}
+			}
+			j++;
+		}
+		i++;
+	}
+	return(status);
+}

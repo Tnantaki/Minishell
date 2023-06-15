@@ -31,9 +31,9 @@ bool	buin_execution(t_buin buin, char **arg)
 	else if (buin == e_pwd)
 		g_status = ft_pwd();
 	else if (buin == e_export)
-		g_status = ft_export();
-	// else if (buin == e_unset)
-	// 	g_status = ft_unset(arg, &buin_cmd);
+		g_status = ft_export(arg);
+	else if (buin == e_unset)
+		g_status = ft_unset(arg);
 	else if (buin == e_env)
 		g_status = ft_env();
 	return (true);
