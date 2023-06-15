@@ -26,3 +26,23 @@ char **get_env(void)
 {
 	return (set_env(NULL));
 }
+
+char	*search_var(char *var)
+{
+	int		j;
+	int		len_var;
+	char	**env;
+
+	if (!var)
+		return (NULL);
+	env = get_env();
+	j = 0;
+	len_var = ft_strlen(var);
+	while (env[j])
+	{
+		if (ft_strncmp(env[j], var, len_var) == 0 && env[j][len_var] == '=')
+			return (ft_strdup(env[j] + len_var + 1));
+		j++;
+	}
+	return (NULL);
+}

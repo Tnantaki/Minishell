@@ -20,7 +20,7 @@ static char	*get_var(char *token, int *i)
 	var = ft_strndup(token, ft_var_len(token));
 	if (!var)
 		return (NULL);
-	value = getenv(var + 1);
+	value = search_var(var + 1);
 	token = ft_strinsert(token, ft_strlen(var), *i, value);
 	free(var);
 	if (!token)

@@ -45,7 +45,7 @@ UTILS_SRCS	= ft_isspace.c ft_isquote.c ft_isspecial.c ft_isoptr.c ft_iscmd.c\
 				ft_strjoinfree.c ft_free2dstr.c  ft_free2dnstr.c ft_strinsert.c\
 				len_lexer.c ft_prterr.c
 
-MANDA_SRCS	= main.c signal.c env.c debuger.c\
+MANDA_SRCS	= main.c signal.c environment.c debuger.c\
 				$(addprefix $(UTILS_DIR), $(UTILS_SRCS))\
 				$(addprefix $(LEXER_DIR), $(LEXER_SRCS))\
 				$(addprefix $(PARSER_DIR), $(PARSER_SRCS))\
