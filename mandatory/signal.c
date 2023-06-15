@@ -59,8 +59,8 @@ bool	set_termios(struct termios *term)
 	struct termios	myterm;
 
 	g_status = 0;
-	if (ioctl(STDIN_FILENO, TCGETS, term) == -1)
-		return (perror("Error ioctl\n"), false);
+	if (tcgetattr(STDIN_FILENO, term) == -1)
+		return (perror("Error tcgetattr\n"), false);
 	if (tcgetattr(STDIN_FILENO, &myterm) == -1)
 		return (perror("Error tcgetattr\n"), false);
 	myterm.c_lflag &= ~ECHOCTL;
@@ -71,7 +71,7 @@ bool	set_termios(struct termios *term)
 
 bool	restore_termios(struct termios *term)
 {
-	if (ioctl(STDIN_FILENO, TCSETS, term) == -1)
-		return (perror("Error ioctl\n"), false);
+	if (tcsetattr(STDIN_FILENO, TCSAFLUSH, term) == -1)
+		return (perror("Error tcsetattr\n"), false);
 	return (true);
 }

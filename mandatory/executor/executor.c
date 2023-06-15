@@ -87,6 +87,8 @@ bool	executor(t_spcmd *spcmd, int nb_cmd)
 
 	if (!create_pid(&px, nb_cmd)) //create pid of each command for get status
 		return (false);
+	if (!open_heredoc(spcmd, nb_cmd))
+		return (false);
 	save_stdio(&px); //save stdio for restore
 	px.i = 0;
 	while (px.i < nb_cmd)

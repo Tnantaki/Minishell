@@ -33,6 +33,32 @@ static int	create_heredoc(char *lim)
 	return (free(tmp), close(pipefd[1]), pipefd[0]);
 }
 
+bool	open_heredoc(t_spcmd *spcmd, int nb_cmd)
+{
+	int	j;
+	int	i;
+
+	j = 0;
+	while (j < nb_cmd)
+	{
+		i = 0;
+		while (i < spcmd[j].nb.io)
+		{
+			if (spcmd[j].io[i].rdrt == e_heredoc)
+			{
+				spcmd[j].io[i].fd = create_heredoc(spcmd[j].io[i].filename); //filename in here_doc is limiter
+				if (spcmd[j].io[i].fd == -1)
+					return (false);
+			}
+			else
+				spcmd[j].io[i].fd = 0;
+			i++;
+		}
+		j++;
+	}
+	return (true);
+}
+
 static int	open_infile(t_io io, int infd)
 {
 	if (infd)
@@ -40,7 +66,7 @@ static int	open_infile(t_io io, int infd)
 	if (io.rdrt == e_input)
 		infd = open(io.filename, O_RDONLY);
 	else if (io.rdrt == e_heredoc)
-		infd = create_heredoc(io.filename); //filename in here_doc is limiter
+		infd = io.fd;
 	return (infd);
 }
 

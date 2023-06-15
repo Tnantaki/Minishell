@@ -61,6 +61,7 @@ typedef enum e_built_in //intager: order from 0 onward
 
 typedef struct s_input_output
 {
+	int		fd;
 	t_rdrt	rdrt;
 	char	*filename;
 }	t_io;
@@ -86,8 +87,8 @@ typedef struct s_pipex
 	int		infd;
 	int		outfd;
 	int		i;
-	int		stdin;
-	int		stdout;
+	int		std_in;
+	int		std_out;
 	int		pipeout;
 	t_buin	buin;
 }	t_pipe;
@@ -132,6 +133,7 @@ void	free_spcmd(t_spcmd *spcmd, int nb_cmd);
 bool	parser(t_msh *msh);
 //Part 3 : Executor
 bool	executor(t_spcmd *spcmd, int nb_cmd);
+bool	open_heredoc(t_spcmd *spcmd, int nb_cmd);
 bool	redirection(t_io *io, int nb_io, t_pipe *px);
 bool	cmd_execution(char **arg, t_pipe *px);
 bool	save_stdio(t_pipe *px);
