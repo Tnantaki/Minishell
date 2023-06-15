@@ -161,6 +161,6 @@ char	*ft_substr(char *s, unsigned int start, size_t len);
 //### Environment ###//
 char	**set_env(char **env);
 char	**get_env(void);
-char	*search_var(char *var);
+char	*get_env_value(char *var);
 
 #endif

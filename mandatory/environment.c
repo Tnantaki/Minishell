@@ -27,7 +27,7 @@ char **get_env(void)
 	return (set_env(NULL));
 }
 
-char	*search_var(char *var)
+char	*get_env_value(char *var)
 {
 	int		j;
 	int		len_var;

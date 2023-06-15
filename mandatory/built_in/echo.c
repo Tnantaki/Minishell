@@ -24,7 +24,7 @@ int check_str(char *str)
 int ft_echo(char **arg)
 {
 	int i;
-	int	j;
+	// int	j;
 	int flag;
 	
 	i = 1;
@@ -36,17 +36,17 @@ int ft_echo(char **arg)
 	}
 	while (arg[i])
 	{
-		if (check_str(arg[i]))
-		{
-			j = 1;
-			while (arg[i][j] && (size_t)j < ft_strlen(arg[i]) - 1) //only print to the char before " or '
-			{
-				printf("%c", arg[i][j]);
-				j++;
-			}
-		}
-		else
-			printf("%s", arg[i]);
+		// if (check_str(arg[i]))
+		// {
+		// 	j = 1;
+		// 	while (arg[i][j] && (size_t)j < ft_strlen(arg[i]) - 1) //only print to the char before " or '
+		// 	{
+		// 		printf("%c", arg[i][j]);
+		// 		j++;
+		// 	}
+		// }
+		// else
+		printf("%s", arg[i]);
 		i++;
 		if (arg[i]) //try "hello"world on the terminal
 			printf(" ");

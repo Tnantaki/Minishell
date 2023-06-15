@@ -48,7 +48,7 @@ static bool	interpreter(char *line, t_msh *msh)
 		return (false);
 	if (!tokenization(line, msh))
 		return (false);
-	debug_tokens(msh->tokens);//debug
+	// debug_tokens(msh->tokens);//debug
 	if (!classify_token(msh))
 		return (false);
 	// debug_type(msh->tk_type, msh->nb_tk);//debug
