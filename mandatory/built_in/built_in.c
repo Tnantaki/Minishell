@@ -22,14 +22,19 @@ bool	is_built_in(char *cmd, t_buin *buin)
 
 bool	buin_execution(t_buin buin, char **arg)
 {
+	// t_buin_cmd buin_cmd;
+
 	if (buin == e_echo)
 		g_status = ft_echo(arg);
 	else if (buin == e_cd)
 		g_status = ft_cd(arg);
 	else if (buin == e_pwd)
 		g_status = ft_pwd();
-	// else if (built == EXPORT)
-	// 	status = ft_export();
-	// printf("g_status: %d\n", g_status);
+	else if (buin == e_export)
+		g_status = ft_export();
+	// else if (buin == e_unset)
+	// 	g_status = ft_unset(arg, &buin_cmd);
+	else if (buin == e_env)
+		g_status = ft_env();
 	return (true);
 }

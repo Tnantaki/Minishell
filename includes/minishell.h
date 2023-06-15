@@ -98,6 +98,10 @@ typedef struct s_buin_cmd
 	char	*cur_dir;
 	char	*old_dir;
 	char	*tmp;
+	char	**exp;
+	char	**tmp_env;
+	char	**env;
+	int		index;
 }	t_buin_cmd;
 
 typedef struct s_minishell
@@ -146,6 +150,11 @@ int		ft_cd(char **arg);
 int		ft_echo(char **arg);
 int		ft_pwd(void);
 int		ft_export(void);
+// int 	ft_unset(char **arg);
+int 	ft_unset(char **arg, t_buin_cmd *buin);
+int		ft_env(void);
+// int 	ft_env(char **arg, t_buin_cmd *buin);
+int		store_env(t_buin_cmd *buin);
 // 4.5 : Built-in (utils)
 char	*ft_substr(char *s, unsigned int start, size_t len);
 
