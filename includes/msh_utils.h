@@ -26,12 +26,14 @@ char	**ft_free2dnstr(char **ptr, int i);
 //len lexer
 int		ft_1quote_len(char *str);
 int		ft_2quote_len(char *str);
+int		ft_token_len(char *str);
 int		ft_optr_len(char *str);
 int		ft_cmd_len(char *str);
 int		ft_var_len(char *line);
 //is character
 bool	ft_isspace(int c);
 bool	ft_isquote(int c);
+bool	ft_istoken(int c);
 bool	ft_isspecial(int c);
 bool	ft_isoptr(int c);
 bool	ft_iscmd(int c);

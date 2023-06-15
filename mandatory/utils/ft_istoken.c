@@ -1,20 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_iscmd.c                                         :+:      :+:    :+:   */
+/*   ft_istoken.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tnantaki <tnantaki@student.42.fr>          +#+  +:+       +#+        */
+/*   By: tnantaki <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/12 13:27:04 by tnantaki          #+#    #+#             */
-/*   Updated: 2023/06/12 13:27:05 by tnantaki         ###   ########.fr       */
+/*   Created: 2023/06/15 20:57:03 by tnantaki          #+#    #+#             */
+/*   Updated: 2023/06/15 20:57:05 by tnantaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "msh_utils.h"
 
-bool	ft_iscmd(int c)
+bool	ft_istoken(int c)
 {
-	if (!ft_isquote(c) && !ft_isoptr(c))
+	if (!ft_isspace(c) && !ft_isoptr(c))
 		return (true);
 	return (false);
 }

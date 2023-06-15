@@ -41,7 +41,7 @@ EXCUTE_SRCS	= executor.c redirection.c set_stdio.c cmd_execution.c
 BUILT_SRCS	= built_in.c cd.c echo.c pwd.c export.c unset.c env_buin.c buin_utils.c
 
 UTILS_SRCS	= ft_isspace.c ft_isquote.c ft_isspecial.c ft_isoptr.c ft_iscmd.c\
-				ft_isvar.c ft_2dstrlen.c ft_2dstrdup.c ft_strndup.c ft_strcmp.c\
+				ft_isvar.c ft_istoken.c ft_2dstrlen.c ft_2dstrdup.c ft_strndup.c ft_strcmp.c\
 				ft_strjoinfree.c ft_free2dstr.c  ft_free2dnstr.c ft_strinsert.c\
 				len_lexer.c ft_prterr.c
 

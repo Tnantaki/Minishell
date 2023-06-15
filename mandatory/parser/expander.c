@@ -12,16 +12,22 @@
 
 #include "minishell.h"
 
-static char	*get_var(char *token, int *i)
+static char *get_var(char *token, int *i)
 {
 	char	*var;
 	char	*value;
+	int		var_len;
 
-	var = ft_strndup(token, ft_var_len(token));
+	var_len = 0;
+	if (ft_is_1stvar(token[*i + 1]))
+		var_len = ft_var_len(&token[*i + 1]);
+	else if (ft_isspecial(token[*i + 1]))
+		var_len = 1;
+	var = ft_strndup(&token[*i + 1], var_len);
 	if (!var)
 		return (NULL);
-	value = get_env_value(var + 1);
-	token = ft_strinsert(token, ft_strlen(var), *i, value);
+	value = get_env_value(var);
+	token = ft_strinsert(token, ft_strlen(var) + 1, *i, value);
 	free(var);
 	if (!token)
 		return (NULL);
@@ -30,9 +36,9 @@ static char	*get_var(char *token, int *i)
 	return (token);
 }
 
-static char	*get_status(char *token, int *i)
+static char *get_status(char *token, int *i)
 {
-	char	*value;
+	char *value;
 
 	value = ft_itoa(g_status);
 	if (!value)
@@ -45,9 +51,9 @@ static char	*get_status(char *token, int *i)
 	return (token);
 }
 
-static char	*is_var(char *token)
+static char *is_var(char *token)
 {
-	int		i;
+	int	i;
 
 	i = 0;
 	while (token[i])
@@ -56,22 +62,23 @@ static char	*is_var(char *token)
 		{
 			if (token[i + 1] == '?')
 				token = get_status(token, &i);
-			else if (ft_isspecial(token[i + 1]))
-				token = get_var(token, &i);
-			else if (ft_is_1stvar(token[i + 1]))
+			else if (ft_is_1stvar(token[i + 1]) || ft_isspecial(token[i + 1])
+				|| ft_isquote(token[i + 1]))
 				token = get_var(token, &i);
 			else
 				i++;
 			if (!token)
 				return (NULL);
 		}
+		else if (token[i] == '\'')
+			i += ft_1quote_len(&token[i]);
 		else
 			i++;
 	}
 	return (token);
 }
 
-bool	expander(char **tokens)
+bool expander(char **tokens)
 {
 	int	j;
 
@@ -81,7 +88,7 @@ bool	expander(char **tokens)
 		tokens[j] = is_var(tokens[j]);
 		if (!tokens[j])
 		{
-			tokens[j] = ft_calloc(1, sizeof(char)); //for case of loop free to the end
+			tokens[j] = ft_calloc(1, sizeof(char)); // for case of loop free to the end
 			return (perror("Error malloc"), false);
 		}
 		j++;
