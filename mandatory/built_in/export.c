@@ -6,7 +6,7 @@
 /*   By: prachman <prachman@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 18:45:33 by prachman          #+#    #+#             */
-/*   Updated: 2023/06/12 18:42:47 by prachman         ###   ########.fr       */
+/*   Updated: 2023/06/13 21:16:31 by prachman         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,9 +50,6 @@ int ft_export(void)
 	}
 	i = 0;
 	while (buin.tmp_env[i])
-	{
-		printf("%s\n",buin.tmp_env[i]);
-		i++;
-	}
+		printf("%s\n",buin.tmp_env[i++]);
 	return (EXIT_SUCCESS);
 }

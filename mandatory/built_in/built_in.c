@@ -22,6 +22,8 @@ bool	is_built_in(char *cmd, t_buin *buin)
 
 bool	buin_execution(t_buin buin, char **arg)
 {
+	t_buin_cmd buin_cmd;
+
 	if (buin == e_echo)
 		g_status = ft_echo(arg);
 	else if (buin == e_cd)
@@ -30,5 +32,9 @@ bool	buin_execution(t_buin buin, char **arg)
 		g_status = ft_pwd();
 	else if (buin == e_export)
 		g_status = ft_export();
+	else if (buin == e_unset)
+		g_status = ft_unset(arg, &buin_cmd);
+	else if (buin == e_env)
+		g_status = ft_env(arg, &buin_cmd);
 	return (true);
 }
