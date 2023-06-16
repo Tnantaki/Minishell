@@ -38,7 +38,7 @@ PARSER_SRCS	= expander.c allocate_spcmd.c parser.c
 
 EXCUTE_SRCS	= executor.c redirection.c set_stdio.c cmd_execution.c
 
-BUILT_SRCS	= built_in.c cd.c echo.c pwd.c export.c unset.c env.c buin_utils.c
+BUILT_SRCS	= built_in.c cd.c echo.c pwd.c export.c unset.c env.c exit.c buin_utils.c
 
 UTILS_SRCS	= ft_isspace.c ft_isquote.c ft_isspecial.c ft_isoptr.c ft_iscmd.c\
 				ft_isvar.c ft_2dstrlen.c ft_2dstrdup.c ft_strndup.c ft_strcmp.c\

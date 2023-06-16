@@ -152,6 +152,7 @@ int		ft_pwd(void);
 int		ft_export(char **arg);
 int		ft_unset(char **arg);
 int		ft_env(void);
+int		ft_exit(char **arg);
 // int 	ft_env(char **arg, t_buin_cmd *buin);
 int		store_env(t_buin_cmd *buin);
 // 4.5 : Built-in (utils)
