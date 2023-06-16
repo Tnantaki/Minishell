@@ -1,13 +1,13 @@
 #include "minishell.h"
 
-static void	del_env(char **env, int	j)
+void	del_env(char **env, int	j)
 {
 	int	i;
 
 	free(env[j]);
 	env[j] = NULL;
 	i = j;
-	while (env[i + 1])
+	while (env[i + 1]) //make new order
 	{
 		env[i] = env[i + 1];
 		i++;
