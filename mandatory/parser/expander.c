@@ -54,8 +54,10 @@ static char *get_status(char *token, int *i)
 static char *is_var(char *token)
 {
 	int	i;
+	int	in_2quote;
 
 	i = 0;
+	in_2quote = 0;
 	while (token[i])
 	{
 		if (token[i] == '$')
@@ -70,10 +72,10 @@ static char *is_var(char *token)
 			if (!token)
 				return (NULL);
 		}
-		else if (token[i] == '\'')
-			i += ft_1quote_len(&token[i]);
-		else
-			i++;
+		else if (token[i] == '\'' && !in_2quote)
+			i += ft_quote_len(&token[i], '\'');
+		else if (token[i++] == '\"')
+			in_2quote = (in_2quote + 1) % 2; //if in double quote will be 1
 	}
 	return (token);
 }

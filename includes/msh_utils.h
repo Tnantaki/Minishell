@@ -26,6 +26,7 @@ char	**ft_free2dnstr(char **ptr, int i);
 //len lexer
 int		ft_1quote_len(char *str);
 int		ft_2quote_len(char *str);
+int		ft_quote_len(char *str, int c);
 int		ft_token_len(char *str);
 int		ft_optr_len(char *str);
 int		ft_cmd_len(char *str);

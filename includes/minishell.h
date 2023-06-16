@@ -131,6 +131,7 @@ bool	classify_token(t_msh *msh);
 bool	valid_tokens(char **token, int nb_tk, t_type *type);
 //Part 2 : Paser
 bool	expander(char **tokens);
+bool	trim_quote(char **tokens);
 bool	allocate_spcmd(t_msh *msh, int nb_cmd);
 bool	allocate_sub_spcmd(t_spcmd *spcmd, int nb_cmd, t_type *type, int nb_tk);
 void	free_spcmd(t_spcmd *spcmd, int nb_cmd);

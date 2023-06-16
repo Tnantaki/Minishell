@@ -47,13 +47,13 @@ static int	is_unclosed_quote(char *str)
 	len = 0;
 	if (str[len] == '\'')
 	{
-		len = ft_1quote_len(str);
+		len = ft_quote_len(str, '\'');
 		if (!len)
 			return (err_syn(1));
 	}
 	else
 	{
-		len = ft_2quote_len(str);
+		len = ft_quote_len(str, '\"');
 		if (!len)
 			return (err_syn(2));
 	}

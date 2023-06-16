@@ -34,7 +34,7 @@ endif
 ### Source Files ###
 LEXER_SRCS	= tokenization.c valid_syntax.c classify_token.c valid_token.c
 
-PARSER_SRCS	= expander.c allocate_spcmd.c parser.c
+PARSER_SRCS	= expander.c trim_quote.c allocate_spcmd.c parser.c
 
 EXCUTE_SRCS	= executor.c redirection.c set_stdio.c cmd_execution.c
 

@@ -24,6 +24,18 @@ int	ft_1quote_len(char *str)
 	return (0);
 }
 
+int	ft_quote_len(char *str, int c)
+{
+	int	i;
+
+	i = 1;
+	while (str[i] && str[i] != c)
+		i++;
+	if (str[i] == c)
+		return (i + 1);
+	return (0);
+}
+
 int	ft_2quote_len(char *str)
 {
 	int	i;
@@ -41,27 +53,16 @@ int	ft_token_len(char *str)
 {
 	int	i;
 
-	i = 1;
+	i = 0;
 	while (str[i] && ft_istoken(str[i]))
-		i++;
+	{
+		if (ft_isquote(str[i]))
+			i += ft_quote_len(&str[i], str[i]);
+		else
+			i++;
+	}
 	return (i);
 }
-
-// int	ft_1quote_len(char *str)
-// {
-// 	int	i;
-
-// 	i = 1;
-// 	while (str[i])
-// 	{
-// 		if (str[i] == '\'' && (ft_isspace(str[i + 1]) || !str[i + 1]))
-
-// 		i++;
-// 	}
-// 	if (str[i] == '\'')
-// 		return (i + 1);
-// 	return (0);
-// }
 
 int	ft_optr_len(char *str)
 {

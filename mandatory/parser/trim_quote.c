@@ -1,86 +1,74 @@
 #include "minishell.h"
 
-static char	*strcpy_inquote(char **line)
-{
-	char	*token;
-	int		i;
-	int		len;
-	
-	i = 0;
-	len = 0;
-	if (**line == '\'')
-		len += ft_1quote_len(*line) - 2;
-	else if (**line == '\"')
-		len += ft_2quote_len(*line) - 2;
-	token = (char *)malloc(sizeof(char) * (len + 1));
-	if (!token)
-		return (NULL);
-	(*line)++;
-	while (i < len)
-		token[i++] = *(*line)++;
-	token[i] = '\0';
-	return (token);
-}
-
-static char	*strcpy_outquote(char **line)
-{
-	char	*token;
-	int		i;
-	int		len;
-	
-	i = 0;
-	len = 0;
-	if (ft_isoptr(**line))
-		len += ft_optr_len(*line);
-	else if (ft_iscmd(**line))
-		len += ft_cmd_len(*line);
-	token = (char *)malloc(sizeof(char) * (len + 1));
-	if (!token)
-		return (NULL);
-	while (i < len)
-		token[i++] = *(*line)++;
-	token[i] = '\0';
-	return (token);
-}
-
-char	*trim_!quote(char *token)
+static int	count_quote(char *token)
 {
 	int	i;
+	int	cq;
 
 	i = 0;
+	cq = 0;
 	while (token[i])
 	{
-
+		if (ft_isquote(token[i]))
+		{
+			i += ft_quote_len(&token[i], token[i]);
+			cq += 2;
+		}
+		else
+			i++;
 	}
+	return (cq);
 }
 
-char	**trim_quote(char **tokens)
+static char	*trim_quote_token(char *token, int cq)
 {
-	int	j;
-	int	i;
+	int		i;
+	int		len;
+	char	*new_token;
 
-	j = 0;
-	while (tokens[j])
+	new_token = (char *)malloc(sizeof(char) * (ft_strlen(token) - cq + 1));
+	if (!new_token)
+		return (NULL);
+	i = 0;
+	cq = 0;
+	while (token[i + cq])
 	{
-		i = 0;
-		while (tokens[j][i])
+		if (ft_isquote(token[i + cq]))
 		{
-
+			len = ft_quote_len(token + i + cq, token[i + cq]) - 2; //minus 2 char of 2 quote
+			ft_memcpy(&new_token[i], &token[i + cq + 1], len);
+			i += len;
+			cq += 2;
+		}
+		else
+		{
+			new_token[i] = token[i + cq];
 			i++;
 		}
-		// trim_quote_token(tokens[j])
+	}
+	return (new_token[i] = '\0', new_token);
+}
+
+bool	trim_quote(char **tokens)
+{
+	int		j;
+	int		cq;
+	char	*tmp;
+
+	j = 0;
+	cq = 0;
+	while (tokens[j])
+	{
+		cq = count_quote(tokens[j]);
+		if (cq)
+		{
+			tmp = tokens[j];
+			tokens[j] = trim_quote_token(tokens[j], cq);
+			if (!tokens[j])
+				return (tokens[j] = tmp, perror("Error malloc"), false);
+			free(tmp);
+		}
 		j++;
 	}
-	// char	*token;
-
-	// token = NULL;
-	// while (**line && ft_isspace(**line))
-	// 	(*line)++;
-	// if (**line == '\'' || **line == '\"')
-	// 	token = strcpy_inquote(line);
-	// else if (ft_isoptr(**line) || ft_iscmd(**line))
-	// 	token = strcpy_outquote(line);
-	// if (!token)
-	// 	return (NULL);
-	// return (token);
+	return (true);
 }
