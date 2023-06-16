@@ -36,5 +36,15 @@ bool	buin_execution(t_buin buin, char **arg)
 		g_status = ft_unset(arg);
 	else if (buin == e_env)
 		g_status = ft_env();
+	else if (buin == e_exit)
+	{
+		g_status = ft_exit(arg);
+		// don't terminate process if there're too many argument
+		if  (g_status != 1&& ft_2dstrlen(arg) <= 2)
+		{
+			exit(g_status);
+		}
+		g_status = 1; // if still in the process due to many args
+	}
 	return (true);
 }
