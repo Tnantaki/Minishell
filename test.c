@@ -12,11 +12,6 @@ void	ft_print(char *str)
 
 int main(void)
 {
-	char *str = "\"$HOME\"";
-	printf("strlen :%lu\n", strlen(str));
-	char *dst = strdup("AAAAAA");
-	strncpy(&dst[1], str + 1, 3);
-
-	// strncpy(dst, str + 1, strlen(str) - 2);
-	printf("%s\n", dst);
+	if (access("/", F_OK) == 0)
+		printf("Work\n");
 }

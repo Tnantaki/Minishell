@@ -18,7 +18,7 @@ static bool	findpath(char ***r_path)
 	char	*tmp;
 	int		i;
 
-	tmp = getenv("PATH");
+	tmp = get_env_value("PATH");
 	if (!tmp)
 		return (true);
 	path = ft_split(tmp, ':');
@@ -36,19 +36,40 @@ static bool	findpath(char ***r_path)
 	return (true);
 }
 
+static void	err_cmd_exec(int errnum, char *arg, char **path)
+{
+	if (errnum == 1)
+		arg = ft_strjoin(arg, ": is directory\n");
+	else if (errnum == 2 && !path)
+		arg = ft_strjoin(arg, ": No such file or directory\n");
+	else if (errnum == 2)
+		arg = ft_strjoin(arg, ": command not found\n");
+	ft_putstr_fd(arg, STDERR_FILENO);
+	ft_free2dstr(path);
+	free(arg);
+	if (errnum == 1)
+		g_status = 126;
+	else
+		g_status = 127;
+}
+
+
 static bool	find_cmd(char **cmd, char *arg)
 {
-	char	**path;
 	int		i;
+	char	**path;
 
 	i = 0;
+	path = NULL;
+	if (ft_strcmp(arg, "/") == 0)
+		return (err_cmd_exec(1, arg, path), false);
 	if (access(arg, F_OK) == 0)
 		return (*cmd = ft_strdup(arg), true);
 	if (arg[0] == '/' && access(arg, F_OK) != 0)
 		return (perror(arg), false);
 	if (!findpath(&path))
 		return (false);
-	while (path[i])
+	while (path && path[i])
 	{
 		*cmd = ft_strjoin(path[i], arg);
 		if (access(*cmd, F_OK) == 0)
@@ -56,11 +77,7 @@ static bool	find_cmd(char **cmd, char *arg)
 		free (*cmd);
 		i++;
 	}
-	ft_free2dstr(path);
-	arg = ft_strjoin(arg, ": command not found\n");
-	ft_putstr_fd(arg, STDERR_FILENO);
-	g_status = 127;
-	return (free(arg), false);
+	return (err_cmd_exec(2, arg, path), false);
 }
 
 bool	cmd_execution(char **arg, t_pipe *px)

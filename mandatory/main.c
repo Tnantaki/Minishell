@@ -56,12 +56,10 @@ static bool	interpreter(char *line, t_msh *msh)
 		return (false);
 	if (!expander(msh->tokens))
 		return (false);
-	printf("Pass trim\n");
-	debug_tokens(msh->tokens);//debug
+	// debug_tokens(msh->tokens);//debug
 	if (!trim_quote(msh->tokens))
 		return (false);
 	// debug_tokens(msh->tokens);//debug
-	// exit(0);
 	if (!parser(msh))
 		return (false);
 	// debug_spcmd(msh->spcmd, msh->nb_cmd);//debug

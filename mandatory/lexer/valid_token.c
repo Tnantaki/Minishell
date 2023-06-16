@@ -43,7 +43,7 @@ bool	valid_tokens(char **tokens, int nb_tk, t_type *type)
 		pre = type[i];
 		i++;
 	}
-	if (type[nb_tk - 1] == e_rdrt)
+	if (type[nb_tk - 1] == e_rdrt || type[nb_tk - 1] == e_pipe)
 		return (err_tok(2, NULL), false);
 	return (true);
 }
