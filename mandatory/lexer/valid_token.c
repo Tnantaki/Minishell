@@ -22,7 +22,7 @@ static void	err_tok(int errnum, char *rdrt)
 	}
 	if (errnum == 2)
 		ft_prterr("msh: syntax error near unexpected token `newline'\n");
-	g_status = 2;
+	g_status = 258;
 }
 
 bool	valid_tokens(char **tokens, int nb_tk, t_type *type)

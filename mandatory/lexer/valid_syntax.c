@@ -18,7 +18,7 @@ static int	err_syn(int errnum)
 		ft_prterr("msh: syntax error unclosed single quote `\''\n");
 	else if (errnum == 2)
 		ft_prterr("msh: syntax error unclosed double quote `\"'\n");
-	g_status = 2;
+	g_status = 1;
 	return (0);
 }
 

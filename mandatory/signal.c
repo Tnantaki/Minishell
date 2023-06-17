@@ -26,7 +26,7 @@ int	g_status;
 void	sigint_handler(int signum)
 {
 	(void)signum;
-	g_status = 130;
+	g_status = 1;
 	write(1, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
