@@ -25,6 +25,7 @@
 # include <signal.h>
 # include <sys/ioctl.h>
 # include <termios.h>
+# include <dirent.h>
 # include "msh_utils.h"
 
 // # define D_PROMPT "\e[0;32m\e[1mmsh: \e[0m"
