@@ -6,39 +6,115 @@
 /*   By: truangsi <truangsi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 18:45:33 by prachman          #+#    #+#             */
-/*   Updated: 2023/06/16 17:58:32 by truangsi         ###   ########.fr       */
+/*   Updated: 2023/06/17 16:56:14 by truangsi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	**replace_exist_var(char **env, char **arg)
+void	del_exp(char **env, int	j)
 {
-	int		i;
-	int		j;
-	int		lst_env;
-	char	**var;
+	int	i;
 
-	var = NULL;
-	lst_env = ft_2dstrlen(env) - 1;
-	i = 1;
-	while (arg[i])
+	free(env[j]);
+	env[j] = NULL;
+	i = j;
+	while (env[i + 1]) //make new order
 	{
-		var = ft_split(arg[i], '='); //get the variable name
+		env[i] = env[i + 1];
+		// printf("here:%s\n", env[i]);
+		i++;
+	}
+	// if (!env[i])
+	env[i] = NULL;
+}
+
+// char	**replace_exist_var(char **env)
+// {
+// 	int	i;
+// 	int	j;
+// 	char	**var;
+
+// 	var = NULL;
+// 	i = 0;
+// 	while (env[i])
+// 	{
+// 		var = ft_split(env[i], '='); //get the variable name
+// 		j = 0;
+// 		while (env[j])
+// 		{
+// 			if (ft_strncmp(var[0], env[j], ft_strlen(var[0])) == 0
+// 				&& env[i][ft_strlen(var[0])] == '=')
+// 			{
+// 				// printf("in loop:%s\n", var[0]);
+// 				del_exp(env, j); //delete the last env and rearrange the position
+// 				// env[j] = ft_strdup(arg[i]); //add new env
+// 				break ;
+// 			}
+// 			j++;
+// 		}
+// 		// ft_free2dstr(venv;
+// 		i++;
+// 	}
+// 	return (env);
+// }
+
+void	replace_exist_env(char **env)
+{
+	int i;
+	int	j;
+
+	i = 0;
+	while (env[i])
+	{
 		j = 0;
 		while (env[j])
 		{
-			if (ft_strncmp(var[0], env[j], ft_strlen(var[0])) == 0) // founded the name
+			if (ft_strcmp(env[i], env[j]) == 0)
 			{
-				del_env(env, lst_env); //delete the last env and rearrange the position
-				env[j] = ft_strdup(arg[i]); //add new env
+				del_exp(env, j);
 			}
 			j++;
 		}
 		i++;
 	}
-	ft_free2dstr(var);
-	return (env);
+}
+
+void	replace_exist_var(char **env, char **arg)
+{
+	int		i;
+	int		j;
+	char	**var;
+
+	var = NULL;
+	i = 1;
+	while (arg[i])
+	{
+		var = ft_split(arg[i], '='); //get the variable name
+		j = 0;
+		// printf("arg:%s\n", arg[i]);
+		// printf("var:%s\n", var[0]);
+		while (env[j])
+		{
+			if (ft_strcmp(env[j], arg[i]) == 0)
+				break ;
+			//founded the same name
+			if (ft_strncmp(var[0], env[j], ft_strlen(var[0])) == 0
+				&& arg[i][ft_strlen(var[0])] == '=')
+			{
+				// printf("in loop:%s\n", var[0]);
+				del_exp(env, j); //delete the last env and rearrange the position
+				// env[j] = ft_strdup(arg[i]); //add new env
+				// ft_free2dstr(var);
+				break ;
+			}
+			j++;
+		}
+		ft_free2dstr(var);
+		i++;
+	}
+	// ft_free2dstr(var);
+	// return (env);
 }
 
 static void create_var(char **tmp_env, char **env, char **arg, int arg_size)
@@ -47,20 +123,27 @@ static void create_var(char **tmp_env, char **env, char **arg, int arg_size)
 	int	j;
 
 	i = 0;
-	while (env[i]) // assign all env variable to tmp_env
+	while (env[i]) // assign all env variables to tmp_env
 	{
 		tmp_env[i] = env[i];
 		i++;
 	}
 	j = 1;
-	while (j < arg_size) // insert the new variable at the end of the array
+	while (j < arg_size) // insert the new variable(s) at the end of the array
 	{
 		tmp_env[i] = ft_strdup(arg[j]);
 		i++;
 		j++;
 	}
 	tmp_env[i] = NULL; //done creating
+	// i = 0;
+	// while (tmp_env[i])
+	// {
+	// 	printf("here:%s\n", tmp_env[i++]);
+	// }
+	// replace_exist_var(tmp_env, arg);
 	replace_exist_var(tmp_env, arg);
+	replace_exist_env(tmp_env);
 	set_env(tmp_env);
 }
 
