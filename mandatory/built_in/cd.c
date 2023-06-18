@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cd.c                                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: prachman <prachman@student.42.fr>          +#+  +:+       +#+        */
+/*   By: truangsi <truangsi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/06 12:37:04 by prachman          #+#    #+#             */
-/*   Updated: 2023/06/08 13:15:33 by prachman         ###   ########.fr       */
+/*   Updated: 2023/06/18 16:43:14 by truangsi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,8 +16,8 @@ int cd_home(t_buin_cmd *buin, char **env)
 {
 	int i;
 	int ch;
-	
-	buin->cur_dir = getenv("HOME");//change getenv
+
+	buin->cur_dir = get_env_value("HOME");//change getenv
 	ch = chdir(buin->cur_dir);
 	if (ch < 0)
 	{
@@ -34,12 +34,6 @@ int cd_home(t_buin_cmd *buin, char **env)
 		}
 		i++;
 	}
-	// printf("\n");
-	// printf("\n");
-	// printf("\n");
-	// printf("\n");
-	// for (int i = 0; env[i]; i++)
-	// 	printf("%s\n", env[i]);
 	return (EXIT_SUCCESS);
 }
 
@@ -51,11 +45,7 @@ int	ft_cd(char **arg)
 	t_buin_cmd	buin;
 
 	buin.old_dir = NULL;
-	// if (ft_strcmp(arg[1], "-") == 0) 
-	// {
-	// }
 	buin.old_dir = getcwd(buin.old_dir, 0);
-	// printf("%s\n", buin.old_dir);
 	i = 0;
 	env = get_env();
 	while (env[i]) // update OLDPWD
@@ -86,11 +76,5 @@ int	ft_cd(char **arg)
 		}
 		i++;
 	}
-	// printf("\n");
-	// printf("\n");
-	// printf("\n");
-	// printf("\n");
-	// for (int i = 0; env[i]; i++)
-	// 	printf("%s\n", env[i]);
 	return (EXIT_SUCCESS);
 }
