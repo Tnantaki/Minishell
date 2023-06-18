@@ -6,7 +6,7 @@
 /*   By: truangsi <truangsi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 18:45:33 by prachman          #+#    #+#             */
-/*   Updated: 2023/06/17 16:56:14 by truangsi         ###   ########.fr       */
+/*   Updated: 2023/06/18 12:59:11 by truangsi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,19 +59,25 @@ void	del_exp(char **env, int	j)
 // 	return (env);
 // }
 
+// void	replace_exist_env(char **env, char **arg)
 void	replace_exist_env(char **env)
 {
 	int i;
 	int	j;
+	int	cnt;
 
 	i = 0;
 	while (env[i])
 	{
 		j = 0;
+		cnt = 0;
 		while (env[j])
 		{
-			if (ft_strcmp(env[i], env[j]) == 0)
+			if (ft_strcmp(env[i], env[j]) == 0) // find var with the same name and value
+				cnt++;
+			if (cnt > 1)
 			{
+				// printf("delete:%s\n", env[j]);
 				del_exp(env, j);
 			}
 			j++;
@@ -103,6 +109,7 @@ void	replace_exist_var(char **env, char **arg)
 				&& arg[i][ft_strlen(var[0])] == '=')
 			{
 				// printf("in loop:%s\n", var[0]);
+				// printf("first loop:%s\n", env[j]);
 				del_exp(env, j); //delete the last env and rearrange the position
 				// env[j] = ft_strdup(arg[i]); //add new env
 				// ft_free2dstr(var);
