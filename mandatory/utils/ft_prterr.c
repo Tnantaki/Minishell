@@ -18,3 +18,11 @@ void	ft_prterr(char *str)
 		return ;
 	write(STDERR_FILENO, str, ft_strlen(str));
 }
+
+void	ft_prterrf(char *str1, char *str2, char *str3)
+{
+	ft_prterr(str1);
+	ft_prterr(str2);
+	ft_prterr(str3);
+}
+

@@ -6,7 +6,7 @@
 /*   By: truangsi <truangsi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 18:45:33 by prachman          #+#    #+#             */
-/*   Updated: 2023/06/18 14:48:54 by truangsi         ###   ########.fr       */
+/*   Updated: 2023/06/18 16:30:31 by truangsi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,6 +98,13 @@ int ft_export(char **arg)
 	int		i;
 	int		j;
 
+	i = 1;
+	while (arg[i])
+	{
+		if (!ft_isalpha(arg[i][0]))
+			ft_prterrf("export: `", arg[i], "': not a valid identifier\n");
+		i++;
+	}
 	env = get_env();
 	arg_size = ft_2dstrlen(arg);
 	if (arg_size > 1) // store new vars if any

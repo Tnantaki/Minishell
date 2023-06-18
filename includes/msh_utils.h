@@ -42,6 +42,7 @@ bool	ft_isvar(int c);
 bool	ft_is_1stvar(int c);
 //string
 void	ft_prterr(char *str);
+void	ft_prterrf(char *str1, char *str2, char *str3);
 int		ft_strcmp(const char *s1, const char *s2);
 size_t	ft_2dstrlen(char **str);
 char	*ft_strndup(char *str, size_t n);
