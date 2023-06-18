@@ -50,9 +50,9 @@ static void	err_cmd_exec(int errnum, char *arg, char **path)
 	ft_free2dstr(path);
 	free(arg);
 	if (errnum == 1 || errnum == 3)
-		g_status = 126;
+		g_status = ES_PERMIS_DENIED;
 	else
-		g_status = 127;
+		g_status = ES_CMD_NOT_FOUND;
 	exit(g_status);
 }
 

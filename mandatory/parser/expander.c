@@ -65,7 +65,7 @@ static char *is_var(char *token)
 			if (token[i + 1] == '?')
 				token = get_status(token, &i);
 			else if (ft_is_1stvar(token[i + 1]) || ft_isspecial(token[i + 1])
-				|| ft_isquote(token[i + 1]))
+				|| (token[i + 1]) == '\'')
 				token = get_var(token, &i);
 			else
 				i++;

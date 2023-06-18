@@ -29,11 +29,13 @@ void	free_msh(t_msh *msh)
 
 bool	init_msh(t_msh *msh, struct termios *term, char **envp)
 {
+	g_status = 0;
 	msh->env = NULL;
 	msh->tokens = NULL;
 	msh->tk_type = NULL;
 	msh->spcmd = NULL;
-	set_termios(term);
+	(void)term;
+	// set_termios(term);
 	set_signal();
 	// (void)envp;
 	msh->env = ft_2dstrdup(envp);
@@ -91,7 +93,7 @@ int	main(int ac, char **av, char **envp)
 		free(line);
 	}
 	rl_clear_history();
-	restore_termios(&term);
+	// restore_termios(&term);
 	printf("Exit\n");
 	return (0);
 }

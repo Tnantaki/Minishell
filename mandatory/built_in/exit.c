@@ -23,6 +23,8 @@ int	ft_exit(char **arg)
 	{
 		while (arg[1][i])
 		{
+			if (arg[1][0] == '+' || arg[1][0] == '-')
+				break ;
 			if (ft_isdigit(arg[1][i])) // if arg -> digit
 				i++;
 			else
@@ -30,7 +32,7 @@ int	ft_exit(char **arg)
 		}
 		if (ft_2dstrlen(arg) > 2) // if arg is digit, but there're more than two args
 		{
-			return (printf("exit:too many arguments\n"), 0);
+			return (ft_prterr("exit:too many arguments\n"), 0);
 		}
 		status = ft_atoi(arg[1]); // if arg -> digit and it's the only arg
 	}

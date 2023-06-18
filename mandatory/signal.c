@@ -26,7 +26,7 @@ int	g_status;
 void	sigint_handler(int signum)
 {
 	(void)signum;
-	g_status = 1;
+	g_status = ES_SIGINT_PARENT;
 	write(1, "\n", 1);
 	rl_on_new_line();
 	rl_replace_line("", 0);
@@ -36,7 +36,7 @@ void	sigint_handler(int signum)
 void	sigint_wait_handler(int signum)
 {
 	(void)signum;
-	g_status = 130;
+	g_status = ES_SIGINT_CHILD;
 	write(1, "\n", 1);
 }
 
@@ -58,7 +58,6 @@ bool	set_termios(struct termios *term)
 {
 	struct termios	myterm;
 
-	g_status = 0;
 	if (tcgetattr(STDIN_FILENO, term) == -1)
 		return (perror("Error tcgetattr\n"), false);
 	if (tcgetattr(STDIN_FILENO, &myterm) == -1)
