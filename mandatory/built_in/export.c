@@ -6,7 +6,7 @@
 /*   By: truangsi <truangsi@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/06/09 18:45:33 by prachman          #+#    #+#             */
-/*   Updated: 2023/06/18 16:30:31 by truangsi         ###   ########.fr       */
+/*   Updated: 2023/06/18 17:02:49 by truangsi         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,11 @@ static void create_var(char **tmp_env, char **env, char **arg, int arg_size)
 	j = 1;
 	while (j < arg_size) // insert the new variable(s) at the end of the array
 	{
+		if (!ft_isalpha(arg[j][0])) // skip invalid arg
+		{
+			j++;
+			continue ;
+		}
 		tmp_env[i] = ft_strdup(arg[j]);
 		i++;
 		j++;
@@ -102,7 +107,11 @@ int ft_export(char **arg)
 	while (arg[i])
 	{
 		if (!ft_isalpha(arg[i][0]))
+		{
 			ft_prterrf("export: `", arg[i], "': not a valid identifier\n");
+			i++;
+			continue ;
+		}
 		i++;
 	}
 	env = get_env();
