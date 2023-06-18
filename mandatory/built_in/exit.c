@@ -32,7 +32,7 @@ int	ft_exit(char **arg)
 		}
 		if (ft_2dstrlen(arg) > 2) // if arg is digit, but there're more than two args
 		{
-			return (ft_prterr("exit:too many arguments\n"), 0);
+			return (ft_prterr("exit: too many arguments\n"), 0);
 		}
 		status = ft_atoi(arg[1]); // if arg -> digit and it's the only arg
 	}
