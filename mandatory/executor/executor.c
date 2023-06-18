@@ -74,7 +74,8 @@ bool	spcmd_execution(t_spcmd spcmd, t_pipe *px)
 		return (g_status = 1, false);
 	if (!spcmd.nb.arg)
 		return (false);
-	if (!px->pipeout && is_built_in(spcmd.arg[0], &px->buin)) //if no pipe and builtin command
+	// if (!px->pipeout && is_built_in(spcmd.arg[0], &px->buin)) //if no pipe, but builtin is present
+	if (is_built_in(spcmd.arg[0], &px->buin)) //if no pipe, but builtin is present
 		return (buin_execution(px->buin, spcmd.arg), true);
 	if (!cmd_execution(spcmd.arg, px))
 		return (false);

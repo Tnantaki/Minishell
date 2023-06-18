@@ -94,6 +94,7 @@ int	main(int ac, char **av, char **envp)
 	}
 	rl_clear_history();
 	// restore_termios(&term);
+	ft_free2dstr(msh.env);
 	printf("Exit\n");
 	return (0);
 }

@@ -34,7 +34,7 @@ int	ft_exit(char **arg)
 		{
 			return (ft_prterr("exit: too many arguments\n"), 0);
 		}
-		status = ft_atoi(arg[1]); // if arg -> digit and it's the only arg
+		status = atoi(arg[1]); // if arg -> digit and it's the only arg
 	}
 	printf("exit\n");
 	if (status > 255) // protect overflown
