@@ -44,15 +44,29 @@ static void	err_cmd_exec(int errnum, char *arg, char **path)
 		arg = ft_strjoin(arg, ": No such file or directory\n");
 	else if (errnum == 2)
 		arg = ft_strjoin(arg, ": command not found\n");
+	else if (errnum == 3)
+		arg = ft_strjoin(arg, ": Permission denied\n");
 	ft_putstr_fd(arg, STDERR_FILENO);
 	ft_free2dstr(path);
 	free(arg);
-	if (errnum == 1)
-		g_status = 126;
+	if (errnum == 1 || errnum == 3)
+		g_status = ES_PERMIS_DENIED;
 	else
-		g_status = 127;
+		g_status = ES_CMD_NOT_FOUND;
+	exit(g_status);
 }
 
+static bool	ft_isnotdir(char *name)
+{
+	DIR	*dir;
+
+	dir = opendir(name);
+	if (dir)
+		return (closedir(dir), err_cmd_exec(1, name, NULL), false);
+	if (access(name, F_OK) == 0)
+		return (true);
+	return (err_cmd_exec(2, name, NULL), false);
+}
 
 static bool	find_cmd(char **cmd, char *arg)
 {
@@ -61,12 +75,8 @@ static bool	find_cmd(char **cmd, char *arg)
 
 	i = 0;
 	path = NULL;
-	if (ft_strcmp(arg, "/") == 0)
-		return (err_cmd_exec(1, arg, path), false);
-	if (access(arg, F_OK) == 0)
+	if (ft_strchr(arg, '/') && ft_isnotdir(arg))
 		return (*cmd = ft_strdup(arg), true);
-	if (arg[0] == '/' && access(arg, F_OK) != 0)
-		return (perror(arg), false);
 	if (!findpath(&path))
 		return (false);
 	while (path && path[i])
@@ -92,6 +102,8 @@ bool	cmd_execution(char **arg, t_pipe *px)
 		free(px->pid);
 		if (!find_cmd(&cmd, arg[0]))
 			exit(g_status);
+		if (access(cmd, X_OK) != 0)
+			return (err_cmd_exec(3, cmd, NULL), false);
 		if (execve(cmd, arg, get_env()) == -1)
 			exit(errno);
 	}

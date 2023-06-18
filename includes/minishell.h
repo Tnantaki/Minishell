@@ -25,10 +25,31 @@
 # include <signal.h>
 # include <sys/ioctl.h>
 # include <termios.h>
+# include <dirent.h>
 # include "msh_utils.h"
 
 // # define D_PROMPT "\e[0;32m\e[1mmsh: \e[0m"
 
+//Exit Status Code
+# if defined(__linux__)
+#  define ES_ERROR 1
+#  define ES_SYNTAC_ERROR 2
+#  define ES_PERMIS_DENIED 126 //notsure
+#  define ES_CMD_NOT_FOUND 127
+#  define ES_SIGINT_PARENT 130
+#  define ES_SIGINT_CHILD 130
+#  define ES_SIGKILL 137
+#  define ES_SIGSTOP 147
+# else
+#  define ES_ERROR 1
+#  define ES_SYNTAC_ERROR 258
+#  define ES_PERMIS_DENIED 126 //notsure
+#  define ES_CMD_NOT_FOUND 127
+#  define ES_SIGINT_PARENT 1
+#  define ES_SIGINT_CHILD 130
+#  define ES_SIGKILL 137
+#  define ES_SIGSTOP 145
+# endif
 extern int	g_status;
 
 typedef enum e_type_rdrt

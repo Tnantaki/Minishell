@@ -48,11 +48,11 @@ bool	wait_process(int *pid, int nb_cmd)
 			else if (WIFSIGNALED(g_status))
 			{
 				if (WTERMSIG(g_status) == SIGINT)
-					g_status = 130;
+					g_status = ES_SIGINT_CHILD;
 				else if (WTERMSIG(g_status) == SIGKILL)
-					g_status = 137;
+					g_status = ES_SIGKILL;
 				else if (WTERMSIG(g_status) == SIGSTOP)
-					g_status = 147;
+					g_status = ES_SIGSTOP;
 			}
 		}
 		i++;
