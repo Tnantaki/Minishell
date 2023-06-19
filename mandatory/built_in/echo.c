@@ -19,6 +19,8 @@ int ft_echo(char **arg)
 
 	i = 1;
 	flag = 0;
+	if (!arg[1])
+		return (printf("\n"), EXIT_SUCCESS);
 	if (ft_strcmp(arg[1], "-n") == 0)
 	{
 		i = 2;
