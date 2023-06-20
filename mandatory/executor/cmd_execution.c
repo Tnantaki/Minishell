@@ -22,6 +22,7 @@ static bool	findpath(char ***r_path)
 	if (!tmp)
 		return (true);
 	path = ft_split(tmp, ':');
+	free(tmp);
 	if (!path)
 		return (perror("Error malloc"), false);
 	i = 0;
@@ -39,7 +40,7 @@ static bool	findpath(char ***r_path)
 static void	err_cmd_exec(int errnum, char *arg, char **path)
 {
 	if (errnum == 1)
-		arg = ft_strjoin(arg, ": is directory\n");
+		arg = ft_strjoin(arg, ": is a directory\n");
 	else if (errnum == 2 && !path)
 		arg = ft_strjoin(arg, ": No such file or directory\n");
 	else if (errnum == 2)
@@ -58,14 +59,13 @@ static void	err_cmd_exec(int errnum, char *arg, char **path)
 
 static bool	ft_isnotdir(char *name)
 {
-	DIR	*dir;
+	struct stat	info;
 
-	dir = opendir(name);
-	if (dir)
-		return (closedir(dir), err_cmd_exec(1, name, NULL), false);
-	if (access(name, F_OK) == 0)
-		return (true);
-	return (err_cmd_exec(2, name, NULL), false);
+	if (stat(name, &info) != 0)
+		return (err_cmd_exec(2, name, NULL), false);
+	if (S_ISDIR(info.st_mode))
+		return (err_cmd_exec(1, name, NULL), false);
+	return (true);
 }
 
 static bool	find_cmd(char **cmd, char *arg)
@@ -94,6 +94,7 @@ bool	cmd_execution(char **arg, t_pipe *px)
 {
 	char	*cmd;
 
+	cmd = NULL;
 	px->pid[px->i] = fork();
 	if (px->pid[px->i] == -1)
 		return (perror("Fork Fail"), false);
@@ -103,7 +104,7 @@ bool	cmd_execution(char **arg, t_pipe *px)
 		if (!find_cmd(&cmd, arg[0]))
 			exit(g_status);
 		if (access(cmd, X_OK) != 0)
-			return (err_cmd_exec(3, cmd, NULL), false);
+			err_cmd_exec(3, cmd, NULL);
 		if (execve(cmd, arg, get_env()) == -1)
 			exit(errno);
 	}

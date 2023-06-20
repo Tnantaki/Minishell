@@ -15,11 +15,7 @@
 static void	err_tok(int errnum, char *rdrt)
 {
 	if (errnum == 1)
-	{
-		ft_prterr("msh: syntax error near unexpected token `");
-		ft_prterr(rdrt);
-		ft_prterr("'\n");
-	}
+		ft_prterrf("msh: syntax error near unexpected token `", rdrt, "'\n");
 	if (errnum == 2)
 		ft_prterr("msh: syntax error near unexpected token `newline'\n");
 	g_status = ES_SYNTAC_ERROR;

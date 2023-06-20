@@ -12,18 +12,6 @@
 
 #include "minishell.h"
 
-int	ft_1quote_len(char *str)
-{
-	int	i;
-
-	i = 1;
-	while (str[i] && str[i] != '\'')
-		i++;
-	if (str[i] == '\'')
-		return (i + 1);
-	return (0);
-}
-
 int	ft_quote_len(char *str, int c)
 {
 	int	i;
@@ -35,19 +23,6 @@ int	ft_quote_len(char *str, int c)
 		return (i + 1);
 	return (0);
 }
-
-int	ft_2quote_len(char *str)
-{
-	int	i;
-
-	i = 1;
-	while (str[i] && str[i] != '\"')
-		i++;
-	if (str[i] == '\"')
-		return (i + 1);
-	return (0);
-}
-
 
 int	ft_token_len(char *str)
 {

@@ -12,7 +12,7 @@
 
 #include "minishell.h"
 
-static char *get_var(char *token, int *i)
+static char	*get_var(char *token, int *i)
 {
 	char	*var;
 	char	*value;
@@ -33,10 +33,11 @@ static char *get_var(char *token, int *i)
 		return (NULL);
 	if (value)
 		*i += ft_strlen(value);
+	free(value);
 	return (token);
 }
 
-static char *get_status(char *token, int *i)
+static char	*get_status(char *token, int *i)
 {
 	char *value;
 
@@ -51,7 +52,7 @@ static char *get_status(char *token, int *i)
 	return (token);
 }
 
-static char *is_var(char *token)
+static char	*is_var(char *token)
 {
 	int	i;
 	int	in_2quote;
@@ -80,7 +81,7 @@ static char *is_var(char *token)
 	return (token);
 }
 
-bool expander(char **tokens)
+bool	expander(char **tokens, t_type **type)
 {
 	int	j;
 
@@ -93,6 +94,8 @@ bool expander(char **tokens)
 			tokens[j] = ft_calloc(1, sizeof(char)); // for case of loop free to the end
 			return (perror("Error malloc"), false);
 		}
+		if (!(*tokens[j]))
+			(*type)[j] = e_void;
 		j++;
 	}
 	return (true);

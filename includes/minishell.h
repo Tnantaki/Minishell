@@ -26,6 +26,7 @@
 # include <sys/ioctl.h>
 # include <termios.h>
 # include <dirent.h>
+# include <sys/stat.h>
 # include "msh_utils.h"
 
 // # define D_PROMPT "\e[0;32m\e[1mmsh: \e[0m"
@@ -114,17 +115,6 @@ typedef struct s_pipex
 	t_buin	buin;
 }	t_pipe;
 
-typedef struct s_buin_cmd
-{
-	char	*cur_dir;
-	char	*old_dir;
-	char	*tmp;
-	char	**exp;
-	char	**tmp_env;
-	char	**env;
-	int		index;
-}	t_buin_cmd;
-
 typedef struct s_minishell
 {
 	char	**env;
@@ -133,8 +123,10 @@ typedef struct s_minishell
 	t_spcmd	*spcmd;
 	int		nb_tk;
 	int		nb_cmd;
+	int		nb_pipe;
 }	t_msh;
 
+void	free_msh(t_msh *msh);
 //Signal
 void	sigint_handler(int signum);
 void	sigint_wait_handler(int signum);
@@ -151,14 +143,14 @@ bool	tokenization(char *line, t_msh *msh);
 bool	classify_token(t_msh *msh);
 bool	valid_tokens(char **token, int nb_tk, t_type *type);
 //Part 2 : Paser
-bool	expander(char **tokens);
+bool	expander(char **tokens, t_type **type);
 bool	trim_quote(char **tokens);
 bool	allocate_spcmd(t_msh *msh, int nb_cmd);
 bool	allocate_sub_spcmd(t_spcmd *spcmd, int nb_cmd, t_type *type, int nb_tk);
 void	free_spcmd(t_spcmd *spcmd, int nb_cmd);
 bool	parser(t_msh *msh);
 //Part 3 : Executor
-bool	executor(t_spcmd *spcmd, int nb_cmd);
+bool	executor(t_spcmd *spcmd, t_msh *msh);
 bool	open_heredoc(t_spcmd *spcmd, int nb_cmd);
 bool	redirection(t_io *io, int nb_io, t_pipe *px);
 bool	cmd_execution(char **arg, t_pipe *px);
@@ -167,7 +159,7 @@ bool	restore_stdio(t_pipe *px);
 bool	close_stdio(t_pipe *px);
 //Part 4 : Built-in
 bool	is_built_in(char *cmd, t_buin *buin);
-bool	buin_execution(t_buin built, char **arg);
+bool	buin_execution(t_buin built, char **arg, t_msh *msh);
 int		ft_cd(char **arg);
 int		ft_echo(char **arg);
 int		ft_pwd(void);
@@ -176,7 +168,7 @@ void	del_env(char **env, int	j);
 // static void	del_env(char **env, int	j);
 int		ft_export(char **arg);
 int		ft_env(void);
-int		ft_exit(char **arg);
+int		ft_exit(char **arg, t_msh *msh);
 // 4.5 : Built-in (utils)
 char	*ft_substr(char *s, unsigned int start, size_t len);
 

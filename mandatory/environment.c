@@ -33,9 +33,7 @@ char	*get_env_value(char *var)
 	int		len_var;
 	char	**env;
 
-	if (!var)
-		return (NULL);
-	if (!(*var))
+	if (!var || !(*var))
 		return (NULL);
 	env = get_env();
 	j = 0;

@@ -14,15 +14,13 @@
 
 int ft_pwd(void)
 {
-    char    *cwd;
-    
-    cwd = NULL;
-    cwd = getcwd(cwd, 0);
-    if (cwd == NULL)
-    {
-        perror("error:");
-        return (EXIT_FAILURE);
-    }
-    printf("%s\n", cwd);
-    return (EXIT_SUCCESS);
+	char	*cwd;
+	
+	cwd = NULL;
+	cwd = getcwd(cwd, 0);
+	if (cwd == NULL)
+		return (perror("error:"), EXIT_FAILURE);
+	printf("%s\n", cwd);
+	free(cwd);
+	return (EXIT_SUCCESS);
 }

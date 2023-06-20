@@ -56,7 +56,7 @@ static bool	interpreter(char *line, t_msh *msh)
 	// debug_type(msh->tk_type, msh->nb_tk);//debug
 	if (!valid_tokens(msh->tokens, msh->nb_tk, msh->tk_type))
 		return (false);
-	if (!expander(msh->tokens))
+	if (!expander(msh->tokens, &msh->tk_type))
 		return (false);
 	// debug_tokens(msh->tokens);//debug
 	if (!trim_quote(msh->tokens))
@@ -65,7 +65,7 @@ static bool	interpreter(char *line, t_msh *msh)
 	if (!parser(msh))
 		return (false);
 	// debug_spcmd(msh->spcmd, msh->nb_cmd);//debug
-	if (!executor(msh->spcmd, msh->nb_cmd))
+	if (!executor(msh->spcmd, msh))
 		return (false);
 	free_msh(msh);
 	return (true);

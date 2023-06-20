@@ -144,6 +144,6 @@ int ft_export(char **arg)
 	}
 	i = 0;
 	while (tmp_env[i])
-		printf("%s\n",tmp_env[i++]);
+		printf("declare -x %s\n",tmp_env[i++]);
 	return (EXIT_SUCCESS);
 }

@@ -20,10 +20,8 @@ bool	is_built_in(char *cmd, t_buin *buin)
 		return (false);
 }
 
-bool	buin_execution(t_buin buin, char **arg)
+bool	buin_execution(t_buin buin, char **arg, t_msh *msh)
 {
-	// t_buin_cmd buin_cmd;
-
 	if (buin == e_echo)
 		g_status = ft_echo(arg);
 	else if (buin == e_cd)
@@ -38,13 +36,13 @@ bool	buin_execution(t_buin buin, char **arg)
 		g_status = ft_env();
 	else if (buin == e_exit)
 	{
-		g_status = ft_exit(arg);
-		// don't terminate process if there're too many argument
-		if  (g_status != 1&& ft_2dstrlen(arg) <= 2)
-		{
-			exit(g_status);
-		}
-		g_status = 1; // if still in the process due to many args
+		g_status = ft_exit(arg, msh);
+		// // don't terminate process if there're too many argument
+		// if  (g_status != 1&& ft_2dstrlen(arg) <= 2)
+		// {
+		// 	exit(g_status);
+		// }
+		// g_status = 1; // if still in the process due to many args
 	}
 	return (true);
 }

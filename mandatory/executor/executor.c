@@ -61,7 +61,7 @@ bool	wait_process(int *pid, int nb_cmd)
 	return (true);
 }
 
-bool	spcmd_execution(t_spcmd spcmd, t_pipe *px)
+bool	spcmd_execution(t_spcmd spcmd, t_pipe *px, t_msh *msh)
 {
 	if (spcmd.nb.pipe) //if there is pipe will create pipe
 	{
@@ -74,18 +74,19 @@ bool	spcmd_execution(t_spcmd spcmd, t_pipe *px)
 		return (g_status = 1, false);
 	if (!spcmd.nb.arg)
 		return (false);
-	// if (!px->pipeout && is_built_in(spcmd.arg[0], &px->buin)) //if no pipe, but builtin is present
-	if (is_built_in(spcmd.arg[0], &px->buin)) //if no pipe, but builtin is present
-		return (buin_execution(px->buin, spcmd.arg), true);
+	if (!msh->nb_pipe && is_built_in(spcmd.arg[0], &px->buin)) //if no pipe, but builtin is present
+		return (buin_execution(px->buin, spcmd.arg, msh), true);
 	if (!cmd_execution(spcmd.arg, px))
 		return (false);
 	return (true);
 }
 
-bool	executor(t_spcmd *spcmd, int nb_cmd)
+bool	executor(t_spcmd *spcmd, t_msh *msh)
 {
+	int		nb_cmd;
 	t_pipe	px;
 
+	nb_cmd = msh->nb_cmd;
 	if (!create_pid(&px, nb_cmd)) //create pid of each command for get status
 		return (false);
 	if (!open_heredoc(spcmd, nb_cmd))
@@ -94,7 +95,7 @@ bool	executor(t_spcmd *spcmd, int nb_cmd)
 	px.i = 0;
 	while (px.i < nb_cmd)
 	{
-		spcmd_execution(spcmd[px.i], &px);
+		spcmd_execution(spcmd[px.i], &px, msh);
 		restore_stdio(&px);
 		px.i++;
 	}
