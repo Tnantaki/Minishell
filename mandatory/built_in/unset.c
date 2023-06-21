@@ -22,8 +22,6 @@ int ft_unset(char **arg)
 	char	**env;
 
 	status = 0;
-	// if (arg[1] == NULL)
-	// 	return (ft_prterr("unset: not enough arguments\n"), 1);
 	i = 0;
 	while (arg[++i])
 	{
