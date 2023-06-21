@@ -96,8 +96,8 @@ int	main(int ac, char **av, char **envp)
 			free_msh(&msh);
 		free(line);
 	}
-	rl_clear_history();
-	// restore_termios(&term);
+	clear_history();
+	restore_termios(&term);
 	ft_free2dstr(get_env());
 	return (printf("exit\n"), EXIT_SUCCESS);
 }
