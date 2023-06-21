@@ -1,88 +1,45 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   valid_syntax.c                                     :+:      :+:    :+:   */
+/*   valid_token.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tnantaki <tnantaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/12 13:24:56 by tnantaki          #+#    #+#             */
-/*   Updated: 2023/06/12 13:24:57 by tnantaki         ###   ########.fr       */
+/*   Created: 2023/06/12 13:25:01 by tnantaki          #+#    #+#             */
+/*   Updated: 2023/06/12 13:25:02 by tnantaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	err_syn(int errnum)
+static void	err_tok(int errnum, char *rdrt)
 {
 	if (errnum == 1)
-		ft_prterr("msh: syntax error unclosed single quote `\''\n");
-	else if (errnum == 2)
-		ft_prterr("msh: syntax error unclosed double quote `\"'\n");
-	g_status = ES_ERROR;
-	return (0);
+		ft_prterrf("msh: syntax error near unexpected token `", rdrt, "'\n");
+	if (errnum == 2)
+		ft_prterr("msh: syntax error near unexpected token `newline'\n");
+	g_status = ES_SYNTAC_ERROR;
 }
 
-static int	ft_dollarlen(char *str)
+bool	valid_syntax(char **tokens, int nb_tk, t_type *type)
 {
-	int	i;
+	int		i;
+	t_type	pre;
 
-	i = 1;
-	if (!str[i])
-		return (1);
-	else if (str[i] == '?') //statuc code = $?
-		i += 1;
-	else if (ft_isdigit(str[i])) //position argument = $1-9
-		i += 1;
-	else if (ft_isspecial(str[i])) //$$, $#, $@, $-, $!, $*
-		i += 1;
-	else if (ft_is_1stvar(str[i])) //_, 1-9, a-z, A-Z
-		i += ft_var_len(&str[i]);
-	return (i);
-}
-
-static int	is_unclosed_quote(char *str)
-{
-	int	len;
-
-	len = 0;
-	if (str[len] == '\'')
+	i = 0;
+	pre = e_void;
+	if (type[0] == e_pipe)
+		return (err_tok(1, tokens[i]), false);
+	while (i < nb_tk)
 	{
-		len = ft_quote_len(str, '\'');
-		if (!len)
-			return (err_syn(1));
+		if ((pre == e_pipe && type[i] == e_pipe)
+			|| (pre == e_rdrt && type[i] == e_pipe)
+			|| (pre == e_rdrt && type[i] == e_rdrt))
+			return (err_tok(1, tokens[i]), false);
+		pre = type[i];
+		i++;
 	}
-	else
-	{
-		len = ft_quote_len(str, '\"');
-		if (!len)
-			return (err_syn(2));
-	}
-	return (len);
-}
-
-bool	valid_syntax(char *line)
-{
-	int		len;
-
-	while (*line)
-	{
-		len = 0;
-		while (*line && ft_isspace(*line))
-			line++;
-		if (!(*line))
-			break ;
-		else if (ft_isquote(*line))
-			len = is_unclosed_quote(line);
-		else if (ft_isoptr(*line))
-			len = ft_optr_len(line);
-		else if (*line == '$')
-			len = ft_dollarlen(line);
-		else if (ft_iscmd(*line))
-			len = ft_cmd_len(line);
-		if (!len)
-			return (false);
-		else
-			line += len;
-	}
+	if (type[nb_tk - 1] == e_rdrt || type[nb_tk - 1] == e_pipe)
+		return (err_tok(2, NULL), false);
 	return (true);
 }

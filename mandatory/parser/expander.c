@@ -39,7 +39,7 @@ static char	*get_var(char *token, int *i)
 
 static char	*get_status(char *token, int *i)
 {
-	char *value;
+	char	*value;
 
 	value = ft_itoa(g_status);
 	if (!value)
@@ -91,7 +91,7 @@ bool	expander(char **tokens, t_type **type)
 		tokens[j] = is_var(tokens[j]);
 		if (!tokens[j])
 		{
-			tokens[j] = ft_calloc(1, sizeof(char)); // for case of loop free to the end
+			tokens[j] = ft_calloc(1, sizeof(char)); // for loop free to the end
 			return (perror("Error malloc"), false);
 		}
 		if (!(*tokens[j]))

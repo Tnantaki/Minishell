@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env.c                                              :+:      :+:    :+:   */
+/*   environment.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tnantaki <tnantaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/12 13:29:14 by tnantaki          #+#    #+#             */
-/*   Updated: 2023/06/12 13:29:15 by tnantaki         ###   ########.fr       */
+/*   Created: 2023/06/21 15:03:31 by tnantaki          #+#    #+#             */
+/*   Updated: 2023/06/21 15:03:33 by tnantaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 char	**set_env(char **env)
 {
-	static char **stc_env = NULL;
+	static char	**stc_env = NULL;
 
 	if (!env)
 		return (stc_env);
@@ -22,7 +22,7 @@ char	**set_env(char **env)
 	return (stc_env);
 }
 
-char **get_env(void)
+char	**get_env(void)
 {
 	return (set_env(NULL));
 }
@@ -59,9 +59,9 @@ char	**search_env_var(char *var, int var_len)
 	j = 0;
 	while (env[j])
 	{
-		if (ft_strncmp(env[j], var, var_len) == 0) //find variable name
+		if (ft_strncmp(env[j], var, var_len) == 0)
 		{
-			if (env[j][var_len] == '\0' || env[j][var_len] == '=') // if the name is correct, enter the clause
+			if (env[j][var_len] == '\0' || env[j][var_len] == '=')
 				return (env + j);
 		}
 		j++;

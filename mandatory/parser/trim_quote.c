@@ -1,3 +1,15 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   trim_quote.c                                       :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tnantaki <tnantaki@student.42.fr>          +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/06/21 15:07:40 by tnantaki          #+#    #+#             */
+/*   Updated: 2023/06/21 15:07:42 by tnantaki         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "minishell.h"
 
 static int	count_quote(char *token)
@@ -35,7 +47,7 @@ static char	*trim_quote_token(char *token, int cq)
 	{
 		if (ft_isquote(token[i + cq]))
 		{
-			len = ft_quote_len(token + i + cq, token[i + cq]) - 2; //minus 2 char of 2 quote
+			len = ft_quote_len(token + i + cq, token[i + cq]) - 2; //- 2 quote
 			ft_memcpy(&new_token[i], &token[i + cq + 1], len);
 			i += len;
 			cq += 2;

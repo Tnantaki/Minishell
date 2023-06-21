@@ -29,8 +29,6 @@
 # include <sys/stat.h>
 # include "msh_utils.h"
 
-// # define D_PROMPT "\e[0;32m\e[1mmsh: \e[0m"
-
 //Exit Status Code
 # if defined(__linux__)
 #  define ES_ERROR 1
@@ -51,6 +49,7 @@
 #  define ES_SIGKILL 137
 #  define ES_SIGSTOP 145
 # endif
+
 extern int	g_status;
 
 typedef enum e_type_rdrt
@@ -126,6 +125,7 @@ typedef struct s_minishell
 	int		nb_pipe;
 }	t_msh;
 
+//Main
 void	free_msh(t_msh *msh);
 //Signal
 void	sigint_handler(int signum);
@@ -133,15 +133,21 @@ void	sigint_wait_handler(int signum);
 bool	set_signal(void);
 bool	set_termios(struct termios *term);
 bool	restore_termios(struct termios *term);
+//Environment
+char	**set_env(char **env);
+char	**get_env(void);
+char	*get_env_value(char *var);
+bool	check_valid_var(char *var, int *status, char *cmd);
+char	**search_env_var(char *var, int var_len);
 //Debuger
 int		debug_tokens(char **str);
 int		debug_type(t_type *type, int nb_tk);
 int		debug_spcmd(t_spcmd *spcmd, int nb_cmd);
 //Part 1 : Lexer
-bool	valid_syntax(char *line);
+bool	valid_quote(char *line);
 bool	tokenization(char *line, t_msh *msh);
 bool	classify_token(t_msh *msh);
-bool	valid_tokens(char **token, int nb_tk, t_type *type);
+bool	valid_syntax(char **token, int nb_tk, t_type *type);
 //Part 2 : Paser
 bool	expander(char **tokens, t_type **type);
 bool	trim_quote(char **tokens);
@@ -167,13 +173,6 @@ int		ft_unset(char **arg);
 int		ft_export(char **arg);
 int		ft_env(void);
 int		ft_exit(char **arg, t_msh *msh);
-void	del_env(char **env, int	j);
-
-//### Environment ###//
-char	**set_env(char **env);
-char	**get_env(void);
-char	*get_env_value(char *var);
-bool	check_valid_var(char *var, int *status, char *cmd);
-char	**search_env_var(char *var, int var_len);
+void	del_env(char **env, int j);
 
 #endif

@@ -12,8 +12,8 @@
 
 #include "minishell.h"
 
-// ### interpreter ###
-// get line from main and do lexer, parser and execute
+int	g_status;
+
 void	free_msh(t_msh *msh)
 {
 	if (msh->tokens)
@@ -45,10 +45,12 @@ bool	init_msh(t_msh *msh, struct termios *term, char **envp)
 	return (true);
 }
 
+// Interpreter
+// get line from main and do lexer, parser and execute
 static bool	interpreter(char *line, t_msh *msh)
 {
 	add_history(line);
-	if (!valid_syntax(line))
+	if (!valid_quote(line))
 		return (false);
 	if (!tokenization(line, msh))
 		return (false);
@@ -56,7 +58,7 @@ static bool	interpreter(char *line, t_msh *msh)
 	if (!classify_token(msh))
 		return (false);
 	// debug_type(msh->tk_type, msh->nb_tk);//debug
-	if (!valid_tokens(msh->tokens, msh->nb_tk, msh->tk_type))
+	if (!valid_syntax(msh->tokens, msh->nb_tk, msh->tk_type))
 		return (false);
 	if (!expander(msh->tokens, &msh->tk_type))
 		return (false);

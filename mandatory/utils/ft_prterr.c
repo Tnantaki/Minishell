@@ -25,4 +25,3 @@ void	ft_prterrf(char *str1, char *str2, char *str3)
 	ft_prterr(str2);
 	ft_prterr(str3);
 }
-
