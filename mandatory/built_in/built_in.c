@@ -20,7 +20,7 @@ bool	is_built_in(char *cmd, t_buin *buin)
 		return (false);
 }
 
-bool	buin_execution(t_buin buin, char **arg, t_msh *msh)
+bool	find_buin(t_buin buin, char **arg, t_msh *msh)
 {
 	if (buin == e_echo)
 		g_status = ft_echo(arg);
@@ -35,14 +35,24 @@ bool	buin_execution(t_buin buin, char **arg, t_msh *msh)
 	else if (buin == e_env)
 		g_status = ft_env();
 	else if (buin == e_exit)
-	{
 		g_status = ft_exit(arg, msh);
-		// // don't terminate process if there're too many argument
-		// if  (g_status != 1&& ft_2dstrlen(arg) <= 2)
-		// {
-		// 	exit(g_status);
-		// }
-		// g_status = 1; // if still in the process due to many args
+	return (true);
+}
+
+bool	buin_execution(char **arg, t_pipe *px, t_msh *msh)
+{
+	if (msh->nb_pipe)
+	{
+		px->pid[px->i] = fork();
+		if (px->pid[px->i] == -1)
+			return (perror("Fork Fail"), false);
+		if (px->pid[px->i] == 0)
+		{
+			find_buin(px->buin, arg, msh);
+			exit(g_status);
+		}
 	}
+	else
+		find_buin(px->buin, arg, msh);
 	return (true);
 }

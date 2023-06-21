@@ -159,22 +159,21 @@ bool	restore_stdio(t_pipe *px);
 bool	close_stdio(t_pipe *px);
 //Part 4 : Built-in
 bool	is_built_in(char *cmd, t_buin *buin);
-bool	buin_execution(t_buin built, char **arg, t_msh *msh);
+bool	buin_execution(char **arg, t_pipe *px, t_msh *msh);
 int		ft_cd(char **arg);
 int		ft_echo(char **arg);
 int		ft_pwd(void);
 int		ft_unset(char **arg);
-void	del_env(char **env, int	j);
-// static void	del_env(char **env, int	j);
 int		ft_export(char **arg);
 int		ft_env(void);
 int		ft_exit(char **arg, t_msh *msh);
-// 4.5 : Built-in (utils)
-char	*ft_substr(char *s, unsigned int start, size_t len);
+void	del_env(char **env, int	j);
 
 //### Environment ###//
 char	**set_env(char **env);
 char	**get_env(void);
 char	*get_env_value(char *var);
+bool	check_valid_var(char *var, int *status, char *cmd);
+char	**search_env_var(char *var, int var_len);
 
 #endif

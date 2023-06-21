@@ -46,3 +46,44 @@ char	*get_env_value(char *var)
 	}
 	return (NULL);
 }
+
+// Search variable in env
+// return address of env that match with var
+// return NULL if not found
+char	**search_env_var(char *var, int var_len)
+{
+	int		j;
+	char	**env;
+
+	env = get_env();
+	j = 0;
+	while (env[j])
+	{
+		if (ft_strncmp(env[j], var, var_len) == 0) //find variable name
+		{
+			if (env[j][var_len] == '\0' || env[j][var_len] == '=') // if the name is correct, enter the clause
+				return (env + j);
+		}
+		j++;
+	}
+	return (NULL);
+}
+
+// Check name of variable is valid
+// return 1(true) : if it valid.
+// return 0(false) : if it not, print error massage and change status.
+bool	check_valid_var(char *var, int *status, char *cmd)
+{
+	int	var_len;
+
+	var_len = 0;
+	if (ft_is_1stvar(var[0]))
+	{
+		var_len = ft_var_len(var);
+		if (var[var_len] == '\0' || var[var_len] == '=')
+			return (true);
+	}
+	ft_prterrf(cmd, var, "': not a valid identifier\n");
+	*status = 1;
+	return (false);
+}

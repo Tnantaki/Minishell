@@ -17,40 +17,21 @@ void	del_env(char **env, int	j)
 
 int ft_unset(char **arg)
 {
+	int			i;
 	int		status;
-	int 		i;
-	int 		j;
 	char	**env;
 
 	status = 0;
-	if (arg[1] == NULL)
-		return (ft_prterr("unset: not enough arguments\n"), 1);
-	env = get_env();
+	// if (arg[1] == NULL)
+	// 	return (ft_prterr("unset: not enough arguments\n"), 1);
 	i = 0;
-	while (arg[i])
+	while (arg[++i])
 	{
-		if (!ft_is_1stvar(arg[i][0]))
-		{
-			ft_prterr("unset: `");
-			ft_prterr(arg[i]);
-			ft_prterr("': not a valid identifier\n");
-			status = 1;
-			i++;
-			continue ;
-		}
-		j = 0;
-		while (env[j])
-		{
-			if (ft_strncmp(arg[i], env[j], ft_strlen(arg[i])) == 0) //find variable name
-			{
-				if (env[j][ft_strlen(arg[i])] == '=') // if the name is correct, enter the clause
-				{
-					del_env(env, j);
-				}
-			}
-			j++;
-		}
-		i++;
+		if (!check_valid_var(arg[i], &status, "unset: `"))
+			continue;
+		env = search_env_var(arg[i], ft_var_len(arg[i]));
+		if (env)
+			del_env(env, 0);
 	}
 	return(status);
 }

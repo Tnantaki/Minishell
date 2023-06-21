@@ -64,6 +64,10 @@ int	ft_var_len(char *line)
 	int	i;
 
 	i = 0;
+	if (ft_is_1stvar(line[i]))
+		i++;
+	else
+		return (0);
 	while (line[i] && ft_isvar(line[i]))
 		i++;
 	return (i);

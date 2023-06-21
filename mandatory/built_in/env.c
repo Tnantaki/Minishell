@@ -12,13 +12,14 @@
 
 #include "minishell.h"
 
-// int ft_env(char **arg, t_buin_cmd *buin)
 int ft_env()
 {
 	int			i;
 	char		**env;
 
 	env = get_env();
+	if (!env)
+		return (EXIT_FAILURE);
 	i = 0;
 	while(env[i])
 	{

@@ -12,35 +12,7 @@
 
 #include "minishell.h"
 
-// int	ft_exit(char **arg)
-// {
-// 	int	status;
-// 	int	i;
-
-// 	status = 0;
-// 	i = 0;
-// 	if (ft_2dstrlen(arg) > 2) // if arg is digit, but there're more than two args
-// 		return (ft_prterr("exit: too many arguments\n"), 1);
-// 	if (ft_2dstrlen(arg) > 1) //if there's one or more args (not only exit)
-// 	{
-// 		while (arg[1][i])
-// 		{
-// 			if (arg[1][0] == '+' || arg[1][0] == '-')
-// 				break ;
-// 			if (ft_isdigit(arg[1][i])) // if arg -> digit
-// 				i++;
-// 			else
-// 				return (printf("exit\n"), 255);
-// 		}
-// 		status = atoi(arg[1]); // if arg -> digit and it's the only arg
-// 	}
-// 	free_msh(msh);
-// 	printf("exit\n");
-// 	exit(status %= 256);
-// 	return (EXIT_SUCCESS);
-// }
-
-# define LONG_MAX 9223372036854775807
+#define LONG_MAX 9223372036854775807
 
 int	is_negative(char *str, int *i)
 {
@@ -68,9 +40,9 @@ static bool	is_longint(char *str, int *status)
 	negative = is_negative(str, &i);
 	while (str[i] && ft_isdigit(str[i]))
 	{
-		if (nb >= LONG_MAX / 10 && (str[i - 1] > '0' ||
+		if (nb >= LONG_MAX / 10 && (str[i - 1] > '0' || \
 			(negative == 1 && str[i] > '7') || str[i] > '8'))
-				return (false);
+			return (false);
 		nb = nb * 10 + (str[i++] - '0');
 	}
 	if (nb)
@@ -88,17 +60,18 @@ int	ft_exit(char **arg, t_msh *msh)
 	while (arg[i])
 	{
 		if (i > 1)
-			ft_prterr("exit: too many arguments\n");
+			return (ft_prterr("exit: too many arguments\n"), EXIT_FAILURE);
 		if (!is_longint(arg[1], &status))
 		{
 			printf("exit\n");
 			ft_prterrf("exit: ", arg[i], ": numeric argument required\n");
 			free_msh(msh);
-			exit(EXIT_FAILURE);
+			ft_free2dstr(get_env());
+			exit(2);
 		}
 		i++;
 	}
-	free_msh(msh);
-	exit(status);
-	return (EXIT_SUCCESS);
+	printf("exit\n");
+	ft_free2dstr(get_env());
+	return (free_msh(msh), exit(status), EXIT_SUCCESS);
 }

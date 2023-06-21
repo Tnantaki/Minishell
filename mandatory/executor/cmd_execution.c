@@ -40,7 +40,7 @@ static bool	findpath(char ***r_path)
 static void	err_cmd_exec(int errnum, char *arg, char **path)
 {
 	if (errnum == 1)
-		arg = ft_strjoin(arg, ": is a directory\n");
+		arg = ft_strjoin(arg, ": Is a directory\n");
 	else if (errnum == 2 && !path)
 		arg = ft_strjoin(arg, ": No such file or directory\n");
 	else if (errnum == 2)

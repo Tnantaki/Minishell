@@ -29,17 +29,19 @@ void	free_msh(t_msh *msh)
 
 bool	init_msh(t_msh *msh, struct termios *term, char **envp)
 {
+	char	**env;
+
+	env = ft_2dstrdup(envp);
+	if (!env)
+		return (false);
+	set_env(env);
 	g_status = 0;
-	msh->env = NULL;
 	msh->tokens = NULL;
 	msh->tk_type = NULL;
 	msh->spcmd = NULL;
 	(void)term;
 	// set_termios(term);
 	set_signal();
-	// (void)envp;
-	msh->env = ft_2dstrdup(envp);
-	set_env(msh->env);
 	return (true);
 }
 
@@ -94,9 +96,8 @@ int	main(int ac, char **av, char **envp)
 	}
 	rl_clear_history();
 	// restore_termios(&term);
-	ft_free2dstr(msh.env);
-	printf("Exit\n");
-	return (0);
+	ft_free2dstr(get_env());
+	return (printf("exit\n"), EXIT_SUCCESS);
 }
 
 //ls -la| echo " Hello How " | echo $$ $PWD|echo $HOME> infile.txt

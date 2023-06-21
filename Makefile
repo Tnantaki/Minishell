@@ -9,10 +9,9 @@ PARSER_DIR	= parser/
 EXCUTE_DIR	= executor/
 BUILT_DIR	= built_in/
 UTILS_DIR	= utils/
-BONUS_DIR	=
 
 ### Compilation ###
-CC			= gcc
+CC			= cc
 RM			= rm -f
 MAN_HEAD	= -Iincludes
 CFLAGS		= -Wall -Wextra -Werror -g -fsanitize=address
