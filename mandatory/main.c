@@ -101,5 +101,3 @@ int	main(int ac, char **av, char **envp)
 	ft_free2dstr(get_env());
 	return (printf("exit\n"), EXIT_SUCCESS);
 }
-
-//ls -la| echo " Hello How " | echo $$ $PWD|echo $HOME> infile.txt

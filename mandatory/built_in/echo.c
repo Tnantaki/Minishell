@@ -12,10 +12,10 @@
 
 #include "minishell.h"
 
-int ft_echo(char **arg)
+int	ft_echo(char **arg)
 {
-	int i;
-	int flag;
+	int	i;
+	int	flag;
 
 	i = 1;
 	flag = 0;

@@ -12,16 +12,16 @@
 
 #include "minishell.h"
 
-int ft_env()
+int	ft_env(void)
 {
-	int			i;
-	char		**env;
+	int		i;
+	char	**env;
 
 	env = get_env();
 	if (!env)
 		return (EXIT_FAILURE);
 	i = 0;
-	while(env[i])
+	while (env[i])
 	{
 		if (env[i] != NULL)
 			printf("%s\n", env[i]);
