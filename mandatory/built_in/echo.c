@@ -20,7 +20,7 @@ int	ft_echo(char **arg)
 	i = 1;
 	flag = 0;
 	if (!arg[1])
-		return (printf("\n"), EXIT_SUCCESS);
+		return (write(STDOUT_FILENO, "\n", 1), EXIT_SUCCESS);
 	if (ft_strcmp(arg[1], "-n") == 0)
 	{
 		i = 2;
@@ -28,12 +28,12 @@ int	ft_echo(char **arg)
 	}
 	while (arg[i])
 	{
-		printf("%s", arg[i]);
+		ft_putstr_fd(arg[i], STDOUT_FILENO);
 		i++;
 		if (arg[i])
-			printf(" ");
+			write(STDOUT_FILENO, " ", 1);
 	}
 	if (!flag)
-		printf("\n");
+		write(STDOUT_FILENO, "\n", 1);
 	return (EXIT_SUCCESS);
 }

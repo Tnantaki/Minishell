@@ -70,13 +70,11 @@ bool	spcmd_execution(t_spcmd spcmd, t_pipe *px, t_msh *msh)
 	}
 	else
 		px->pipeout = 0;
-	if (!redirection(spcmd.io, spcmd.nb.io, px))
-		return (g_status = 1, false);
-	if (!spcmd.nb.arg)
-		return (false);
-	if (is_built_in(spcmd.arg[0], &px->buin))
-		return (buin_execution(spcmd.arg, px, msh));
-	if (!cmd_execution(spcmd.arg, px))
+	if (!spcmd.nb.arg && !spcmd.nb.io)
+		return (true);
+	if (spcmd.nb.arg && is_built_in(spcmd.arg[0], &px->buin))
+		return (buin_execution(spcmd, px, msh));
+	if (!cmd_execution(spcmd, px))
 		return (false);
 	return (true);
 }

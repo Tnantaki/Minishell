@@ -40,7 +40,7 @@ bool	init_msh(t_msh *msh, struct termios *term, char **envp)
 	msh->tk_type = NULL;
 	msh->spcmd = NULL;
 	(void)term;
-	// set_termios(term);
+	set_termios(term);
 	set_signal();
 	return (true);
 }
@@ -97,7 +97,7 @@ int	main(int ac, char **av, char **envp)
 		free(line);
 	}
 	rl_clear_history();
-	// restore_termios(&term);
+	restore_termios(&term);
 	ft_free2dstr(get_env());
 	return (printf("exit\n"), EXIT_SUCCESS);
 }

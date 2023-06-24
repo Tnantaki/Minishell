@@ -51,7 +51,7 @@ bool	find_buin(t_buin buin, char **arg, t_msh *msh)
 	return (true);
 }
 
-bool	buin_execution(char **arg, t_pipe *px, t_msh *msh)
+bool	buin_execution(t_spcmd spcmd, t_pipe *px, t_msh *msh)
 {
 	if (msh->nb_pipe)
 	{
@@ -60,13 +60,22 @@ bool	buin_execution(char **arg, t_pipe *px, t_msh *msh)
 			return (perror("Fork Fail"), false);
 		if (px->pid[px->i] == 0)
 		{
+			free(px->pid);
 			if (px->pipeout)
 				close(px->pipefd[0]);
-			find_buin(px->buin, arg, msh);
+			if (!open_files(spcmd.io, spcmd.nb.io, px))
+				exit(1);
+			redirection(px);
+			find_buin(px->buin, spcmd.arg, msh);
 			exit(g_status);
 		}
 	}
 	else
-		find_buin(px->buin, arg, msh);
+	{
+		if (!open_files(spcmd.io, spcmd.nb.io, px))
+			return (g_status = 1, false);
+		redirection(px);
+		find_buin(px->buin, spcmd.arg, msh);
+	}
 	return (true);
 }

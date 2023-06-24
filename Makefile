@@ -35,7 +35,7 @@ LEXER_SRCS	= valid_quote.c tokenization.c classify_token.c valid_syntax.c
 
 PARSER_SRCS	= expander.c trim_quote.c allocate_spcmd.c parser.c
 
-EXCUTE_SRCS	= executor.c redirection.c set_stdio.c cmd_execution.c
+EXCUTE_SRCS	= executor.c open_files.c redirection.c cmd_execution.c
 
 BUILT_SRCS	= built_in.c cd.c echo.c pwd.c export.c unset.c env.c exit.c
 
