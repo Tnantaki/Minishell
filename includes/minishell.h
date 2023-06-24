@@ -158,7 +158,8 @@ bool	parser(t_msh *msh);
 //Part 3 : Executor
 bool	executor(t_spcmd *spcmd, t_msh *msh);
 bool	open_heredoc(t_spcmd *spcmd, int nb_cmd);
-bool	redirection(t_io *io, int nb_io, t_pipe *px);
+bool	open_files(t_io *io, int nb_io, t_pipe *px);
+bool	redirection(t_pipe *px);
 bool	cmd_execution(char **arg, t_pipe *px);
 bool	save_stdio(t_pipe *px);
 bool	restore_stdio(t_pipe *px);

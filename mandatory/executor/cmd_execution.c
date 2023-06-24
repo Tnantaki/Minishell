@@ -101,6 +101,12 @@ bool	cmd_execution(char **arg, t_pipe *px)
 	if (px->pid[px->i] == 0)
 	{
 		free(px->pid);
+		if (px->pipeout)
+		{
+			// dprintf(2, "clo pipe :%d\n", px->pipefd[0]);//debug
+			close(px->pipefd[0]);
+		}
+		redirection(px);
 		if (!find_cmd(&cmd, arg[0]))
 			exit(g_status);
 		if (access(cmd, X_OK) != 0)

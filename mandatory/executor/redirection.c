@@ -61,7 +61,8 @@ bool	open_heredoc(t_spcmd *spcmd, int nb_cmd)
 
 static int	open_infile(t_io io, int infd)
 {
-	if (infd)
+	dprintf(2, "openin infd :%d\n", infd);//debug
+	if (!isatty(infd))
 		close(infd);
 	if (io.rdrt == e_input)
 		infd = open(io.filename, O_RDONLY);
@@ -72,7 +73,8 @@ static int	open_infile(t_io io, int infd)
 
 static int	open_outfile(t_io io, int outfd)
 {
-	if (outfd)
+	dprintf(2, "openout outfd :%d\n", outfd);//debug
+	if (!isatty(outfd))
 		close(outfd);
 	if (io.rdrt == e_output)
 		outfd = open(io.filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
@@ -81,7 +83,7 @@ static int	open_outfile(t_io io, int outfd)
 	return (outfd);
 }
 
-bool	redirection(t_io *io, int nb_io, t_pipe *px)
+bool	open_files(t_io *io, int nb_io, t_pipe *px)
 {
 	int	i;
 
@@ -95,16 +97,6 @@ bool	redirection(t_io *io, int nb_io, t_pipe *px)
 		if (px->infd == -1 || px->outfd == -1)
 			return (perror(io[i].filename), false);
 		i++;
-	}
-	if (px->infd)
-	{
-		dup2(px->infd, STDIN_FILENO);
-		close(px->infd);
-	}
-	if (px->outfd)
-	{
-		dup2(px->outfd, STDOUT_FILENO);
-		close(px->outfd);
 	}
 	return (true);
 }

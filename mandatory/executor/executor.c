@@ -70,7 +70,7 @@ bool	spcmd_execution(t_spcmd spcmd, t_pipe *px, t_msh *msh)
 	}
 	else
 		px->pipeout = 0;
-	if (!redirection(spcmd.io, spcmd.nb.io, px))
+	if (!open_files(spcmd.io, spcmd.nb.io, px))
 		return (g_status = 1, false);
 	if (!spcmd.nb.arg)
 		return (false);

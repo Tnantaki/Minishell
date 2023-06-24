@@ -60,11 +60,21 @@ bool	buin_execution(char **arg, t_pipe *px, t_msh *msh)
 			return (perror("Fork Fail"), false);
 		if (px->pid[px->i] == 0)
 		{
+			free(px->pid);
+			if (px->pipeout)
+			{
+				// dprintf(2, "clo pipe :%d\n", px->pipefd[0]);//debug
+				close(px->pipefd[0]);
+			}
+			redirection(px);
 			find_buin(px->buin, arg, msh);
 			exit(g_status);
 		}
 	}
 	else
+	{
+		redirection(px);
 		find_buin(px->buin, arg, msh);
+	}
 	return (true);
 }
