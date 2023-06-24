@@ -100,6 +100,8 @@ bool	cmd_execution(char **arg, t_pipe *px)
 		return (perror("Fork Fail"), false);
 	if (px->pid[px->i] == 0)
 	{
+		if (px->pipeout)
+			close(px->pipefd[0]);
 		free(px->pid);
 		if (!find_cmd(&cmd, arg[0]))
 			exit(g_status);

@@ -60,6 +60,8 @@ bool	buin_execution(char **arg, t_pipe *px, t_msh *msh)
 			return (perror("Fork Fail"), false);
 		if (px->pid[px->i] == 0)
 		{
+			if (px->pipeout)
+				close(px->pipefd[0]);
 			find_buin(px->buin, arg, msh);
 			exit(g_status);
 		}

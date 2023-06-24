@@ -23,6 +23,7 @@ bool	save_stdio(t_pipe *px)
 
 bool	restore_stdio(t_pipe *px)
 {
+	close(px->outfd);
 	if (!isatty(STDIN_FILENO))
 		dup2(px->std_in, STDIN_FILENO);
 	if (!isatty(STDOUT_FILENO))
