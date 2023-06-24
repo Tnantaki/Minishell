@@ -12,19 +12,27 @@
 
 #include "minishell.h"
 
-static void	ft_push_swap(char **tmp_env, int i)
+static void	sort_export(char **tmp_env, size_t amv)
 {
+	size_t	i;
 	char	*tmp;
 
-	tmp = NULL;
-	tmp = tmp_env[i];
-	tmp_env[i] = tmp_env[i + 1];
-	tmp_env[i + 1] = tmp;
+	i = 0;
+	while (i < amv && tmp_env[i + 1])
+	{
+		if (ft_strcmp(tmp_env[i], tmp_env[i + 1]) > 0)
+		{
+			tmp = NULL;
+			tmp = tmp_env[i];
+			tmp_env[i] = tmp_env[i + 1];
+			tmp_env[i + 1] = tmp;
+		}
+		i++;
+	}
 }
 
 static int	display_sorted_export(char **env)
 {
-	size_t	i;
 	size_t	j;
 	size_t	amv;
 	char	**tmp_env;
@@ -36,18 +44,16 @@ static int	display_sorted_export(char **env)
 	j = 0;
 	while (j < amv) //sort vars
 	{
-		i = 0;
-		while (i < amv && tmp_env[i + 1])
-		{
-			if (ft_strcmp(tmp_env[i], tmp_env[i + 1]) > 0)
-				ft_push_swap(tmp_env, i);
-			i++;
-		}
+		sort_export(tmp_env, amv);
 		j++;
 	}
 	j = 0;
 	while (tmp_env[j])
-		printf("declare -x %s\n", tmp_env[j++]);
+	{
+		ft_putstr_fd("declare -x ", STDOUT_FILENO);
+		ft_putstr_fd(tmp_env[j++], STDOUT_FILENO);
+		ft_putchar_fd('\n', STDOUT_FILENO);
+	}
 	return (ft_free2dstr(tmp_env), EXIT_SUCCESS);
 }
 

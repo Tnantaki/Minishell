@@ -3,14 +3,14 @@
 in main function will seperate into 4 Part.
 ### Part 1 : Lexer
 1. Valid Quote : Command line must don't have unclosed quoted.
-- `'` `"` Check are there unclosed quotes. <br>
+ - `'` `"` Check are there unclosed quotes. <br>
 2. tokenization : will seperate the command line into tokens.
 3. classify_token : will classify the type of tokens
-- Command.
-- Argument.
-- Redirection
-- Filename
-- Pipe
+ - Command.
+ - Argument.
+ - Redirection
+ - Filename
+ - Pipe
 4. Valid Syntax :
 - Never have `|` or `||` near tokens. <br>
 - Never have `<`,`<<`,`>`,`>>` by didn't follow filename. <br>
@@ -19,17 +19,18 @@ in main function will seperate into 4 Part.
 2. Trim quote : Outer quote will be trim. Both of `'`(Single quote) and `"`(Double quote). <br>
 3. Parser : will arrange the token into simple command struct.
 ### Part 3 : Execution
-1. Pipe Creation : if there is pipe, Create pipe.
-2. Redirections : The Shell will interpret input/output redirections and using function dup2 to redirect.
-3. Executor : There are 2 alternative possible execution.
-- Built-in command : if command are listed on Built-in.
-	- if **No pipe** Shell will execute in parent process.
-	- else Shell will fork child to execute.
-- Non Built-in command : The Shell will create child process by forking and execute the command.
+1. If there are here_doc in command line, Create all here_doc first.
+2. Pipe Creation : if there is pipe, Create pipe.
+3. Executor :
+ - There are 2 alternative possible execution.
+ 1. Built-in command : if command are listed on Built-in.
+  - if **No pipe** Shell will open files, redirection and execute in parent process.
+  - else Shell will fork child to open files, redirection and execute.
+ 2. Non Built-in command : The Shell will create child process by forking open files, redirection and execute the command.
 4. Exit Status : Wait process to record exit status.
 5. Cleanup :
-- Closing all file descriptors
-- Free all memory
+ - Closing all file descriptors
+ - Free all memory
 ### Part 4 : Built-in
 1. echo
 2. cd

@@ -160,13 +160,13 @@ bool	executor(t_spcmd *spcmd, t_msh *msh);
 bool	open_heredoc(t_spcmd *spcmd, int nb_cmd);
 bool	open_files(t_io *io, int nb_io, t_pipe *px);
 bool	redirection(t_pipe *px);
-bool	cmd_execution(char **arg, t_pipe *px);
+bool	cmd_execution(t_spcmd spcmd, t_pipe *px);
 bool	save_stdio(t_pipe *px);
 bool	restore_stdio(t_pipe *px);
 bool	close_stdio(t_pipe *px);
 //Part 4 : Built-in
 bool	is_built_in(char *cmd, t_buin *buin);
-bool	buin_execution(char **arg, t_pipe *px, t_msh *msh);
+bool	buin_execution(t_spcmd spcmd, t_pipe *px, t_msh *msh);
 int		ft_cd(char **arg);
 int		ft_echo(char **arg);
 int		ft_pwd(void);

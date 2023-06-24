@@ -90,7 +90,7 @@ static bool	find_cmd(char **cmd, char *arg)
 	return (err_cmd_exec(2, arg, path), false);
 }
 
-bool	cmd_execution(char **arg, t_pipe *px)
+bool	cmd_execution(t_spcmd spcmd, t_pipe *px)
 {
 	char	*cmd;
 
@@ -102,16 +102,17 @@ bool	cmd_execution(char **arg, t_pipe *px)
 	{
 		free(px->pid);
 		if (px->pipeout)
-		{
-			// dprintf(2, "clo pipe :%d\n", px->pipefd[0]);//debug
 			close(px->pipefd[0]);
-		}
+		if (!open_files(spcmd.io, spcmd.nb.io, px))
+			exit(1);
 		redirection(px);
-		if (!find_cmd(&cmd, arg[0]))
+		if (!spcmd.nb.arg)
+			return (false);
+		if (!find_cmd(&cmd, spcmd.arg[0]))
 			exit(g_status);
 		if (access(cmd, X_OK) != 0)
 			err_cmd_exec(3, cmd, NULL);
-		if (execve(cmd, arg, get_env()) == -1)
+		if (execve(cmd, spcmd.arg, get_env()) == -1)
 			exit(errno);
 	}
 	return (true);

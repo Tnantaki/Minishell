@@ -5,98 +5,57 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: tnantaki <tnantaki@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/06/12 13:25:46 by tnantaki          #+#    #+#             */
-/*   Updated: 2023/06/12 13:25:47 by tnantaki         ###   ########.fr       */
+/*   Created: 2023/06/24 09:50:48 by tnantaki          #+#    #+#             */
+/*   Updated: 2023/06/24 09:50:49 by tnantaki         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-static int	create_heredoc(char *lim)
+bool	save_stdio(t_pipe *px)
 {
-	char	*tmp;
-	int		pipefd[2];
-
-	if (pipe(pipefd) == -1)
-		return (printf("Error Heredoc"), -1);
-	while (1)
-	{
-		tmp = readline("> ");
-		if (!tmp)
-			return (close(pipefd[1]), pipefd[0]);
-		if (ft_strcmp(tmp, lim) == 0)
-			break ;
-		ft_putstr_fd(tmp, pipefd[1]);
-		ft_putchar_fd('\n', pipefd[1]);
-		free (tmp);
-	}
-	return (free(tmp), close(pipefd[1]), pipefd[0]);
-}
-
-bool	open_heredoc(t_spcmd *spcmd, int nb_cmd)
-{
-	int	j;
-	int	i;
-
-	j = 0;
-	while (j < nb_cmd)
-	{
-		i = 0;
-		while (i < spcmd[j].nb.io)
-		{
-			if (spcmd[j].io[i].rdrt == e_heredoc)
-			{
-				spcmd[j].io[i].fd = create_heredoc(spcmd[j].io[i].filename); //filename in here_doc is limiter
-				if (spcmd[j].io[i].fd == -1)
-					return (false);
-			}
-			else
-				spcmd[j].io[i].fd = 0;
-			i++;
-		}
-		j++;
-	}
+	px->infd = STDIN_FILENO;
+	px->outfd = STDOUT_FILENO;
+	px->std_in = dup(STDIN_FILENO);
+	px->std_out = dup(STDOUT_FILENO);
 	return (true);
 }
 
-static int	open_infile(t_io io, int infd)
+bool	restore_stdio(t_pipe *px)
 {
-	dprintf(2, "openin infd :%d\n", infd);//debug
-	if (!isatty(infd))
-		close(infd);
-	if (io.rdrt == e_input)
-		infd = open(io.filename, O_RDONLY);
-	else if (io.rdrt == e_heredoc)
-		infd = io.fd;
-	return (infd);
+	if (px->outfd != STDOUT_FILENO)
+		close(px->outfd);
+	if (px->infd != STDIN_FILENO)
+		close(px->infd);
+	if (!isatty(STDIN_FILENO))
+		dup2(px->std_in, STDIN_FILENO);
+	if (!isatty(STDOUT_FILENO))
+		dup2(px->std_out, STDOUT_FILENO);
+	px->infd = STDIN_FILENO;
+	px->outfd = STDOUT_FILENO;
+	if (px->pipeout)
+		px->infd = px->pipefd[0];
+	return (true);
 }
 
-static int	open_outfile(t_io io, int outfd)
+bool	close_stdio(t_pipe *px)
 {
-	dprintf(2, "openout outfd :%d\n", outfd);//debug
-	if (!isatty(outfd))
-		close(outfd);
-	if (io.rdrt == e_output)
-		outfd = open(io.filename, O_WRONLY | O_CREAT | O_TRUNC, 0644);
-	else if (io.rdrt == e_append)
-		outfd = open(io.filename, O_WRONLY | O_CREAT | O_APPEND, 0644);
-	return (outfd);
+	close(px->std_in);
+	close(px->std_out);
+	return (true);
 }
 
-bool	open_files(t_io *io, int nb_io, t_pipe *px)
+bool	redirection(t_pipe *px)
 {
-	int	i;
-
-	i = 0;
-	while (i < nb_io)
+	if (px->infd != STDIN_FILENO)
 	{
-		if (io[i].rdrt == e_input || io[i].rdrt == e_heredoc)
-			px->infd = open_infile(io[i], px->infd);
-		else if (io[i].rdrt == e_output || io[i].rdrt == e_append)
-			px->outfd = open_outfile(io[i], px->outfd);
-		if (px->infd == -1 || px->outfd == -1)
-			return (perror(io[i].filename), false);
-		i++;
+		dup2(px->infd, STDIN_FILENO);
+		close(px->infd);
+	}
+	if (px->outfd != STDOUT_FILENO)
+	{
+		dup2(px->outfd, STDOUT_FILENO);
+		close(px->outfd);
 	}
 	return (true);
 }
