@@ -26,7 +26,7 @@ static int	update_pwd(char *pwd)
 	i = 0;
 	while (env[i])
 	{
-		if (ft_strncmp(env[i], pwd, ft_strlen(pwd)) == 0) //minus equal sign
+		if (ft_strncmp(env[i], pwd, ft_strlen(pwd)) == 0)
 		{
 			tmp = env[i];
 			env[i] = ft_strjoin(pwd, cwd);
@@ -63,8 +63,6 @@ int	ft_cd(char **arg)
 {
 	char		*path;
 
-	if (ft_2dstrlen(arg) > 2)
-		return (ft_prterr("cd: too many arguments\n"), EXIT_FAILURE);
 	if (!arg[1])
 		path = get_env_value("HOME");
 	else

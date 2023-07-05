@@ -65,13 +65,15 @@ int	ft_exit(char **arg, t_msh *msh)
 		{
 			printf("exit\n");
 			ft_prterrf("exit: ", arg[i], ": numeric argument required\n");
+			restore_termios(&msh->term);
 			free_msh(msh);
 			ft_free2dstr(get_env());
-			exit(2);
+			exit(ES_ERROR_EXIT);
 		}
 		i++;
 	}
 	printf("exit\n");
+	restore_termios(&msh->term);
 	ft_free2dstr(get_env());
 	return (free_msh(msh), exit(status), EXIT_SUCCESS);
 }

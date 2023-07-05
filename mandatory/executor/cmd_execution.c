@@ -74,6 +74,7 @@ static bool	find_cmd(char **cmd, char *arg)
 	char	**path;
 
 	i = 0;
+	*cmd = NULL;
 	path = NULL;
 	if (ft_strchr(arg, '/') && ft_isnotdir(arg))
 		return (*cmd = ft_strdup(arg), true);
@@ -94,7 +95,6 @@ bool	cmd_execution(t_spcmd spcmd, t_pipe *px)
 {
 	char	*cmd;
 
-	cmd = NULL;
 	px->pid[px->i] = fork();
 	if (px->pid[px->i] == -1)
 		return (perror("Fork Fail"), false);

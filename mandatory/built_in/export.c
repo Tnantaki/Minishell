@@ -42,7 +42,7 @@ static int	display_sorted_export(char **env)
 		return (EXIT_FAILURE);
 	amv = ft_2dstrlen(tmp_env);
 	j = 0;
-	while (j < amv) //sort vars
+	while (j < amv)
 	{
 		sort_export(tmp_env, amv);
 		j++;
@@ -57,6 +57,10 @@ static int	display_sorted_export(char **env)
 	return (ft_free2dstr(tmp_env), EXIT_SUCCESS);
 }
 
+// Create_var
+// will allocate new 2D string + 2 for new_var and NULL
+// assign all env variables to tmp_env
+// insert the new variable(s)
 static int	create_var(char *new_var)
 {
 	int		i;
@@ -68,12 +72,12 @@ static int	create_var(char *new_var)
 	if (!tmp_env)
 		return (EXIT_FAILURE);
 	i = 0;
-	while (env[i]) //assign all env variables to tmp_env
+	while (env[i])
 	{
 		tmp_env[i] = env[i];
 		i++;
 	}
-	tmp_env[i++] = ft_strdup(new_var); //insert the new variable(s)
+	tmp_env[i++] = ft_strdup(new_var);
 	tmp_env[i] = NULL;
 	set_env(tmp_env);
 	free(env);

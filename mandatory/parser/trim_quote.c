@@ -47,7 +47,7 @@ static char	*trim_quote_token(char *token, int cq)
 	{
 		if (ft_isquote(token[i + cq]))
 		{
-			len = ft_quote_len(token + i + cq, token[i + cq]) - 2; //- 2 quote
+			len = ft_quote_len(token + i + cq, token[i + cq]) - 2;
 			ft_memcpy(&new_token[i], &token[i + cq + 1], len);
 			i += len;
 			cq += 2;

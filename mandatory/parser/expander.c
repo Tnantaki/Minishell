@@ -76,7 +76,7 @@ static char	*is_var(char *token)
 		else if (token[i] == '\'' && !in_2quote)
 			i += ft_quote_len(&token[i], '\'');
 		else if (token[i++] == '\"')
-			in_2quote = (in_2quote + 1) % 2; //if in double quote will be 1
+			in_2quote = (in_2quote + 1) % 2;
 	}
 	return (token);
 }
@@ -91,7 +91,7 @@ bool	expander(char **tokens, t_type **type)
 		tokens[j] = is_var(tokens[j]);
 		if (!tokens[j])
 		{
-			tokens[j] = ft_calloc(1, sizeof(char)); // for loop free to the end
+			tokens[j] = ft_calloc(1, sizeof(char));
 			return (perror("Error malloc"), false);
 		}
 		if (!(*tokens[j]))

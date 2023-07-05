@@ -19,7 +19,7 @@ void	del_env(char **env, int j)
 	free(env[j]);
 	env[j] = NULL;
 	i = j;
-	while (env[i + 1]) //make new order
+	while (env[i + 1])
 	{
 		env[i] = env[i + 1];
 		i++;

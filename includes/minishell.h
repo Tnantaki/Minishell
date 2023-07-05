@@ -32,6 +32,7 @@
 //Exit Status Code
 # if defined(__linux__)
 #  define ES_ERROR 1
+#  define ES_ERROR_EXIT 2
 #  define ES_SYNTAC_ERROR 2
 #  define ES_PERMIS_DENIED 126 //notsure
 #  define ES_CMD_NOT_FOUND 127
@@ -41,6 +42,7 @@
 #  define ES_SIGSTOP 147
 # else
 #  define ES_ERROR 1
+#  define ES_ERROR_EXIT 255
 #  define ES_SYNTAC_ERROR 258
 #  define ES_PERMIS_DENIED 126 //notsure
 #  define ES_CMD_NOT_FOUND 127
@@ -116,13 +118,14 @@ typedef struct s_pipex
 
 typedef struct s_minishell
 {
-	char	**env;
-	char	**tokens;
-	t_type	*tk_type;
-	t_spcmd	*spcmd;
-	int		nb_tk;
-	int		nb_cmd;
-	int		nb_pipe;
+	struct termios	term;
+	char			**env;
+	char			**tokens;
+	t_type			*tk_type;
+	t_spcmd			*spcmd;
+	int				nb_tk;
+	int				nb_cmd;
+	int				nb_pipe;
 }	t_msh;
 
 //Main

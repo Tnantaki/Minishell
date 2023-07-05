@@ -63,7 +63,7 @@ bool	wait_process(int *pid, int nb_cmd)
 
 bool	spcmd_execution(t_spcmd spcmd, t_pipe *px, t_msh *msh)
 {
-	if (spcmd.nb.pipe) //if there is pipe will create pipe
+	if (spcmd.nb.pipe)
 	{
 		if (!create_pipe(px))
 			return (false);
@@ -85,11 +85,11 @@ bool	executor(t_spcmd *spcmd, t_msh *msh)
 	t_pipe	px;
 
 	nb_cmd = msh->nb_cmd;
-	if (!create_pid(&px, nb_cmd)) //create pid of each command for get status
+	if (!create_pid(&px, nb_cmd))
 		return (false);
 	if (!open_heredoc(spcmd, nb_cmd))
 		return (false);
-	save_stdio(&px); //save stdio for restore
+	save_stdio(&px);
 	px.i = 0;
 	while (px.i < nb_cmd)
 	{

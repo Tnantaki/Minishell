@@ -27,7 +27,7 @@ void	free_msh(t_msh *msh)
 	msh->spcmd = NULL;
 }
 
-bool	init_msh(t_msh *msh, struct termios *term, char **envp)
+bool	init_msh(t_msh *msh, char **envp)
 {
 	char	**env;
 
@@ -39,8 +39,7 @@ bool	init_msh(t_msh *msh, struct termios *term, char **envp)
 	msh->tokens = NULL;
 	msh->tk_type = NULL;
 	msh->spcmd = NULL;
-	(void)term;
-	set_termios(term);
+	set_termios(&msh->term);
 	set_signal();
 	return (true);
 }
@@ -54,50 +53,45 @@ static bool	interpreter(char *line, t_msh *msh)
 		return (false);
 	if (!tokenization(line, msh))
 		return (false);
-	// debug_tokens(msh->tokens);//debug
 	if (!classify_token(msh))
 		return (false);
-	// debug_type(msh->tk_type, msh->nb_tk);//debug
 	if (!valid_syntax(msh->tokens, msh->nb_tk, msh->tk_type))
 		return (false);
 	if (!expander(msh->tokens, &msh->tk_type))
 		return (false);
-	// debug_tokens(msh->tokens);//debug
 	if (!trim_quote(msh->tokens))
 		return (false);
-	// debug_tokens(msh->tokens);//debug
 	if (!parser(msh))
 		return (false);
-	// debug_spcmd(msh->spcmd, msh->nb_cmd);//debug
 	if (!executor(msh->spcmd, msh))
 		return (false);
 	free_msh(msh);
 	return (true);
 }
 
+// line from readline is NULL because found EOF (Ctrl+D)
 int	main(int ac, char **av, char **envp)
 {
-	struct termios	term;
 	t_msh			msh;
 	char			*line;
 
 	(void)av;
 	if (ac > 1)
 		return (printf("This program don't take any arguments\n"), 1);
-	if (!init_msh(&msh, &term, envp))
+	if (!init_msh(&msh, envp))
 		return (1);
 	while (true)
 	{
 		signal(SIGINT, &sigint_handler);
 		line = readline("msh :");
-		if (!line) //line is NULL because found EOF (Ctrl+D)
+		if (!line)
 			break ;
 		if (*line && !interpreter(line, &msh))
 			free_msh(&msh);
 		free(line);
 	}
 	rl_clear_history();
-	restore_termios(&term);
+	restore_termios(&msh.term);
 	ft_free2dstr(get_env());
 	return (printf("exit\n"), EXIT_SUCCESS);
 }
