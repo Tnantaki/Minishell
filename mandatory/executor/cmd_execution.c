@@ -109,7 +109,7 @@ bool	cmd_execution(t_spcmd spcmd, t_pipe *px)
 			exit(1);
 		redirection(px);
 		if (!spcmd.nb.arg)
-			return (false);
+			exit(0);
 		if (!find_cmd(&cmd, spcmd.arg[0]))
 			exit(g_status);
 		if (access(cmd, X_OK) != 0)

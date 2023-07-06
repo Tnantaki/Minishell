@@ -71,6 +71,8 @@ bool	tokenization(char *line, t_msh *msh)
 
 	i = 0;
 	ct = count_token(line);
+	if (ct == 0)
+		return (false);
 	tokens = (char **)malloc(sizeof(char *) * (ct + 1));
 	if (!tokens)
 		return (false);
