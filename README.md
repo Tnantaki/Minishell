@@ -40,18 +40,11 @@ The program can seperate into 4 Part 1. Lexer, 2.Parser, 3.Execution and 4.Built
 ![.](images/03executor-create_heredoc.png)
 2. **Pipe Creation** : if there is pipe, Create pipe.
 3. **Open Files** : open files on each simple command from left to right.<br>
-<div style="display: flex; align-items: center;">
-
-<div style="margin-left: 30px;">
-  <p>1.Pipe that we are created.</p>
-  <p>2.open <strong>infile</strong>.</p>
-  <p>3.close <strong>infile</strong> and open <strong>heredoc file (lim1)</strong>.</p>
-  <p>4.open <strong>outfile1</strong>.</p>
-</div>
-
-<div style="margin-left: 30px;">
-  <img src="images/03executor-open_file.png" alt="executor open file" width="300" />
-</div>
+    1.Pipe that we are created.<br>
+    2.open **infile**.<br>
+    3.close **infile** and open **heredoc file (lim1)**.<br>
+    4.open **outfile1**.<br>
+    <img alt="open file diagram" width="300" src="images/03executor-open_file.png">
 
 </div>
 
@@ -72,11 +65,11 @@ The program can seperate into 4 Part 1. Lexer, 2.Parser, 3.Execution and 4.Built
 <p align="center"><img src="images/03executor-diagram.png" alt="Diagram execution" width="600"></p>
 
 ### Part 4 : Built-in
-1. `echo`
+#### 1. `echo`
 - **No argument** : Print newline.
 - **With** **Argument** : Display a line of text with newline.
 - **With flag `-n` .** : Display a line of text with no newline.
-2. `cd`
+#### 2. `cd`
 - When start the minishell program.
     - Shell will inherit `pwd` form Parent process, So you will be at the same working directory at previous terminal.
     - `PWD` will be update and `OLDPWD` will be set to NULL in **environment**.
@@ -86,20 +79,20 @@ The program can seperate into 4 Part 1. Lexer, 2.Parser, 3.Execution and 4.Built
 - **Many arguments** : Don’t change working directory and display Error “Too many arguments”
 - **There aren’t directory path exist.** : Display “No such file or directory”
 - **If it not directory path** : Display “Not a directory”
-3. `pwd` : Print working directory.
+#### 3. `pwd` : Print working directory.
 - Changing the value of the PWD environment variable will not change the working directory of the shell process or affect the behavior of the pwd command.
-4. `export` : the `export` command is used to create or modify environment variables
+#### 4. `export` : the `export` command is used to create or modify environment variables
 - if no argument : Display **environment** by sorting alphabetical (as ascii).
 - `export` command can take more than one argument.
         - if variable was exist, Change the value of the variable.
         - if variable not exist, Create new one.
 - **If Invalid variable.** : Display “not a valid identifier”
-5. `unset` : Remove a variable from enviroment.
+#### 5. `unset` : Remove a variable from enviroment.
 - if no argument, Nothing happen.
 - `Unset` command can take more than one argument.
 - **If Invalid variable.** : Display “not a valid identifier”
-6. `env` : Display environment.
-7. `exit`
+#### 6. `env` : Display environment.
+#### 7. `exit`
 - if no argument, Exit from **Minishell**.
 - if there are argument, Exit with status code from the argument.
     - if status code more than 255 or negative, it will overflow.
