@@ -1,6 +1,6 @@
 <h1 align="center">Mimishell</h1>
 
-> The Project is Create a basic shell, similar to bash. The goal is to replicate some of the core functionalities of a Unix shell, such as executing commands, handling pipes, redirections, and signals
+> The Project is Create a basic shell, similar to bash. The goal is to replicate some of the core functionalities of a Unix shell, such as executing commands, handling pipes, redirections, and signals.
 
 ## How the program work?
 The program can seperate into 4 Part 1. Lexer, 2.Parser, 3.Execution and 4.Built-in. The program start by using library function `readline` to take input from terminal. I will illustrate step by step via the following command line.
