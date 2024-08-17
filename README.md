@@ -40,14 +40,21 @@ The program can seperate into 4 Part 1. Lexer, 2.Parser, 3.Execution and 4.Built
 ![.](images/03executor-create_heredoc.png)
 2. **Pipe Creation** : if there is pipe, Create pipe.
 3. **Open Files** : open files on each simple command from left to right.<br>
-<img align="right" alt="Coding" width="300" src="images/03executor-open_file.png">
-<br><br>
-    1.Pipe that we are created.<br>
-    2.open **infile**.<br>
-    3.close **infile** and open **heredoc file (lim1)**.<br>
-    4.open **outfile1**.<br>
+<div style="display: flex; align-items: center;">
 
-<br>
+<div style="margin-left: 30px;">
+  <p>1.Pipe that we are created.</p>
+  <p>2.open <strong>infile</strong>.</p>
+  <p>3.close <strong>infile</strong> and open <strong>heredoc file (lim1)</strong>.</p>
+  <p>4.open <strong>outfile1</strong>.</p>
+</div>
+
+<div style="margin-left: 30px;">
+  <img src="images/03executor-open_file.png" alt="executor open file" width="300" />
+</div>
+
+</div>
+
 
 4. **Redirections** : The Shell will redirect the last input/output by using function `dup2`.
 
@@ -61,8 +68,8 @@ The program can seperate into 4 Part 1. Lexer, 2.Parser, 3.Execution and 4.Built
 - Closing all file descriptors
 - Free all memory
 
-#### Diagram of execution
-![.](images/03executor-diagram.png)
+<h3 align="center">Diagram of execution</h3>
+<p align="center"><img src="images/03executor-diagram.png" alt="Diagram execution" width="600"></p>
 
 ### Part 4 : Built-in
 1. `echo`
@@ -97,6 +104,7 @@ The program can seperate into 4 Part 1. Lexer, 2.Parser, 3.Execution and 4.Built
 - if there are argument, Exit with status code from the argument.
     - if status code more than 255 or negative, it will overflow.
 
+> [!WARNING]
 > ! if there are pipe in command line, Shell will fork a Child to execute the command. So `cd` , `unset` , `export` and `exit` command That effect on Parent processes will run on Child processes and Nothing gonna happen.
 #### Signal (additional)
 1. Handle interrupt signal `Ctrl+C`.<br>
