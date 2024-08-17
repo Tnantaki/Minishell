@@ -16,15 +16,15 @@ The program can seperate into 4 Part 1. Lexer, 2.Parser, 3.Execution and 4.Built
 - Redirection : `<` , `>` , `<<` , `>>`
 - Pipe : `|`
 ![.](images/01lexer-tokenization.png)
-3. **Classify Token** : will classify the type of tokens
+3. **Classify Token** : Classify the type of tokens. There are 4 type of token.
 - Redirection : `<` , `>` , `<<` , `>>`
-- Filename : String that follow after Redirection.
+- Filename : Any string that follow after Redirection.
 - Command or Argument : Other string.
-- Pipe
+- Pipe : `|`
 ![.](images/01lexer-classify_token.png)
 4. **Valid Syntax** :
-    - Never have `|` or `||` near tokens. <br>
-    - Never have `<`,`<<`,`>`,`>>` by didn't follow filename. <br>
+    - **Redirection Token** must be follow with **Filename Token**
+    - An **Argument(command) Token** must be present before and after the **Pipe Token**.
 
 ### Part 2 : Parser
 1. **Variable Expansion** : `$` will searching the variable in environment and get the value from it.
@@ -46,11 +46,7 @@ The program can seperate into 4 Part 1. Lexer, 2.Parser, 3.Execution and 4.Built
     4.open **outfile1**.<br>
     <img alt="open file diagram" width="300" src="images/03executor-open_file.png">
 
-</div>
-
-
 4. **Redirections** : The Shell will redirect the last input/output by using function `dup2`.
-
 5. **Executor** : There are 2 alternative possible execution.
     1. Built-in command : if command are listed on Built-in.
         - if **No pipe** Shell will open files, redirection and execute in parent process.
@@ -62,7 +58,7 @@ The program can seperate into 4 Part 1. Lexer, 2.Parser, 3.Execution and 4.Built
 - Free all memory
 
 <h3 align="center">Diagram of execution</h3>
-<p align="center"><img src="images/03executor-diagram.png" alt="Diagram execution" width="600"></p>
+<p align="center"><img src="images/03executor-diagram.png" alt="Diagram execution" width="400"></p>
 
 ### Part 4 : Built-in
 #### 1. `echo`
